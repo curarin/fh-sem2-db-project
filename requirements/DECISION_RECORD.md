@@ -6,8 +6,7 @@ To be discussed:
     - Ein Buch wird entweder auf keinem Event oder bei beliebigen Events gelesen
     - Ein Event liest entweder 0 Bücher oder beliebig viele Bücher vor (bei Autogrammstunden werden ja beispw. keine Bücher gelesen)
 - Warum ist Book --> customer m:n?
-    - Die bookRental Table dient quasi als Historisierungstabelle der Ausleihen - ein Buch kann dementsprechend schon öfter ausgeliehen werden, jedoch mit dem Constraint, dass es eben physisch nicht überlappend ausgeborgt werden kann.
-    - Die Bridge Table ist hier stateful
+    - Die loan Table dient quasi als Historisierungstabelle der Ausleihen - ein Buch kann dementsprechend schon öfter ausgeliehen werden, jedoch mit dem Constraint, dass es eben physisch nicht überlappend ausgeborgt werden kann.
 - Location Vorschlag f. Umsetzung
     - Stock, Raum, Gang, Regal, Fach
     - Ordnung der Bücher durch Büchereifachangestellte Person
