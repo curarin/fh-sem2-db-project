@@ -7,6 +7,8 @@ To be discussed:
     - Ein Event liest entweder 0 Bücher oder beliebig viele Bücher vor (bei Autogrammstunden werden ja beispw. keine Bücher gelesen)
 - Warum ist Book --> customer m:n?
     - Die loan Table dient quasi als Historisierungstabelle der Ausleihen - ein Buch kann dementsprechend schon öfter ausgeliehen werden, jedoch mit dem Constraint, dass es eben physisch nicht überlappend ausgeborgt werden kann.
+    - Die Loan Table kann eine gewisse Historisierung abbilden > wir persistieren hier Leih-End-Datum sowie Retournierungsdatum
+        - ist wahrscheinlich in einem klassischen Backend-System nicht unbedingt notwendig, man kann daraus aber vieles bauen für die Zukunft -> u.A. auch Penalen für Kunden (sonst würden wir einfach "vergessen", wenn wir Leute haben die immer wieder verspätet retournieren)
 - Location Vorschlag f. Umsetzung
     - Stock, Raum, Gang, Regal, Fach
     - Ordnung der Bücher durch Büchereifachangestellte Person
