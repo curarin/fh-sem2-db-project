@@ -1,0 +1,122 @@
+// ==========================================
+// Entities (Tables)
+// ==========================================
+
+Table event {
+  id integer [primary key]
+  eventName varchar
+  eventStartsAtTs timestamp
+  eventType_id integer
+}
+
+Table eventType {
+  id integer [primary key]
+  eventTypeName varchar
+}
+
+Table customer {
+  id integer [primary key]
+  firstName varchar
+  lastName varchar
+  address varchar
+  zip int
+  town char
+}
+
+Table bookGenre {
+  id integer [primary key]
+  bookGenreName varchar
+}
+
+Table book {
+  isbn varchar [primary key]
+  bookTitle varchar
+  bookGenre_id integer
+  bookPublisher_id integer
+}
+
+Table bookAuthor {
+  id integer [primary key]
+  firstName varchar
+  lastName varchar
+  fkAliasID integer
+}
+
+Table bookPublisher {
+  id integer [primary key]
+  bookPublisherName varchar
+}
+
+Table bookLocation {
+  id integer [primary key]
+  bookLocationFloor_id integer
+  bookLocationShelf_id integer
+}
+
+Table bookLocationFloor {
+  id integer [primary key]
+  bookLocationFloorNumber integer
+}
+
+Table bookLocationShelf {
+  id integer [primary key]
+  bookLocationShelfNumber integer
+}
+
+Table bookCirculationLog {
+  id integer [primary key]
+  fk_stockId integer
+  loanEndsAtDate date
+  bookReturnedAtDate date
+  customer_id integer
+  book_isbn varchar
+}
+
+Table bookStockLog {
+  id integer [primary key]
+  bookIsInStock boolean
+  bookLocation_id integer
+  book_isbn varchar
+}
+
+// ==========================================
+// Junction Tables (For n:m Relationships)
+// ==========================================
+
+Table book_author_map {
+  book_isbn varchar
+  bookAuthor_id integer
+}
+
+Table customer_event_map {
+  customer_id integer
+  event_id integer
+}
+
+
+// ==========================================
+// Relationships
+// ==========================================
+
+// 1:n Relationships
+Ref: event.eventType_id > eventType.id
+Ref: book.bookGenre_id > bookGenre.id
+Ref: book.bookPublisher_id > bookPublisher.id
+
+Ref: bookCirculationLog.customer_id > customer.id
+
+Ref: bookStockLog.bookLocation_id > bookLocation.id
+Ref: bookStockLog.book_isbn > book.isbn
+Ref: "bookStockLog"."id" < "bookCirculationLog"."fk_stockId"
+
+Ref: bookLocation.bookLocationFloor_id > bookLocationFloor.id
+Ref: bookLocation.bookLocationShelf_id > bookLocationShelf.id
+  
+// n:m Relationships mapping
+Ref: book_author_map.book_isbn > book.isbn
+Ref: book_author_map.bookAuthor_id > bookAuthor.id
+
+Ref: customer_event_map.customer_id > customer.id
+Ref: customer_event_map.event_id > event.id
+
+
