@@ -64,6 +64,7 @@ Table book_genre {
 Table book_circulation_log {
   id integer [primary key, ref: < book_circulation_log_customer_map.book_circulation_log_id]
   book_isbn integer [ref: > book.isbn]
+  loan_starts_at_date date
   loan_ends_at_date date
   book_returned_at_date date
 }
