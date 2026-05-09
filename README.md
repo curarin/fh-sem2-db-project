@@ -1,6 +1,6 @@
 # ER Diagram
 
-![ER-Diagram](./requirements/er_diagram/2026-03-er-diagram.drawio.png)
+![ER-Diagram](./requirements/er_diagram/2026-05-mitsch-reisinger-er-diagram.jpg)
 
 # RM diagram
 ![RM-Diagram](./requirements/rm_diagram/bibliothek_rm.drawio.png)
