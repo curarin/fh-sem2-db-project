@@ -1,13 +1,3 @@
-# ER Diagram
-
-![ER-Diagram](./requirements/er_diagram/2026-05-mitsch-reisinger-er-diagram.jpg)
-
-# RM diagram
-![RM-Diagram](./requirements/rm_diagram/bibliothek_rm.drawio.png)
-
-# UML Use case diagram
-![Use-Case-Diagram](./requirements/uml/uml.jpg)
-
 # Requirements Bibliotheksverwaltung
 - Wichtig: Ich mach Veranstaltungen -> Leute Bücher ausborgen, aber auch Lesungen die Statt finden. Autogramm stunden. Oder Veranstaltungen zu Genre (Krimi Abend, Komödien Abend)
 - Jedes Buch ist ein kreatives Produkt eines Autors und mir ist wichtig, welcher Verlag die Bücher veröffentlicht hat (wegen Verlags-Abenden als Veranstaltungen)
@@ -19,3 +9,12 @@
 - Kunden -> Veranstaltungen ist open Door, keine Anmeldung notwendig
 - Bei Veranstaltugnen können mehrere Autoren kommen
 - Es sollte alle drei Beziehungen geben (1:1, 1:n, m:n)
+
+# ER Diagram
+![ER-Diagram](./requirements/er_diagram/2026-05-mitsch-reisinger-er-diagram.jpg)
+
+# RM diagram
+![RM-Diagram](./requirements/rm_diagram/bibliothek_rm.drawio.png)
+
+# UML Use case diagram
+![Use-Case-Diagram](./requirements/uml/uml.jpg)
