@@ -8,8 +8,8 @@ import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
-import at.fhburgenland.repository.BookRepository;
-import at.fhburgenland.repository.BookRepositoryImpl;
+import at.fhburgenland.repository.interfaces.BookRepository;
+import at.fhburgenland.repository.implementations.BookRepositoryImpl;
 import jakarta.persistence.*;
 
 import java.util.Set;

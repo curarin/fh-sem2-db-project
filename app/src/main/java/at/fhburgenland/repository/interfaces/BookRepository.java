@@ -1,4 +1,4 @@
-package at.fhburgenland.repository;
+package at.fhburgenland.repository.interfaces;
 
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
