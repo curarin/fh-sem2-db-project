@@ -1,11 +1,15 @@
 package at.fhburgenland;
 
-import at.fhburgenland.dao.BookPublisherDao;
-import at.fhburgenland.dao.BookPublisherDaoImpl;
+import at.fhburgenland.dao.interfaces.BookDao;
+import at.fhburgenland.dao.implementations.BookDaoImpl;
+import at.fhburgenland.dao.interfaces.BookPublisherDao;
+import at.fhburgenland.dao.implementations.BookPublisherDaoImpl;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.repository.BookRepository;
+import at.fhburgenland.repository.BookRepositoryImpl;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -17,7 +21,11 @@ public class Main {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         BookPublisherDao bookPublisherDao = new BookPublisherDaoImpl(entityManager);
         BookPublisher testPublisher = bookPublisherDao.read(1);
+
+        BookDao bookDao = new BookDaoImpl(entityManager);
         System.out.println(testPublisher);
+        BookRepository bookRepository = new BookRepositoryImpl(bookDao);
+        Book coolBook = bookRepository.getById("123");
 
         System.out.println("Test");
         BookAuthor authorOne = new BookAuthor();

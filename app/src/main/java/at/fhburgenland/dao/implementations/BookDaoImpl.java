@@ -1,5 +1,6 @@
-package at.fhburgenland.dao;
+package at.fhburgenland.dao.implementations;
 
+import at.fhburgenland.dao.interfaces.BookDao;
 import at.fhburgenland.model.Book;
 import jakarta.persistence.EntityManager;
 
