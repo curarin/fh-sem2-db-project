@@ -3,6 +3,7 @@ package at.fhburgenland.repository.implementations;
 import at.fhburgenland.dao.interfaces.BookDao;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
 import at.fhburgenland.repository.interfaces.BookRepository;
 
@@ -16,7 +17,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book getById(String isbn) {
+    public Book getByIsbn(String isbn) {
         return bookDao.read(isbn);
     }
 
@@ -27,6 +28,11 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> getAllByAuthor(BookAuthor bookAuthor) {
+        return List.of();
+    }
+
+    @Override
+    public List<Book> getAllByGenre(BookGenre bookGenre) {
         return List.of();
     }
 }

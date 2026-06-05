@@ -25,7 +25,7 @@ public class Main {
         BookDao bookDao = new BookDaoImpl(entityManager);
         System.out.println(testPublisher);
         BookRepository bookRepository = new BookRepositoryImpl(bookDao);
-        Book coolBook = bookRepository.getById("123");
+        Book coolBook = bookRepository.getByIsbn("123");
 
         System.out.println("Test");
         BookAuthor authorOne = new BookAuthor();
