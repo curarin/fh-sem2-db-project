@@ -3,6 +3,7 @@ package at.fhburgenland.dao.implementations;
 import at.fhburgenland.dao.interfaces.BookDao;
 import at.fhburgenland.model.Book;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 public class BookDaoImpl implements BookDao {
     private final EntityManager entityManager;
@@ -13,7 +14,19 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void create(Book book) {
-        entityManager.persist(book);
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+            entityManager.persist(book);
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -23,11 +36,35 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void update(Book book) {
-        entityManager.merge(book);
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+            entityManager.merge(book);
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
     public void delete(Book book) {
-        entityManager.remove(book);
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+            entityManager.remove(book);
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
     }
 }
