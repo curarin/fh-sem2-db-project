@@ -18,17 +18,17 @@ replay_pid*
 ##############################
 ## Maven
 ##############################
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-pom.xml.bak
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
+app/target/
+app/pom.xml.tag
+app/pom.xml.releaseBackup
+app/pom.xml.versionsBackup
+app/pom.xml.next
+app/pom.xml.bak
+app/release.properties
+app/dependency-reduced-pom.xml
+app/buildNumber.properties
+app/.mvn/timing.properties
+app/.mvn/wrapper/maven-wrapper.jar
 
 ##############################
 ## IntelliJ

@@ -35,14 +35,14 @@ public class Book {
     /**
      * Genre category of each physical book copy
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_genre_id", nullable = false)
     private BookGenre bookGenre;
 
     /**
      * Publisher responsible for publishing the physical book copy
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_publisher_id", nullable = false)
     private BookPublisher bookPublisher;
 
@@ -126,6 +126,22 @@ public class Book {
      */
     public void setBookAuthors(Set<BookAuthor> bookAuthors) {
         this.bookAuthors = bookAuthors;
+    }
+
+    /**
+     * Sets the book Genre
+     * @param bookGenre Genre of the book
+     */
+    public void setBookGenre(BookGenre bookGenre) {
+        this.bookGenre = bookGenre;
+    }
+
+    /**
+     * Sets the books publisher
+     * @param bookPublisher Publisher name
+     */
+    public void setBookPublisher(BookPublisher bookPublisher) {
+        this.bookPublisher = bookPublisher;
     }
 
 }
