@@ -1,5 +1,7 @@
 package at.fhburgenland;
 
+import at.fhburgenland.dao.BookPublisherDao;
+import at.fhburgenland.dao.BookPublisherDaoImpl;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
@@ -9,8 +11,14 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 public class Main {
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("book");
 
     public static void main(String[] args) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        BookPublisherDao bookPublisherDao = new BookPublisherDaoImpl(entityManager);
+        BookPublisher testPublisher = bookPublisherDao.read(1);
+        System.out.println(testPublisher);
+
         System.out.println("Test");
         BookAuthor authorOne = new BookAuthor();
         authorOne.setBookAuthorName("Maria Jose");
@@ -28,7 +36,10 @@ public class Main {
         newBook.setBookAuthors(Set.of(authorOne, authorTwo));
 
         BookManager.addBook(newBook, bookGenre, bookPublisher);
-        BookManager.close();
+
+        entityManager.close();
+        entityManagerFactory.close();
+
         /* TO DO
             -) Connect Database
             -) Klasse zur Tabelle erstellen!

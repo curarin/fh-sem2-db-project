@@ -9,6 +9,6 @@ public interface BookAuthorDao {
     void create(BookAuthor bookAuthor);
     BookAuthor read(Integer bookAuthorId);
     void update(BookAuthor bookAuthor);
-    void delete(Integer bookAuthorId);
+    void delete(BookAuthor bookAuthor);
 
 }

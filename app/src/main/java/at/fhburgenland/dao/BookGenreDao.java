@@ -9,5 +9,5 @@ public interface BookGenreDao {
     void create(BookGenre bookGenre);
     BookGenre read(Integer bookGenreId);
     void update(BookGenre bookGenre);
-    void delete(Integer bookGenreId);
+    void delete(BookGenre bookGenre);
 }

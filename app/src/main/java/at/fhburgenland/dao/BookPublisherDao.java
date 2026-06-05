@@ -9,5 +9,5 @@ public interface BookPublisherDao {
     void create(BookPublisher bookPublisher);
     BookPublisher read(Integer bookPublisherId);
     void update(BookPublisher bookPublisher);
-    void delete(Integer bookPublisherId);
+    void delete(BookPublisher bookPublisher);
 }
