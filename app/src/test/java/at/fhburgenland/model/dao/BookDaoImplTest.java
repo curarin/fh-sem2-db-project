@@ -6,10 +6,7 @@ import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
 import at.fhburgenland.model.dao.implementations.BookDaoImpl;
 import at.fhburgenland.model.dao.interfaces.BookDao;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -39,6 +36,7 @@ public class BookDaoImplTest {
 
     /**
      * Standard book generation method
+     *
      * @param isbn Passing a isbn causes th generate a random one based on that - else we generate a hard coded one
      * @return Book object
      */
@@ -53,11 +51,11 @@ public class BookDaoImplTest {
         publisher.setBookPublisherName("Standard Publisher");
 
         Book book = new Book();
-        if (isbn == null) {
-            book.setIsbn("123456789");
+        if (isbn != null) {
+            book.setIsbn(isbn);
         } else {
             int randomNumber = ThreadLocalRandom.current().nextInt();
-            book.setIsbn(isbn.concat(String.valueOf(randomNumber)));
+            book.setIsbn(String.valueOf(randomNumber));
         }
         book.setBookTitle("Standard Book Title");
         book.setBookGenre(genre);
@@ -82,7 +80,7 @@ public class BookDaoImplTest {
 
     @Test
     public void createAndReadBook() {
-        bookDao.create(this.createStandardBook(null));
+        bookDao.create(this.createStandardBook("123456789"));
         Book result = bookDao.readByIsbn("123456789");
         assertNotNull(result);
         assertEquals("Standard Book Title", result.getBookTitle());
@@ -164,7 +162,7 @@ public class BookDaoImplTest {
 
     @Test
     public void removeBookAfterCreatingIt() {
-        bookDao.create(this.createStandardBook(null));
+        bookDao.create(this.createStandardBook("123456789"));
         Book createdBook = bookDao.readByIsbn("123456789");
         assertNotNull(createdBook);
         assertEquals("123456789", createdBook.getIsbn());
@@ -175,7 +173,7 @@ public class BookDaoImplTest {
 
     @Test
     public void updateBookWithNewTitle() {
-        bookDao.create(this.createStandardBook(null));
+        bookDao.create(this.createStandardBook("123456789"));
         Book createdBook = bookDao.readByIsbn("123456789");
         assertNotNull(createdBook);
         assertEquals("Standard Book Title", createdBook.getBookTitle());
@@ -183,5 +181,13 @@ public class BookDaoImplTest {
         createdBook.setBookTitle("Updated Book Title");
         bookDao.update(createdBook);
         assertEquals("Updated Book Title", bookDao.readByIsbn("123456789").getBookTitle());
+    }
+
+    @Test
+    public void creatingMultipleBooksWithSameIsbnThrowsException() {
+        assertThrows(EntityExistsException.class, () -> {
+            bookDao.create(this.createStandardBook("123456789"));
+            bookDao.create(this.createStandardBook("123456789"));
+        });
     }
 }
