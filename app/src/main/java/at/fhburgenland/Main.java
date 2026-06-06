@@ -11,7 +11,6 @@ public class Main {
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("book");
 
     public static void main(String[] args) {
-        System.out.println("BUILD TEST 123456");
         BookRepository bookRepository = new BookRepositoryImpl(entityManagerFactory);
         Book book = bookRepository.find("123-456-7890-1a");
         System.out.println("vVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvV");
@@ -30,6 +29,12 @@ public class Main {
             counter++;
         }
         System.out.println("vVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvV");
+
+        String newBookTitle = book.getBookTitle() + "| new Version: " + counter;
+        System.out.println("newBookTitle: " + newBookTitle);
+        book.setBookTitle(newBookTitle);
+        System.out.println(book.getBookTitle());
+        bookRepository.save(book);
 
         entityManagerFactory.close();
     }
