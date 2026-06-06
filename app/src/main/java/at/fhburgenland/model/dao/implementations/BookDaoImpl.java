@@ -26,33 +26,33 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> readByTitle(String bookTitle) {
-        String query = "select book from Book as book where book.bookTitle = :bookTitle";
+        String query = "select book from Book as book where book.bookTitle like :bookTitle";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
-        typedBookQuery.setParameter("bookTitle", bookTitle);
+        typedBookQuery.setParameter("bookTitle", "%" + bookTitle + "%");
         return typedBookQuery.getResultList();
     }
 
     @Override
     public List<Book> readByAuthor(String bookAuthor) {
-        String query = "select book from Book as book left join book.bookAuthors as bookAuthor where bookAuthor.bookAuthorName = :bookAuthor";
+        String query = "select book from Book as book left join book.bookAuthors as bookAuthor where bookAuthor.bookAuthorName like :bookAuthor";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
-        typedBookQuery.setParameter("bookAuthor", bookAuthor);
+        typedBookQuery.setParameter("bookAuthor", "%" + bookAuthor + "%");
         return typedBookQuery.getResultList();
     }
 
     @Override
     public List<Book> readByPublisher(String bookPublisher) {
-        String query = "select book from Book as book left join book.bookPublisher as bookPublisher where bookPublisher.bookPublisherName = :bookPublisher";
+        String query = "select book from Book as book left join book.bookPublisher as bookPublisher where bookPublisher.bookPublisherName like :bookPublisher";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
-        typedBookQuery.setParameter("bookPublisher", bookPublisher);
+        typedBookQuery.setParameter("bookPublisher", "%" + bookPublisher + "%");
         return typedBookQuery.getResultList();
     }
 
     @Override
     public List<Book> readByGenre(String bookGenre) {
-        String query = "select book from Book as book left join book.bookGenre as bookGenre where bookGenre.bookGenreName = :bookGenre";
+        String query = "select book from Book as book left join book.bookGenre as bookGenre where bookGenre.bookGenreName like :bookGenre";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
-        typedBookQuery.setParameter("bookGenre", bookGenre);
+        typedBookQuery.setParameter("bookGenre", "%" + bookGenre + "%");
         return typedBookQuery.getResultList();
     }
 
