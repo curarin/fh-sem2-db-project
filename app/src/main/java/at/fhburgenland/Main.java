@@ -1,11 +1,11 @@
 package at.fhburgenland;
 
 import at.fhburgenland.model.Book;
-import at.fhburgenland.model.repository.interfaces.BookRepository;
+import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.repository.implementations.BookRepositoryImpl;
-import jakarta.persistence.*;
-
-import java.util.Set;
+import at.fhburgenland.model.repository.interfaces.BookRepository;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class Main {
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("book");
@@ -14,25 +14,24 @@ public class Main {
         System.out.println("BUILD TEST 123456");
         BookRepository bookRepository = new BookRepositoryImpl(entityManagerFactory);
         Book book = bookRepository.find("123-456-7890-1a");
-        System.out.println(book);
-        System.out.println(String.format("""
+        System.out.println("vVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvV");
+        System.out.printf(String.format("""
                 Book Title: %s
                 Book ISBN: %s
-                """, book.getBookTitle(), book.getIsbn()));
+                Book Genre: %s
+                Book Publisher: %s
+                """, book.getBookTitle(), book.getIsbn(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName()));
+
+        int counter = 1;
+        for (BookAuthor bookAuthor : book.getBookAuthors()) {
+            System.out.printf(String.format("""
+                    Book Author %d: %s
+                    """, counter, bookAuthor.getBookAuthorName()));
+            counter++;
+        }
+        System.out.println("vVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvV");
 
         entityManagerFactory.close();
-        System.out.println("BUILD TEST 1234567");
-
-        /* TO DO
-            -) Connect Database
-            -) Klasse zur Tabelle erstellen!
-            -) Create Methods for
-                -) addPerson
-                -) readPerson
-                -) readAllPersons --> Ausgabe ganze Tabelle
-                -) update Person
-                -) delete Person
-         */
     }
 }
 
