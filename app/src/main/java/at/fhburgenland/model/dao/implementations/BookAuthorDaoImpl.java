@@ -4,6 +4,9 @@ import at.fhburgenland.model.dao.interfaces.BookAuthorDao;
 import at.fhburgenland.model.BookAuthor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class BookAuthorDaoImpl implements BookAuthorDao {
 
@@ -20,6 +23,14 @@ public class BookAuthorDaoImpl implements BookAuthorDao {
     @Override
     public BookAuthor readById(Integer bookAuthorId) {
         return entityManager.find(BookAuthor.class, bookAuthorId);
+    }
+
+    @Override
+    public List<BookAuthor> readByName(String authorName) {
+        String query = "select author from BookAuthor as author where author.bookAuthorName = :bookAuthorName";
+        TypedQuery<BookAuthor> typedAuthorQuery = entityManager.createQuery(query, BookAuthor.class);
+        typedAuthorQuery.setParameter("bookAuthorName", authorName);
+        return typedAuthorQuery.getResultList();
     }
 
     @Override
