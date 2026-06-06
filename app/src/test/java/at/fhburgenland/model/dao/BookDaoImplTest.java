@@ -184,6 +184,24 @@ public class BookDaoImplTest {
     }
 
     @Test
+    public void updateBookWithNewAuthors() {
+        bookDao.create(this.createStandardBook("123456789"));
+        Book createdBook = bookDao.readByIsbn("123456789");
+        assertNotNull(createdBook);
+        assertEquals(1, createdBook.getBookAuthors().size());
+
+        BookAuthor bookAuthor1 = new BookAuthor();
+        BookAuthor bookAuthor2 = new BookAuthor();
+        BookAuthor bookAuthor3 = new BookAuthor();
+        bookAuthor1.setBookAuthorName("Standard Author 1");
+        bookAuthor2.setBookAuthorName("Standard Author 2");
+        bookAuthor3.setBookAuthorName("Standard Author 3");
+        createdBook.setBookAuthors(Set.of(bookAuthor1, bookAuthor2, bookAuthor3));
+        bookDao.update(createdBook);
+        assertEquals(3, bookDao.readByIsbn("123456789").getBookAuthors().size());
+    }
+
+    @Test
     public void creatingMultipleBooksWithSameIsbnThrowsException() {
         assertThrows(EntityExistsException.class, () -> {
             bookDao.create(this.createStandardBook("123456789"));
