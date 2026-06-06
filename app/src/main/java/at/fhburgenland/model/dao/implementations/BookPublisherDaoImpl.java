@@ -27,9 +27,9 @@ public class BookPublisherDaoImpl implements BookPublisherDao {
 
     @Override
     public List<BookPublisher> readByName(String bookPublisherName) {
-        String query = "select publisher from BookPublisher as publisher where publisher.bookPublisherName = :bookPublisherName";
+        String query = "select publisher from BookPublisher as publisher where publisher.bookPublisherName like :bookPublisherName";
         TypedQuery<BookPublisher> typedPublisherQuery = entityManager.createQuery(query, BookPublisher.class);
-        typedPublisherQuery.setParameter("bookPublisherName", bookPublisherName);
+        typedPublisherQuery.setParameter("bookPublisherName", "%" + bookPublisherName + "%");
         return typedPublisherQuery.getResultList();
     }
 

@@ -28,9 +28,9 @@ public class BookGenreDaoImpl implements BookGenreDao {
 
     @Override
     public List<BookGenre> readByName(String bookGenre) {
-        String query = "select genre from BookGenre as genre where genre.bookGenreName = :bookGenre";
+        String query = "select genre from BookGenre as genre where genre.bookGenreName like :bookGenre";
         TypedQuery<BookGenre> typedGenreQuery = entityManager.createQuery(query, BookGenre.class);
-        typedGenreQuery.setParameter("bookGenre", bookGenre);
+        typedGenreQuery.setParameter("bookGenre", "%" + bookGenre + "%");
         return typedGenreQuery.getResultList();
     }
 
