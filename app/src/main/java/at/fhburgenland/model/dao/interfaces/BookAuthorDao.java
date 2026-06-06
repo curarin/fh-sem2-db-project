@@ -7,7 +7,7 @@ import at.fhburgenland.model.BookAuthor;
  */
 public interface BookAuthorDao {
     void create(BookAuthor bookAuthor);
-    BookAuthor read(Integer bookAuthorId);
+    BookAuthor readById(Integer bookAuthorId);
     void update(BookAuthor bookAuthor);
     void delete(BookAuthor bookAuthor);
 

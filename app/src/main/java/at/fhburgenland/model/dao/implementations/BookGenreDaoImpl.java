@@ -19,7 +19,7 @@ public class BookGenreDaoImpl implements BookGenreDao {
     }
 
     @Override
-    public BookGenre read(Integer bookGenreId) {
+    public BookGenre readById(Integer bookGenreId) {
         return entityManager.find(BookGenre.class, bookGenreId);
     }
 

@@ -18,7 +18,7 @@ public class BookAuthorDaoImpl implements BookAuthorDao {
     }
 
     @Override
-    public BookAuthor read(Integer bookAuthorId) {
+    public BookAuthor readById(Integer bookAuthorId) {
         return entityManager.find(BookAuthor.class, bookAuthorId);
     }
 

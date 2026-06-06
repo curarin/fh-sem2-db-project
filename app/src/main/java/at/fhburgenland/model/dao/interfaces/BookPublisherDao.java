@@ -7,7 +7,7 @@ import at.fhburgenland.model.BookPublisher;
  */
 public interface BookPublisherDao {
     void create(BookPublisher bookPublisher);
-    BookPublisher read(Integer bookPublisherId);
+    BookPublisher readById(Integer bookPublisherId);
     void update(BookPublisher bookPublisher);
     void delete(BookPublisher bookPublisher);
 }

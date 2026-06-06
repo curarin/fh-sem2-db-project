@@ -7,7 +7,7 @@ import at.fhburgenland.model.BookGenre;
  */
 public interface BookGenreDao {
     void create(BookGenre bookGenre);
-    BookGenre read(Integer bookGenreId);
+    BookGenre readById(Integer bookGenreId);
     void update(BookGenre bookGenre);
     void delete(BookGenre bookGenre);
 }

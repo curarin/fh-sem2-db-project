@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         BookRepository bookRepository = new BookRepositoryImpl(entityManagerFactory);
-        Book book = bookRepository.find("123-456-7890-1a");
+        Book book = bookRepository.findByIsbn("123-456-7890-1a");
         System.out.println("vVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvVvV");
         System.out.printf(String.format("""
                 Book Title: %s
