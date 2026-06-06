@@ -15,19 +15,7 @@ public class BookGenreDaoImpl implements BookGenreDao {
 
     @Override
     public void create(BookGenre bookGenre) {
-        try {
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            entityManager.persist(bookGenre);
-            entityTransaction.commit();
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            if (entityTransaction != null) {
-                entityTransaction.rollback();
-            }
-        } finally {
-            entityManager.close();
-        }
+        entityManager.persist(bookGenre);
     }
 
     @Override
@@ -37,35 +25,11 @@ public class BookGenreDaoImpl implements BookGenreDao {
 
     @Override
     public void update(BookGenre bookGenre) {
-        try {
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            entityManager.merge(bookGenre);
-            entityTransaction.commit();
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            if (entityTransaction != null) {
-                entityTransaction.rollback();
-            }
-        } finally {
-            entityManager.close();
-        }
+        entityManager.merge(bookGenre);
     }
 
     @Override
     public void delete(BookGenre bookGenre) {
-        try {
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            entityManager.remove(bookGenre);
-            entityTransaction.commit();
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            if (entityTransaction != null) {
-                entityTransaction.rollback();
-            }
-        } finally {
-            entityManager.close();
-        }
+        entityManager.remove(bookGenre);
     }
 }

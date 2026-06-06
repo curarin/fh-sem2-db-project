@@ -8,8 +8,7 @@ import at.fhburgenland.model.BookPublisher;
 import java.util.List;
 
 public interface BookRepository {
-    public Book getByIsbn(String isbn);
-    public List<Book> getAllByPublisher(BookPublisher bookPublisher);
-    public List<Book> getAllByAuthor(BookAuthor bookAuthor);
-    public List<Book> getAllByGenre(BookGenre bookGenre);
+    public Book find(String isbn);
+    public void save(Book book);
+    public void remove(Book book);
 }

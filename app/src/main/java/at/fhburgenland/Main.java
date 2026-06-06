@@ -1,13 +1,6 @@
 package at.fhburgenland;
 
-import at.fhburgenland.model.dao.interfaces.BookDao;
-import at.fhburgenland.model.dao.implementations.BookDaoImpl;
-import at.fhburgenland.model.dao.interfaces.BookPublisherDao;
-import at.fhburgenland.model.dao.implementations.BookPublisherDaoImpl;
 import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.BookGenre;
-import at.fhburgenland.model.BookPublisher;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.model.repository.implementations.BookRepositoryImpl;
 import jakarta.persistence.*;
@@ -18,34 +11,17 @@ public class Main {
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("book");
 
     public static void main(String[] args) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        BookPublisherDao bookPublisherDao = new BookPublisherDaoImpl(entityManager);
-        BookPublisher testPublisher = bookPublisherDao.read(1);
+        System.out.println("BUILD TEST 123456");
+        BookRepository bookRepository = new BookRepositoryImpl(entityManagerFactory);
+        Book book = bookRepository.find("123-456-7890-1a");
+        System.out.println(book);
+        System.out.println(String.format("""
+                Book Title: %s
+                Book ISBN: %s
+                """, book.getBookTitle(), book.getIsbn()));
 
-        BookDao bookDao = new BookDaoImpl(entityManager);
-        System.out.println(testPublisher);
-        BookRepository bookRepository = new BookRepositoryImpl(bookDao);
-        Book coolBook = bookRepository.getByIsbn("123");
-
-        System.out.println("Test");
-        BookAuthor authorOne = new BookAuthor();
-        authorOne.setBookAuthorName("Maria Jose");
-        BookAuthor authorTwo = new BookAuthor();
-        authorTwo.setBookAuthorName("Joseffy Pablito");
-        String isbn = "123-456-7890-1a";
-        String bookTitle = "Das absolut neue Buch";
-        String bookGenreName = "Thiller";
-        String bookPublisherName = "WildPublish";
-        BookPublisher bookPublisher = new BookPublisher();
-        bookPublisher.setBookPublisherName(bookPublisherName);
-        BookGenre bookGenre = new BookGenre();
-        bookGenre.setBookGenreName(bookGenreName);
-        Book newBook = new Book(isbn, bookTitle, bookGenre, bookPublisher);
-        newBook.setBookAuthors(Set.of(authorOne, authorTwo));
-
-
-        entityManager.close();
         entityManagerFactory.close();
+        System.out.println("BUILD TEST 1234567");
 
         /* TO DO
             -) Connect Database

@@ -1,38 +1,79 @@
 package at.fhburgenland.model.repository.implementations;
 
+import at.fhburgenland.model.dao.implementations.BookDaoImpl;
 import at.fhburgenland.model.dao.interfaces.BookDao;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
 public class BookRepositoryImpl implements BookRepository {
-    private final BookDao bookDao;
+    private final EntityManagerFactory entityManagerFactory;
 
-    public BookRepositoryImpl(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookRepositoryImpl(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
-    public Book getByIsbn(String isbn) {
-        return bookDao.read(isbn);
+    public Book find(String isbn) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            BookDao bookDao = new BookDaoImpl(entityManager);
+            return bookDao.read(isbn);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
-    public List<Book> getAllByPublisher(BookPublisher bookPublisher) {
-        return List.of();
+    public void save(Book updatedBook) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            BookDao bookDao = new BookDaoImpl(entityManager);
+            Book existingBook = bookDao.read(updatedBook.getIsbn());
+
+            if (existingBook != null) {
+                bookDao.create(updatedBook);
+            } else {
+                bookDao.update(updatedBook);
+            }
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
-    public List<Book> getAllByAuthor(BookAuthor bookAuthor) {
-        return List.of();
-    }
+    public void remove(Book book) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
 
-    @Override
-    public List<Book> getAllByGenre(BookGenre bookGenre) {
-        return List.of();
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            BookDao bookDao = new BookDaoImpl(entityManager);
+            bookDao.delete(book);
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
     }
 }
