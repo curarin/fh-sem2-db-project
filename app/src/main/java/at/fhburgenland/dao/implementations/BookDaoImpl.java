@@ -7,6 +7,7 @@ import jakarta.persistence.EntityTransaction;
 
 public class BookDaoImpl implements BookDao {
     private final EntityManager entityManager;
+    private EntityTransaction entityTransaction = null;
 
     public BookDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -14,8 +15,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void create(Book book) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
+            entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             entityManager.persist(book);
             entityTransaction.commit();
@@ -36,8 +37,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void update(Book book) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
+            entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             entityManager.merge(book);
             entityTransaction.commit();
@@ -53,8 +54,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void delete(Book book) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
+            entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             entityManager.remove(book);
             entityTransaction.commit();

@@ -7,6 +7,7 @@ import jakarta.persistence.EntityTransaction;
 
 public class BookGenreDaoImpl implements BookGenreDao {
     private final EntityManager entityManager;
+    private EntityTransaction entityTransaction = null;
 
     public BookGenreDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -14,8 +15,8 @@ public class BookGenreDaoImpl implements BookGenreDao {
 
     @Override
     public void create(BookGenre bookGenre) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
+            entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             entityManager.persist(bookGenre);
             entityTransaction.commit();
@@ -36,8 +37,8 @@ public class BookGenreDaoImpl implements BookGenreDao {
 
     @Override
     public void update(BookGenre bookGenre) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
+            entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             entityManager.merge(bookGenre);
             entityTransaction.commit();
@@ -53,8 +54,8 @@ public class BookGenreDaoImpl implements BookGenreDao {
 
     @Override
     public void delete(BookGenre bookGenre) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
+            entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             entityManager.remove(bookGenre);
             entityTransaction.commit();
