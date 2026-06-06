@@ -1,25 +1,24 @@
-package at.fhburgenland.dao.implementations;
+package at.fhburgenland.model.dao.implementations;
 
-import at.fhburgenland.dao.interfaces.BookAuthorDao;
-import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.dao.interfaces.BookDao;
+import at.fhburgenland.model.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-public class BookAuthorDaoImpl implements BookAuthorDao {
-
+public class BookDaoImpl implements BookDao {
     private final EntityManager entityManager;
     private EntityTransaction entityTransaction = null;
 
-    public BookAuthorDaoImpl(EntityManager entityManager) {
+    public BookDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
-    public void create(BookAuthor bookAuthor) {
+    public void create(Book book) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.persist(bookAuthor);
+            entityManager.persist(book);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -32,16 +31,16 @@ public class BookAuthorDaoImpl implements BookAuthorDao {
     }
 
     @Override
-    public BookAuthor read(Integer bookAuthorId) {
-        return entityManager.find(BookAuthor.class, bookAuthorId);
+    public Book read(String bookIsbn) {
+        return entityManager.find(Book.class, bookIsbn);
     }
 
     @Override
-    public void update(BookAuthor bookAuthor) {
+    public void update(Book book) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.merge(bookAuthor);
+            entityManager.merge(book);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -54,11 +53,11 @@ public class BookAuthorDaoImpl implements BookAuthorDao {
     }
 
     @Override
-    public void delete(BookAuthor bookAuthor) {
+    public void delete(Book book) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.remove(bookAuthor);
+            entityManager.remove(book);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());

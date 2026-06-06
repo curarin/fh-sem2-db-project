@@ -1,15 +1,15 @@
 package at.fhburgenland;
 
-import at.fhburgenland.dao.interfaces.BookDao;
-import at.fhburgenland.dao.implementations.BookDaoImpl;
-import at.fhburgenland.dao.interfaces.BookPublisherDao;
-import at.fhburgenland.dao.implementations.BookPublisherDaoImpl;
+import at.fhburgenland.model.dao.interfaces.BookDao;
+import at.fhburgenland.model.dao.implementations.BookDaoImpl;
+import at.fhburgenland.model.dao.interfaces.BookPublisherDao;
+import at.fhburgenland.model.dao.implementations.BookPublisherDaoImpl;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
-import at.fhburgenland.repository.interfaces.BookRepository;
-import at.fhburgenland.repository.implementations.BookRepositoryImpl;
+import at.fhburgenland.model.repository.interfaces.BookRepository;
+import at.fhburgenland.model.repository.implementations.BookRepositoryImpl;
 import jakarta.persistence.*;
 
 import java.util.Set;

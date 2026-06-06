@@ -1,11 +1,11 @@
-package at.fhburgenland.repository.implementations;
+package at.fhburgenland.model.repository.implementations;
 
-import at.fhburgenland.dao.interfaces.BookDao;
+import at.fhburgenland.model.dao.interfaces.BookDao;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
-import at.fhburgenland.repository.interfaces.BookRepository;
+import at.fhburgenland.model.repository.interfaces.BookRepository;
 
 import java.util.List;
 

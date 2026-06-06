@@ -1,24 +1,25 @@
-package at.fhburgenland.dao.implementations;
+package at.fhburgenland.model.dao.implementations;
 
-import at.fhburgenland.dao.interfaces.BookGenreDao;
-import at.fhburgenland.model.BookGenre;
+import at.fhburgenland.model.dao.interfaces.BookAuthorDao;
+import at.fhburgenland.model.BookAuthor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-public class BookGenreDaoImpl implements BookGenreDao {
+public class BookAuthorDaoImpl implements BookAuthorDao {
+
     private final EntityManager entityManager;
     private EntityTransaction entityTransaction = null;
 
-    public BookGenreDaoImpl(EntityManager entityManager) {
+    public BookAuthorDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
-    public void create(BookGenre bookGenre) {
+    public void create(BookAuthor bookAuthor) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.persist(bookGenre);
+            entityManager.persist(bookAuthor);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -31,16 +32,16 @@ public class BookGenreDaoImpl implements BookGenreDao {
     }
 
     @Override
-    public BookGenre read(Integer bookGenreId) {
-        return entityManager.find(BookGenre.class, bookGenreId);
+    public BookAuthor read(Integer bookAuthorId) {
+        return entityManager.find(BookAuthor.class, bookAuthorId);
     }
 
     @Override
-    public void update(BookGenre bookGenre) {
+    public void update(BookAuthor bookAuthor) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.merge(bookGenre);
+            entityManager.merge(bookAuthor);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -53,11 +54,11 @@ public class BookGenreDaoImpl implements BookGenreDao {
     }
 
     @Override
-    public void delete(BookGenre bookGenre) {
+    public void delete(BookAuthor bookAuthor) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.remove(bookGenre);
+            entityManager.remove(bookAuthor);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());

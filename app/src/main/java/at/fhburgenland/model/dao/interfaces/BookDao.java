@@ -1,4 +1,4 @@
-package at.fhburgenland.dao.interfaces;
+package at.fhburgenland.model.dao.interfaces;
 
 import at.fhburgenland.model.Book;
 

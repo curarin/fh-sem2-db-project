@@ -1,24 +1,24 @@
-package at.fhburgenland.dao.implementations;
+package at.fhburgenland.model.dao.implementations;
 
-import at.fhburgenland.dao.interfaces.BookDao;
-import at.fhburgenland.model.Book;
+import at.fhburgenland.model.dao.interfaces.BookGenreDao;
+import at.fhburgenland.model.BookGenre;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-public class BookDaoImpl implements BookDao {
+public class BookGenreDaoImpl implements BookGenreDao {
     private final EntityManager entityManager;
     private EntityTransaction entityTransaction = null;
 
-    public BookDaoImpl(EntityManager entityManager) {
+    public BookGenreDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
-    public void create(Book book) {
+    public void create(BookGenre bookGenre) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.persist(book);
+            entityManager.persist(bookGenre);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -31,16 +31,16 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book read(String bookIsbn) {
-        return entityManager.find(Book.class, bookIsbn);
+    public BookGenre read(Integer bookGenreId) {
+        return entityManager.find(BookGenre.class, bookGenreId);
     }
 
     @Override
-    public void update(Book book) {
+    public void update(BookGenre bookGenre) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.merge(book);
+            entityManager.merge(bookGenre);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -53,11 +53,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void delete(Book book) {
+    public void delete(BookGenre bookGenre) {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            entityManager.remove(book);
+            entityManager.remove(bookGenre);
             entityTransaction.commit();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
