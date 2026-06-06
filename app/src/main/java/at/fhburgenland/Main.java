@@ -43,7 +43,6 @@ public class Main {
         Book newBook = new Book(isbn, bookTitle, bookGenre, bookPublisher);
         newBook.setBookAuthors(Set.of(authorOne, authorTwo));
 
-        BookManager.addBook(newBook, bookGenre, bookPublisher);
 
         entityManager.close();
         entityManagerFactory.close();
