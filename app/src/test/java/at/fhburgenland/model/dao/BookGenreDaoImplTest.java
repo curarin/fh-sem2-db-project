@@ -80,8 +80,8 @@ public class BookGenreDaoImplTest {
         BookGenre bookGenre = new BookGenre();
         bookGenre.setBookGenreName("Custom Book Genre");
         bookGenreDao.create(bookGenre);
-        assertEquals(BookGenre.class, bookGenreDao.readById(1).getClass());
-        assertNotNull(bookGenreDao.readById(1));
+        assertEquals(BookGenre.class, bookGenreDao.readById(bookGenre.getBookGenreId()).getClass());
+        assertNotNull(bookGenreDao.readById(bookGenre.getBookGenreId()));
     }
 
     @Test
@@ -99,8 +99,8 @@ public class BookGenreDaoImplTest {
         bookGenreDao.create(bookGenre3);
 
         assertEquals(3, bookGenreDao.readByName("Custom Book Genre").size());
-        assertNotNull(bookGenreDao.readById(1));
-        assertNotNull(bookGenreDao.readById(2));
-        assertNotNull(bookGenreDao.readById(3));
+        assertNotNull(bookGenreDao.readById(bookGenre.getBookGenreId()));
+        assertNotNull(bookGenreDao.readById(bookGenre2.getBookGenreId()));
+        assertNotNull(bookGenreDao.readById(bookGenre3.getBookGenreId()));
     }
 }
