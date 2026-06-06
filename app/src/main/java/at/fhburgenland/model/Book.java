@@ -28,7 +28,7 @@ public class Book {
     /**
      * One or many authors of each physical book copy
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "author_book_map", joinColumns = @JoinColumn(name = "isbn"), inverseJoinColumns = @JoinColumn(name = "book_author_id"))
     private Set<BookAuthor> bookAuthors;
 
