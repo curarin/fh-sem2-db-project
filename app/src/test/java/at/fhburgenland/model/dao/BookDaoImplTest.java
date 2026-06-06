@@ -14,15 +14,14 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookDaoImplTest {
     private static EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     private EntityTransaction entityTransaction;
-    private static Book standardBook;
     private BookDao bookDao;
 
     @BeforeAll
@@ -38,24 +37,34 @@ public class BookDaoImplTest {
         entityTransaction.begin();
     }
 
-    @BeforeAll
-    public static void setupStandardBook() {
-        Book book = new Book();
+    /**
+     * Standard book generation method
+     * @param isbn Passing a isbn causes th generate a random one based on that - else we generate a hard coded one
+     * @return Book object
+     */
+    private Book createStandardBook(String isbn) {
         BookAuthor author = new BookAuthor();
-        author.setBookAuthorName("Test Author");
+        author.setBookAuthorName("Standard Author");
 
         BookGenre genre = new BookGenre();
-        genre.setBookGenreName("Test Genre");
+        genre.setBookGenreName("Standard Genre");
 
         BookPublisher publisher = new BookPublisher();
-        publisher.setBookPublisherName("Test Publisher");
+        publisher.setBookPublisherName("Standard Publisher");
 
-        book.setIsbn("123456789");
-        book.setBookTitle("Test Book Title");
+        Book book = new Book();
+        if (isbn == null) {
+            book.setIsbn("123456789");
+        } else {
+            int randomNumber = ThreadLocalRandom.current().nextInt();
+            book.setIsbn(isbn.concat(String.valueOf(randomNumber)));
+        }
+        book.setBookTitle("Standard Book Title");
         book.setBookGenre(genre);
         book.setBookPublisher(publisher);
         book.setBookAuthors(Set.of(author));
-        standardBook = book;
+
+        return book;
     }
 
     @AfterEach
@@ -73,33 +82,106 @@ public class BookDaoImplTest {
 
     @Test
     public void createAndReadBook() {
-        bookDao.create(standardBook);
+        bookDao.create(this.createStandardBook(null));
         Book result = bookDao.readByIsbn("123456789");
         assertNotNull(result);
-        assertEquals("Test Book Title", result.getBookTitle());
+        assertEquals("Standard Book Title", result.getBookTitle());
+        assertEquals("Standard Genre", result.getBookGenre().getBookGenreName());
+        assertEquals("Standard Author", result.getBookAuthors().stream().findFirst().get().getBookAuthorName());
+        assertEquals("Standard Publisher", result.getBookPublisher().getBookPublisherName());
+    }
+
+    @Test
+    public void createBookFromManyBookAuthors() {
+        BookAuthor bookAuthor1 = new BookAuthor();
+        bookAuthor1.setBookAuthorName("Standard Author 1");
+        BookAuthor bookAuthor2 = new BookAuthor();
+        bookAuthor2.setBookAuthorName("Standard Author 2");
+        BookAuthor bookAuthor3 = new BookAuthor();
+        bookAuthor3.setBookAuthorName("Standard Author 3");
+
+        BookGenre bookGenre = new BookGenre();
+        bookGenre.setBookGenreName("Standard Genre");
+
+        BookPublisher bookPublisher = new BookPublisher();
+        bookPublisher.setBookPublisherName("Standard Publisher");
+
+        Book bookWithManyAuthors = new Book();
+        bookWithManyAuthors.setIsbn("123456789");
+        bookWithManyAuthors.setBookTitle("Standard Book Title");
+        bookWithManyAuthors.setBookGenre(bookGenre);
+        bookWithManyAuthors.setBookPublisher(bookPublisher);
+        bookWithManyAuthors.setBookAuthors(Set.of(bookAuthor1, bookAuthor2, bookAuthor3));
+
+        bookDao.create(bookWithManyAuthors);
+
+        assertEquals(3, bookWithManyAuthors.getBookAuthors().size());
+        assertFalse(bookWithManyAuthors.getBookAuthors().isEmpty());
+
     }
 
     @Test
     public void getBooksByTitle() {
-        List<Book> foundBooks = bookDao.readByTitle("Test");
-        assertNotNull(foundBooks);
+        bookDao.create(this.createStandardBook("1"));
+        List<Book> foundBooks = bookDao.readByTitle("Standard");
+        int foundBooksSize = foundBooks.size();
+        assertTrue(foundBooksSize > 0);
+        assertEquals(1, foundBooks.size());
     }
 
     @Test
     public void getBooksByAuthor() {
-        List<Book> foundBooks = bookDao.readByAuthor("Test");
-        assertNotNull(foundBooks);
+        bookDao.create(this.createStandardBook("1"));
+        bookDao.create(this.createStandardBook("2"));
+        List<Book> foundBooks = bookDao.readByAuthor("Standard");
+        int foundBooksSize = foundBooks.size();
+        assertTrue(foundBooksSize > 0);
+        assertEquals(2, foundBooks.size());
     }
 
     @Test
     public void getBooksByGenre() {
-        List<Book> foundBooks = bookDao.readByGenre("Test");
-        assertNotNull(foundBooks);
+        bookDao.create(this.createStandardBook("1"));
+        bookDao.create(this.createStandardBook("2"));
+        bookDao.create(this.createStandardBook("3"));
+        bookDao.create(this.createStandardBook("4"));
+        List<Book> foundBooks = bookDao.readByGenre("Standard");
+        int foundBooksSize = foundBooks.size();
+        assertTrue(foundBooksSize > 0);
+        assertEquals(4, foundBooks.size());
     }
 
     @Test
     public void getBooksByPublisher() {
-        List<Book> foundBooks = bookDao.readByPublisher("Test");
-        assertNotNull(foundBooks);
+        bookDao.create(this.createStandardBook("1"));
+        bookDao.create(this.createStandardBook("2"));
+        bookDao.create(this.createStandardBook("3"));
+        List<Book> foundBooks = bookDao.readByPublisher("Standard");
+        int foundBooksSize = foundBooks.size();
+        assertTrue(foundBooksSize > 0);
+        assertEquals(3, foundBooks.size());
+    }
+
+    @Test
+    public void removeBookAfterCreatingIt() {
+        bookDao.create(this.createStandardBook(null));
+        Book createdBook = bookDao.readByIsbn("123456789");
+        assertNotNull(createdBook);
+        assertEquals("123456789", createdBook.getIsbn());
+
+        bookDao.delete(createdBook);
+        assertNull(bookDao.readByIsbn("123456789"));
+    }
+
+    @Test
+    public void updateBookWithNewTitle() {
+        bookDao.create(this.createStandardBook(null));
+        Book createdBook = bookDao.readByIsbn("123456789");
+        assertNotNull(createdBook);
+        assertEquals("Standard Book Title", createdBook.getBookTitle());
+
+        createdBook.setBookTitle("Updated Book Title");
+        bookDao.update(createdBook);
+        assertEquals("Updated Book Title", bookDao.readByIsbn("123456789").getBookTitle());
     }
 }
