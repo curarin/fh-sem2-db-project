@@ -2,6 +2,7 @@ package at.fhburgenland.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,7 +31,7 @@ public class Book {
      */
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "author_book_map", joinColumns = @JoinColumn(name = "isbn"), inverseJoinColumns = @JoinColumn(name = "book_author_id"))
-    private Set<BookAuthor> bookAuthors;
+    private Set<BookAuthor> bookAuthors = new HashSet<>();
 
     /**
      * Genre category of each physical book copy
@@ -122,14 +123,16 @@ public class Book {
 
     /**
      * Sets the Book Authors
+     *
      * @param bookAuthors Set of book Authors
      */
     public void setBookAuthors(Set<BookAuthor> bookAuthors) {
-        this.bookAuthors = bookAuthors;
+        this.bookAuthors = new HashSet<>(bookAuthors);
     }
 
     /**
      * Sets the book Genre
+     *
      * @param bookGenre Genre of the book
      */
     public void setBookGenre(BookGenre bookGenre) {
@@ -138,6 +141,7 @@ public class Book {
 
     /**
      * Sets the books publisher
+     *
      * @param bookPublisher Publisher name
      */
     public void setBookPublisher(BookPublisher bookPublisher) {
