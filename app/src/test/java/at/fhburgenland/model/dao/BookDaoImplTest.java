@@ -12,6 +12,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,6 +22,7 @@ public class BookDaoImplTest {
     private static EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     private EntityTransaction entityTransaction;
+    private static Book standardBook;
     private BookDao bookDao;
 
     @BeforeAll
@@ -34,6 +36,26 @@ public class BookDaoImplTest {
         entityTransaction = entityManager.getTransaction();
         bookDao = new BookDaoImpl(entityManager);
         entityTransaction.begin();
+    }
+
+    @BeforeAll
+    public static void setupStandardBook() {
+        Book book = new Book();
+        BookAuthor author = new BookAuthor();
+        author.setBookAuthorName("Test Author");
+
+        BookGenre genre = new BookGenre();
+        genre.setBookGenreName("Test Genre");
+
+        BookPublisher publisher = new BookPublisher();
+        publisher.setBookPublisherName("Test Publisher");
+
+        book.setIsbn("123456789");
+        book.setBookTitle("Test Book Title");
+        book.setBookGenre(genre);
+        book.setBookPublisher(publisher);
+        book.setBookAuthors(Set.of(author));
+        standardBook = book;
     }
 
     @AfterEach
@@ -51,27 +73,33 @@ public class BookDaoImplTest {
 
     @Test
     public void createAndReadBook() {
-        Book book = new Book();
-        BookAuthor author = new BookAuthor();
-        author.setBookAuthorName("Test");
-
-        BookGenre genre = new BookGenre();
-        genre.setBookGenreName("Test");
-
-        BookPublisher publisher = new BookPublisher();
-        publisher.setBookPublisherName("Test");
-
-        book.setIsbn("123456789");
-        book.setBookTitle("Test Book Title");
-        book.setBookGenre(genre);
-        book.setBookPublisher(publisher);
-        book.setBookAuthors(Set.of(author));
-
-        bookDao.create(book);
-
+        bookDao.create(standardBook);
         Book result = bookDao.readByIsbn("123456789");
-
         assertNotNull(result);
         assertEquals("Test Book Title", result.getBookTitle());
+    }
+
+    @Test
+    public void getBooksByTitle() {
+        List<Book> foundBooks = bookDao.readByTitle("Test");
+        assertNotNull(foundBooks);
+    }
+
+    @Test
+    public void getBooksByAuthor() {
+        List<Book> foundBooks = bookDao.readByAuthor("Test");
+        assertNotNull(foundBooks);
+    }
+
+    @Test
+    public void getBooksByGenre() {
+        List<Book> foundBooks = bookDao.readByGenre("Test");
+        assertNotNull(foundBooks);
+    }
+
+    @Test
+    public void getBooksByPublisher() {
+        List<Book> foundBooks = bookDao.readByPublisher("Test");
+        assertNotNull(foundBooks);
     }
 }
