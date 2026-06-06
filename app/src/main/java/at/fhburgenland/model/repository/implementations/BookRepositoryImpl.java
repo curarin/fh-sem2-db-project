@@ -83,7 +83,7 @@ public class BookRepositoryImpl implements BookRepository {
             BookDao bookDao = new BookDaoImpl(entityManager);
             Book existingBook = bookDao.readByIsbn(updatedBook.getIsbn());
 
-            if (existingBook != null) {
+            if (existingBook == null) {
                 bookDao.create(updatedBook);
             } else {
                 bookDao.update(updatedBook);
