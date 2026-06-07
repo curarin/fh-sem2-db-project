@@ -26,7 +26,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> readByTitle(String bookTitle) {
-        String query = "select book from Book as book where book.bookTitle like :bookTitle";
+        String query = "select book from Book as book where lower(book.bookTitle) like lower(:bookTitle)";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
         typedBookQuery.setParameter("bookTitle", "%" + bookTitle + "%");
         return typedBookQuery.getResultList();
@@ -34,7 +34,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> readByAuthor(String bookAuthor) {
-        String query = "select book from Book as book left join book.bookAuthors as bookAuthor where bookAuthor.bookAuthorName like :bookAuthor";
+        String query = "select book from Book as book left join book.bookAuthors as bookAuthor where lower(bookAuthor.bookAuthorName) like lower(:bookAuthor)";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
         typedBookQuery.setParameter("bookAuthor", "%" + bookAuthor + "%");
         return typedBookQuery.getResultList();
@@ -42,7 +42,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> readByPublisher(String bookPublisher) {
-        String query = "select book from Book as book left join book.bookPublisher as bookPublisher where bookPublisher.bookPublisherName like :bookPublisher";
+        String query = "select book from Book as book left join book.bookPublisher as bookPublisher where lower(bookPublisher.bookPublisherName) like lower(:bookPublisher)";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
         typedBookQuery.setParameter("bookPublisher", "%" + bookPublisher + "%");
         return typedBookQuery.getResultList();
@@ -50,7 +50,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> readByGenre(String bookGenre) {
-        String query = "select book from Book as book left join book.bookGenre as bookGenre where bookGenre.bookGenreName like :bookGenre";
+        String query = "select book from Book as book left join book.bookGenre as bookGenre where lower(bookGenre.bookGenreName) like lower(:bookGenre)";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
         typedBookQuery.setParameter("bookGenre", "%" + bookGenre + "%");
         return typedBookQuery.getResultList();
