@@ -53,7 +53,7 @@ public class BookAuthorDaoImplTest {
     }
 
     @Test
-    public void createMultipleBookAuthorsAndFindByOverlappingName() {
+    public void createMultipleBookAuthorsAndFindByExactName() {
         BookAuthor bookAuthor1 = new BookAuthor();
         bookAuthor1.setBookAuthorName("Book Author 1");
         bookAuthorDao.create(bookAuthor1);
@@ -67,7 +67,11 @@ public class BookAuthorDaoImplTest {
         bookAuthor4.setBookAuthorName("Book Author 4");
         bookAuthorDao.create(bookAuthor4);
 
-        assertEquals(4, bookAuthorDao.readByName("Book Author").size());
+        assertEquals(0, bookAuthorDao.readByName("Book Author").size());
+        assertEquals(1, bookAuthorDao.readByName("Book Author 1").size());
+        assertEquals(1, bookAuthorDao.readByName("Book Author 2").size());
+        assertEquals(1, bookAuthorDao.readByName("Book Author 3").size());
+        assertEquals(1, bookAuthorDao.readByName("Book Author 4").size());
     }
 
     @Test

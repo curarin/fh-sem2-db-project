@@ -98,7 +98,10 @@ public class BookGenreDaoImplTest {
         bookGenre3.setBookGenreName("Custom Book Genre 3");
         bookGenreDao.create(bookGenre3);
 
-        assertEquals(3, bookGenreDao.readByName("Custom Book Genre").size());
+        assertEquals(1, bookGenreDao.readByName("Custom Book Genre 1").size());
+        assertEquals(1, bookGenreDao.readByName("Custom Book Genre 2").size());
+        assertEquals(1, bookGenreDao.readByName("Custom Book Genre 3").size());
+        assertEquals(0, bookGenreDao.readByName("Custom Book Genre").size());
         assertNotNull(bookGenreDao.readById(bookGenre.getBookGenreId()));
         assertNotNull(bookGenreDao.readById(bookGenre2.getBookGenreId()));
         assertNotNull(bookGenreDao.readById(bookGenre3.getBookGenreId()));

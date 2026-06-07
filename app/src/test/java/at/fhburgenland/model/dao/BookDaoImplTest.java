@@ -122,9 +122,9 @@ public class BookDaoImplTest {
     public void getBooksByTitle() {
         bookDao.create(this.createStandardBook("1"));
         List<Book> foundBooks = bookDao.readByTitle("Standard");
-        int foundBooksSize = foundBooks.size();
-        assertTrue(foundBooksSize > 0);
-        assertEquals(1, foundBooks.size());
+        List<Book> exactBooks = bookDao.readByTitle("Standard Book Title");
+        assertEquals(0, foundBooks.size());
+        assertEquals(1, exactBooks.size());
     }
 
     @Test

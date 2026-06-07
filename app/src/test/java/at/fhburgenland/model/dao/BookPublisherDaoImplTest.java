@@ -95,7 +95,7 @@ public class BookPublisherDaoImplTest {
     }
 
     @Test
-    public void findAllPublishersByOverlappingName() {
+    public void findAllPublishersByExactName() {
         BookPublisher bookPublisher1 = new BookPublisher();
         BookPublisher bookPublisher2 = new BookPublisher();
         BookPublisher bookPublisher3 = new BookPublisher();
@@ -108,6 +108,9 @@ public class BookPublisherDaoImplTest {
         bookPublisherDao.create(bookPublisher2);
         bookPublisherDao.create(bookPublisher3);
 
-        assertEquals(3, bookPublisherDao.readByName("Test Book Publisher").size());
+        assertEquals(0, bookPublisherDao.readByName("Test Book Publisher").size());
+        assertEquals(1, bookPublisherDao.readByName("Test Book Publisher 1").size());
+        assertEquals(1, bookPublisherDao.readByName("Test Book Publisher 2").size());
+        assertEquals(1, bookPublisherDao.readByName("Test Book Publisher 3").size());
     }
 }
