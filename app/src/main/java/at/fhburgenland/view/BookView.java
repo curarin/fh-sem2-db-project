@@ -1,6 +1,7 @@
 package at.fhburgenland.view;
 
 import at.fhburgenland.model.Book;
+import at.fhburgenland.model.BookAuthor;
 
 import java.util.List;
 import java.util.Scanner;
@@ -13,27 +14,106 @@ public class BookView {
         System.out.println(message);
     }
 
-    public String askForIsbn() {
-        System.out.print("ISBN: ");
+    public String getIsbnByUser() {
+        System.out.println("""
+                -------------------------------------
+                |       Please enter ISBN           |
+                -------------------------------------
+                """);
         return scanner.nextLine();
     }
 
-    public String askForTitle() {
-        System.out.print("Title: ");
+    public String getBookTitleByUser() {
+        System.out.println("""
+                -------------------------------------
+                |     Please enter Book Title       |
+                -------------------------------------
+                """);
         return scanner.nextLine();
+    }
+
+    public String getBookGenreByUser() {
+        System.out.println("""
+                -------------------------------------
+                |     Please enter Book Genre       |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public String getBookPublisherByUser() {
+        System.out.println("""
+                -------------------------------------
+                |    Please enter Book Publisher    |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public String getBookAuthorByUser() {
+        System.out.println("""
+                -------------------------------------
+                |     Please enter Book Author      |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public boolean getBookAuthorChoiceByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Another author for the book?     |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        switch (scanner.nextLine()) {
+            case "1" -> {
+                return true;
+            }
+            case "2" -> {
+                return false;
+            }
+            default -> {
+                printMessage("Please enter a valid choice");
+                return false;
+            }
+        }
     }
 
     public int showMainMenu() {
         System.out.println("""
-                1 - Find book by ISBN
-                2 - Update title
-                3 - Exit
+                =====================================
+                |   ReiMi Library Management System |
+                =====================================
+                | (1) Show existing Book            |
+                | (2) Add new Book                  |
+                | (3) Edit existing Book            |
+                | (4) Delete Book                   |
+                -------------------------------------
+                | (0) Main Menu                     |
+                =====================================
                 """);
 
         return Integer.parseInt(scanner.nextLine());
     }
 
     public void printBook(Book book) {
-        System.out.println(book);
+        String bookPrint = String.format("""
+                -------------------------------------
+                |       Book found in system        |
+                -------------------------------------
+                | Book Title: %s
+                | Book Book Genre: %s
+                | Book Publisher: %s
+                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName());
+        System.out.println(bookPrint);
+        int authorCounter = 1;
+        for (BookAuthor bookAuthor : book.getBookAuthors()) {
+            System.out.printf("| Author (%d): %s\n", authorCounter, bookAuthor.getBookAuthorName());
+            authorCounter++;
+        }
+        System.out.print("-------------------------------------\n");
     }
 }
