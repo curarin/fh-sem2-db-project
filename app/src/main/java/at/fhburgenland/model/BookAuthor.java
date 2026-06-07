@@ -12,7 +12,7 @@ public class BookAuthor {
     @Column(name="book_author_id", updatable = false, nullable = false)
     private Integer bookAuthorId;
 
-    @Column(name="book_author_name", nullable = false)
+    @Column(name="book_author_name", nullable = false, unique = true)
     private String bookAuthorName;
 
     @ManyToMany(mappedBy = "bookAuthors", fetch = FetchType.EAGER)

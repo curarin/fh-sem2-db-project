@@ -10,7 +10,7 @@ public class BookGenre {
     @Column(name = "book_genre_id", updatable = false, nullable = false)
     private Integer bookGenreId;
 
-    @Column(name = "book_genre_name", nullable = false)
+    @Column(name = "book_genre_name", nullable = false, unique = true)
     private String bookGenreName;
 
     public Integer getBookGenreId() {

@@ -10,7 +10,7 @@ public class BookPublisher {
     @Column(name="book_publisher_id", updatable = false, nullable = false)
     private Integer bookPublisherId;
 
-    @Column(name="book_publisher_name", nullable = false)
+    @Column(name="book_publisher_name", nullable = false, unique = true)
     private String bookPublisherName;
 
     public String getBookPublisherName() {
