@@ -1,14 +1,24 @@
 package at.fhburgenland.model.repository.implementations;
 
+import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.BookGenre;
+import at.fhburgenland.model.dao.implementations.BookAuthorDaoImpl;
 import at.fhburgenland.model.dao.implementations.BookDaoImpl;
+import at.fhburgenland.model.dao.implementations.BookGenreDaoImpl;
+import at.fhburgenland.model.dao.implementations.BookPublisherDaoImpl;
+import at.fhburgenland.model.dao.interfaces.BookAuthorDao;
 import at.fhburgenland.model.dao.interfaces.BookDao;
 import at.fhburgenland.model.Book;
+import at.fhburgenland.model.dao.interfaces.BookGenreDao;
+import at.fhburgenland.model.dao.interfaces.BookPublisherDao;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BookRepositoryImpl implements BookRepository {
     private final EntityManagerFactory entityManagerFactory;
@@ -80,6 +90,23 @@ public class BookRepositoryImpl implements BookRepository {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
+
+            // Check if Genre already exists, if yes insert existing one
+            BookGenreDao bookGenreDao = new BookGenreDaoImpl(entityManager);
+            updatedBook.setBookGenre(bookGenreDao.readByName(updatedBook.getBookGenre().getBookGenreName()).stream().findFirst().orElse(updatedBook.getBookGenre()));
+
+            // Check if Publisher already exists, if yes insert existing one
+            BookPublisherDao bookPublisherDao = new BookPublisherDaoImpl(entityManager);
+            updatedBook.setBookPublisher(bookPublisherDao.readByName(updatedBook.getBookPublisher().getBookPublisherName()).stream().findFirst().orElse(updatedBook.getBookPublisher()));
+
+            // Check if Author already exists
+            BookAuthorDao bookAuthorDao = new BookAuthorDaoImpl(entityManager);
+            Set<BookAuthor> checkedBookAuthors = new HashSet<>();
+            for (BookAuthor bookAuthor : updatedBook.getBookAuthors()) {
+                checkedBookAuthors.add(bookAuthorDao.readByName(bookAuthor.getBookAuthorName()).stream().findFirst().orElse(bookAuthor));
+            }
+            updatedBook.setBookAuthors(checkedBookAuthors);
+
             BookDao bookDao = new BookDaoImpl(entityManager);
             Book existingBook = bookDao.readByIsbn(updatedBook.getIsbn());
 
