@@ -133,7 +133,8 @@ public class BookView {
                 | Book Title: %s
                 | Book Book Genre: %s
                 | Book Publisher: %s
-                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName());
+                | Book ISBN: %s
+                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn());
         System.out.println(bookPrint);
         int authorCounter = 1;
         for (BookAuthor bookAuthor : book.getBookAuthors()) {
