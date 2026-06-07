@@ -126,7 +126,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void remove(Book book) {
+    public void remove(String isbn) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = null;
 
@@ -134,6 +134,7 @@ public class BookRepositoryImpl implements BookRepository {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             BookDao bookDao = new BookDaoImpl(entityManager);
+            Book book = bookDao.readByIsbn(isbn);
             bookDao.delete(book);
             entityTransaction.commit();
         } catch (Exception exception) {

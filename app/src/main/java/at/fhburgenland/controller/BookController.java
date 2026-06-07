@@ -31,6 +31,7 @@ public class BookController {
 
             switch (choice) {
                 case 1 -> {
+                    // Show & Print books with various combinations of lookups
                     switch (view.showExistingBookMenu()) {
                         case 1 -> {
                             Book foundBook = repository.findByIsbn(view.getIsbnByUser());
@@ -79,6 +80,7 @@ public class BookController {
 
                 }
                 case 2 -> {
+                    // Add new book
                     String isbnInput = view.getIsbnByUser();
                     if (repository.findByIsbn(isbnInput) != null) {
                         System.out.println("Book already exists");
@@ -120,8 +122,14 @@ public class BookController {
                 }
                 case 4 -> {
                     // Delete book
-                    // Enter ISBN
-                    // DELETE
+                    String isbnInput = view.getIsbnByUser();
+                    Book bookToBeDeleted = repository.findByIsbn(isbnInput);
+                    if (bookToBeDeleted == null) {
+                        System.out.println("Book does not exist");
+                        running = false;
+                    } else {
+                        repository.remove(bookToBeDeleted.getIsbn());
+                    }
                 }
                 case 0 -> {
                     running = false;

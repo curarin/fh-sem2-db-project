@@ -11,5 +11,5 @@ public interface BookRepository {
     public List<Book> findByGenre(String genre);
     public List<Book> findByPublisher(String publisher);
     public void save(Book book);
-    public void remove(Book book);
+    public void remove(String isbn);
 }
