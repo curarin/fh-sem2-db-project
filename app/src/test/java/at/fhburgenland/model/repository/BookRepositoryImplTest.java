@@ -63,26 +63,27 @@ public class BookRepositoryImplTest {
 
     @Test
     public void saveNewBook() {
-        Book newBook = createStandardBook("123");
+        Book newBook = createStandardBook("12355");
         bookRepository.save(newBook);
-        assertNotNull(bookRepository.findByIsbn("123"));
+        assertNotNull(bookRepository.findByIsbn("12355"));
     }
 
     @Test
     public void updateBookWithNewData() {
-        Book newBook = createStandardBook("123");
+        Book newBook = createStandardBook("12344");
         bookRepository.save(newBook);
-        assertNotNull(bookRepository.findByIsbn("123"));
-        assertEquals("Standard Book Title", bookRepository.findByIsbn("123").getBookTitle());
+        assertNotNull(bookRepository.findByIsbn("12344"));
+        assertEquals("Standard Book Title", bookRepository.findByIsbn("12344").getBookTitle());
 
         newBook.setBookTitle("New Book Title");
         bookRepository.save(newBook);
-        assertEquals("New Book Title", bookRepository.findByIsbn("123").getBookTitle());
+        assertEquals("New Book Title", bookRepository.findByIsbn("12344").getBookTitle());
     }
 
     @Test
     public void removeBookFromDatabase() {
         Book book = createStandardBook("123");
+        book.setBookTitle("Book which is about to be removed");
         bookRepository.save(book);
         assertNotNull(bookRepository.findByIsbn("123"));
 
@@ -95,9 +96,9 @@ public class BookRepositoryImplTest {
 
     @Test
     public void findBookByAuthor() {
-        Book book1 = createStandardBook("123");
-        Book book2 = createStandardBook("456");
-        Book book3 = createStandardBook("789");
+        Book book1 = createStandardBook("1231");
+        Book book2 = createStandardBook("4561");
+        Book book3 = createStandardBook("7891");
 
         BookAuthor mainAuthorToTest = new BookAuthor();
         mainAuthorToTest.setBookAuthorName("Main Author");
@@ -134,9 +135,9 @@ public class BookRepositoryImplTest {
 
     @Test
     public void findBooksByPublisher() {
-        Book book1 = createStandardBook("123");
-        Book book2 = createStandardBook("456");
-        Book book3 = createStandardBook("789");
+        Book book1 = createStandardBook("12311");
+        Book book2 = createStandardBook("45622");
+        Book book3 = createStandardBook("78933");
 
         BookPublisher mainPublisherToTest = new BookPublisher();
         mainPublisherToTest.setBookPublisherName("Main Publisher");
