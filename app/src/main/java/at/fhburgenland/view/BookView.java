@@ -102,7 +102,7 @@ public class BookView {
     public int showExistingBookMenu() {
         System.out.println("""
                 -------------------------------------
-                |  Another author for the book?     |
+                |       Choose filter option        |
                 -------------------------------------
                 | (1) Show by ISBN                  |
                 | (2) Search by Title               |
@@ -114,6 +114,23 @@ public class BookView {
                 -------------------------------------
                 """);
         return Integer.parseInt(scanner.nextLine());
+    }
+
+    public int showEditOptionsMenu() {
+        System.out.println("""
+                -------------------------------------
+                |  What would you like to edit?     |
+                -------------------------------------
+                | (1) Title                         |
+                | (2) Genre                         |
+                | (3) Author                        |
+                | (4) Publisher                     |
+                -------------------------------------
+                | (0) Back                          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+
     }
 
     public void printSearchStatistics(List<Book> books) {

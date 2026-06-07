@@ -4,6 +4,7 @@ import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.model.dao.interfaces.BookGenreDao;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.view.BookView;
 
@@ -117,8 +118,43 @@ public class BookController {
                 }
                 case 3 -> {
                     // Edit existing book
-                    // Enter ISBN
-                    // What to change?
+                    String isbnInput = view.getIsbnByUser();
+                    Book bookToBeEdited = repository.findByIsbn(isbnInput);
+                    view.printBook(bookToBeEdited);
+                    switch (view.showExistingBookMenu()) {
+                        case 1 -> {
+                            String bookTitleInput = view.getBookTitleByUser();
+                            bookToBeEdited.setBookTitle(bookTitleInput);
+                            repository.save(bookToBeEdited);
+                        }
+                        case 2 -> {
+                            // Genre
+                            BookGenre updatedBookGenre = new BookGenre();
+                            updatedBookGenre.setBookGenreName(view.getBookGenreByUser());
+                            bookToBeEdited.setBookGenre(updatedBookGenre);
+                            repository.save(bookToBeEdited);
+                        }
+                        case 3 -> {
+                            // Author
+                            Set<BookAuthor> bookAuthorsInput = new HashSet<>();
+                            boolean anotherAuthorWanted = true;
+                            while (anotherAuthorWanted) {
+                                BookAuthor currentBookAuthor = new BookAuthor();
+                                currentBookAuthor.setBookAuthorName(view.getBookAuthorByUser());
+                                bookAuthorsInput.add(currentBookAuthor);
+                                anotherAuthorWanted = view.getBookAuthorChoiceByUser();
+                            }
+                            bookToBeEdited.setBookAuthors(bookAuthorsInput);
+                            repository.save(bookToBeEdited);
+                        }
+                        case 4 -> {
+                            // Publisher
+                            BookPublisher updatedBookPublisher = new BookPublisher();
+                            updatedBookPublisher.setBookPublisherName(view.getBookPublisherByUser());
+                            bookToBeEdited.setBookPublisher(updatedBookPublisher);
+                            repository.save(bookToBeEdited);
+                        }
+                    }
                 }
                 case 4 -> {
                     // Delete book
