@@ -2,6 +2,10 @@ package at.fhburgenland.controller;
 
 import at.fhburgenland.view.LibraryView;
 
+/**
+ * Controller representation of library - maps user input from view to further controlling classes.
+ * Acts as main entry point.
+ */
 public class LibraryController {
     private final LibraryView view;
     private final BookController bookController;

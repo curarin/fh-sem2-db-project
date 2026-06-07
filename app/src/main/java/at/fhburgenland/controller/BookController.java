@@ -12,6 +12,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Controller representation of book - maps user input from view to repository methods.
+ * Also consists of small business logic.
+ */
 public class BookController {
 
     private final BookRepository repository;
@@ -22,6 +26,9 @@ public class BookController {
         this.view = view;
     }
 
+    /**
+     * Run the book controller layer inside a loop.
+     */
     public void start() {
 
         boolean running = true;

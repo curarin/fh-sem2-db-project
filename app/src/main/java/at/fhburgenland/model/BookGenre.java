@@ -2,6 +2,9 @@ package at.fhburgenland.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Book Genre Entity - 1:n relationship to books
+ */
 @Entity(name = "BookGenre")
 @Table(name = "book_genre")
 public class BookGenre {

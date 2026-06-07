@@ -9,6 +9,10 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
+/**
+ * Concrete implementation of BookPublisher DAO - offers CRUD operations as well as additional
+ * read methods for lookups based on ID, name,...
+ */
 public class BookPublisherDaoImpl implements BookPublisherDao {
     private final EntityManager entityManager;
     public BookPublisherDaoImpl(EntityManager entityManager) {

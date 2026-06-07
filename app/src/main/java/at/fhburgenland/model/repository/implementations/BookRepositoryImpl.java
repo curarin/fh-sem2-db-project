@@ -20,6 +20,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Concrete implementation of Book Repository which handles persistence logic and interacts with
+ * DAO layer (with further implements CRUD operations).
+ * FindBy... methods use an exact overlap search (case-insensitive).
+ */
 public class BookRepositoryImpl implements BookRepository {
     private final EntityManagerFactory entityManagerFactory;
 
@@ -82,6 +87,12 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
+    /**
+     * Implements save logic - checks if dependent objects already exist (e.g. Book Author, Publisher, Genre,...) and
+     * handles logic. E.g. if object already exists, it reads the existing entity and passes it into the Book Object.
+     * This is done so we don't violate unique constraints set in JPA Entity
+     * @param updatedBook Book which shall be saved
+     */
     @Override
     public void save(Book updatedBook) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

@@ -2,6 +2,9 @@ package at.fhburgenland.view;
 
 import java.util.Scanner;
 
+/**
+ * Handles library related views which are further passed into library controlling layer
+ */
 public class LibraryView {
     private final Scanner scanner = new Scanner(System.in);
 

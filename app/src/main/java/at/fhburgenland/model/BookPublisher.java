@@ -2,6 +2,9 @@ package at.fhburgenland.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Book Publisher entity - 1:n to Book entity
+ */
 @Entity(name="BookPublisher")
 @Table(name="book_publisher")
 public class BookPublisher {

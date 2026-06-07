@@ -4,6 +4,10 @@ import at.fhburgenland.model.Book;
 
 import java.util.List;
 
+/**
+ * Repository layer which takes input from upstream controlling layer
+ * and passes it further down to persistence layer with data access objects (DAO).
+ */
 public interface BookRepository {
     public Book findByIsbn(String isbn);
     public List<Book> findByBookName(String bookName);

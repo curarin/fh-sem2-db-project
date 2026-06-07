@@ -8,6 +8,10 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
+/**
+ * Concrete implementation of BookGenre DAO - offers CRUD operations as well as additional
+ * read methods for lookups based on ID, name,...
+ */
 public class BookGenreDaoImpl implements BookGenreDao {
     private final EntityManager entityManager;
     private EntityTransaction entityTransaction = null;

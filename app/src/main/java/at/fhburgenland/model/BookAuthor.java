@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
+/**
+ * Book Author entity - m:n to books
+ */
 @Entity(name="BookAuthor")
 @Table(name="book_author")
 public class BookAuthor {
