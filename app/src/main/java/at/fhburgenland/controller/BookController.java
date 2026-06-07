@@ -8,6 +8,7 @@ import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.view.BookView;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class BookController {
@@ -30,11 +31,54 @@ public class BookController {
 
             switch (choice) {
                 case 1 -> {
-                    String isbnInput = view.getIsbnByUser();
-                    view.printBook(repository.findByIsbn(isbnInput));
+                    switch (view.showExistingBookMenu()) {
+                        case 1 -> {
+                            Book foundBook = repository.findByIsbn(view.getIsbnByUser());
+                            if (foundBook != null) {
+                                view.printBook(foundBook);
+                            }
+                        }
+                        case 2 -> {
+                            List<Book> booksByTitle = repository.findByBookName(view.getBookTitleByUser());
+                            for (Book book : booksByTitle) {
+                                if (book != null) {
+                                    view.printBook(book);
+                                }
+                            }
+                            view.printSearchStatistics(booksByTitle);
+                        }
+                        case 3 -> {
+                            List<Book> booksByGenre = repository.findByGenre(view.getBookGenreByUser());
+                            for (Book book : booksByGenre) {
+                                if (book != null) {
+                                    view.printBook(book);
+                                }
+                            }
+                            view.printSearchStatistics(booksByGenre);
+                        }
+                        case 4 -> {
+                            List<Book> booksByPublisher = repository.findByPublisher(view.getBookPublisherByUser());
+                            for (Book book : booksByPublisher) {
+                                if (book != null) {
+                                    view.printBook(book);
+                                }
+                            }
+                            view.printSearchStatistics(booksByPublisher);
+                        }
+                        case 5 -> {
+                            List<Book> booksByAuthor = repository.findByAuthor(view.getBookAuthorByUser());
+                            for (Book book : booksByAuthor) {
+                                if (book != null) {
+                                    view.printBook(book);
+                                }
+                            }
+                            view.printSearchStatistics(booksByAuthor);
+                        }
+                        case 0 -> running = false;
+                    }
+
                 }
                 case 2 -> {
-                    Book book = new Book();
                     String isbnInput = view.getIsbnByUser();
                     if (repository.findByIsbn(isbnInput) != null) {
                         System.out.println("Book already exists");
@@ -51,17 +95,21 @@ public class BookController {
                             bookAuthorsInput.add(currentBookAuthor);
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
+                        Book book = new Book();
+                        BookGenre bookGenre = new BookGenre();
+                        BookPublisher bookPublisher = new BookPublisher();
+
+                        bookGenre.setBookGenreName(bookGenreInput);
+                        bookPublisher.setBookPublisherName(bookPublisherInput);
+
                         book.setBookTitle(bookTitleInput);
                         book.setIsbn(isbnInput);
-
-                        BookGenre bookGenre = new BookGenre();
-                        bookGenre.setBookGenreName(bookGenreInput);
                         book.setBookGenre(bookGenre);
-                        BookPublisher bookPublisher = new BookPublisher();
-                        bookPublisher.setBookPublisherName(bookPublisherInput);
                         book.setBookPublisher(bookPublisher);
                         book.setBookAuthors(bookAuthorsInput);
+
                         repository.save(book);
+                        view.printBook(book);
                     }
 
                 }

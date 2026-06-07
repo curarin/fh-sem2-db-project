@@ -99,6 +99,32 @@ public class BookView {
         return Integer.parseInt(scanner.nextLine());
     }
 
+    public int showExistingBookMenu() {
+        System.out.println("""
+                -------------------------------------
+                |  Another author for the book?     |
+                -------------------------------------
+                | (1) Show by ISBN                  |
+                | (2) Search by Title               |
+                | (3) Search by Genre               |
+                | (4) Search by Publisher           |
+                | (5) Search by Author              |
+                -------------------------------------
+                | (0) Back                          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public void printSearchStatistics(List<Book> books) {
+        String bookPrint = String.format("""
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                | Total Books found: %d             |
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                """, books.size());
+        System.out.println(bookPrint);
+    }
+
     public void printBook(Book book) {
         String bookPrint = String.format("""
                 -------------------------------------
