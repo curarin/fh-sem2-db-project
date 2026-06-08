@@ -6,18 +6,36 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
             <!-- Create Persistence-Unit -->
-    <persistence-unit name="person" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="book" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>at.fhburgenland.Person</class>
+        <class>at.fhburgenland.model.Book</class>
         <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/dbjava"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/dbjava"/>
             <property name="jakarta.persistence.jdbc.user" value="bswe"/>
+
             <property name="jakarta.persistence.jdbc.password" value="fogl"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>
         
+    </persistence-unit>
+    <persistence-unit name="book-unit-test" transaction-type="RESOURCE_LOCAL">
+        <class>at.fhburgenland.model.Book</class>
+        <properties>
+            <!-- JDBC Database Connection Settings -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
+            <property name="jakarta.persistence.jdbc.user" value="sa" />
+            <property name="jakarta.persistence.jdbc.password" value="" />
+
+            <!-- Hibernate ORM Configuration -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+        </properties>
     </persistence-unit>
 </persistence>

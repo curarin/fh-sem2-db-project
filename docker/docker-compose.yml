@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 1024mb
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: dbjava
+      POSTGRES_USER: bswe
+      POSTGRES_PASSWORD: fogl
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
