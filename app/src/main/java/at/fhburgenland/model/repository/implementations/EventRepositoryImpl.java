@@ -2,6 +2,7 @@ package at.fhburgenland.model.repository.implementations;
 
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.Event;
+import at.fhburgenland.model.EventType;
 import at.fhburgenland.model.dao.implementations.BookDaoImpl;
 import at.fhburgenland.model.dao.implementations.EventDaoImpl;
 import at.fhburgenland.model.dao.implementations.EventTypeDaoImpl;
@@ -13,10 +14,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class EventRepositoryImpl implements EventRepository {
     private final EntityManagerFactory entityManagerFactory;
@@ -87,7 +85,12 @@ public class EventRepositoryImpl implements EventRepository {
 
             // Check if Genre already exists - if yes, insert existing one
             EventTypeDao eventTypeDao = new EventTypeDaoImpl(entityManager);
-            updatedEvent.setEventType(eventTypeDao.readByName(updatedEvent.getEventType().getEventTypeName()).stream().findFirst().orElse(updatedEvent.getEventType()));
+            EventType eventType = eventTypeDao.readByName(updatedEvent.getEventType().getEventTypeName()).stream().findFirst().orElse(null);
+            if (eventType == null) {
+                eventType = updatedEvent.getEventType();
+                eventTypeDao.create(eventType);
+            }
+            updatedEvent.setEventType(eventType);
 
             // Check if Book already exists insert existing one
             BookDao bookDao = new BookDaoImpl(entityManager);
@@ -113,6 +116,7 @@ public class EventRepositoryImpl implements EventRepository {
             entityTransaction.commit();
         } catch (Exception exception) {
             System.err.println(exception.getMessage());
+            System.out.println(Arrays.toString(exception.getStackTrace()));
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
