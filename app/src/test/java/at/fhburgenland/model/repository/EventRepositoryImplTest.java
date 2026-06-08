@@ -86,6 +86,14 @@ public class EventRepositoryImplTest {
         book2.setBookGenre(bookGenre);
         book3.setBookGenre(bookGenre);
 
+        book1.setIsbn("1-2-3");
+        book2.setIsbn("1-2-3-4");
+        book3.setIsbn("1-2-3-4-5");
+
+        book1.setBookTitle("Test 1: Book Title");
+        book2.setBookTitle("Test 2: Book Title");
+        book3.setBookTitle("Test 3: Book Title");
+
         book1.setBookAuthors(Set.of(bookAuthor));
         book2.setBookAuthors(Set.of(bookAuthor));
         book3.setBookAuthors(Set.of(bookAuthor));
@@ -93,8 +101,10 @@ public class EventRepositoryImplTest {
         newEvent.setBooks(Set.of(book1, book2, book3));
         eventRepository.save(newEvent);
 
-        assertFalse(newEvent.getBooks().isEmpty());
-        assertEquals(3, newEvent.getBooks().size());
+        Event savedEvent = eventRepository.findById(newEvent.getEventId());
+
+        assertFalse(savedEvent.getBooks().isEmpty());
+        assertEquals(3, savedEvent.getBooks().size());
     }
 
     @Test
