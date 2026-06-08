@@ -9,9 +9,13 @@ import java.util.List;
  */
 public interface BookAuthorDao {
     void create(BookAuthor bookAuthor);
+
     BookAuthor readById(Integer bookAuthorId);
+
     List<BookAuthor> readByName(String authorName);
+
     void update(BookAuthor bookAuthor);
+
     void delete(BookAuthor bookAuthor);
 
 }

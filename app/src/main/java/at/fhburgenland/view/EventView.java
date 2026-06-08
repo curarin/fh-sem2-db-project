@@ -1,7 +1,6 @@
 package at.fhburgenland.view;
 
 import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.Event;
 
 import java.util.Scanner;

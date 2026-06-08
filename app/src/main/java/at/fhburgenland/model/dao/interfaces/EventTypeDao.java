@@ -9,8 +9,12 @@ import java.util.List;
  */
 public interface EventTypeDao {
     void create(EventType eventType);
+
     EventType readById(Integer id);
+
     List<EventType> readByName(String name);
+
     void update(EventType eventType);
+
     void delete(EventType eventType);
 }

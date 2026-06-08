@@ -4,7 +4,6 @@ import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
 import at.fhburgenland.model.BookGenre;
 import at.fhburgenland.model.BookPublisher;
-import at.fhburgenland.model.dao.interfaces.BookGenreDao;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.view.BookView;
 

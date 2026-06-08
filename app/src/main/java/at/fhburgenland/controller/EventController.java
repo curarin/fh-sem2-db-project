@@ -1,16 +1,13 @@
 package at.fhburgenland.controller;
 
-import at.fhburgenland.model.*;
-import at.fhburgenland.model.repository.interfaces.BookRepository;
+import at.fhburgenland.model.Event;
+import at.fhburgenland.model.EventType;
 import at.fhburgenland.model.repository.interfaces.EventRepository;
-import at.fhburgenland.view.BookView;
 import at.fhburgenland.view.EventView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Controller representation of Event - maps user input from view to repository methods.

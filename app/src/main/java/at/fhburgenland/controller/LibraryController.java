@@ -30,7 +30,7 @@ public class LibraryController {
                 case 2 -> {
                     eventController.start();
                 }
-                case 0  -> {
+                case 0 -> {
                     running = false;
                 }
                 default -> {

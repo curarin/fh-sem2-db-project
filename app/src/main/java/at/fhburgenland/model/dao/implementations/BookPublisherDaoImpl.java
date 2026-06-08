@@ -1,10 +1,8 @@
 package at.fhburgenland.model.dao.implementations;
 
-import at.fhburgenland.model.BookGenre;
-import at.fhburgenland.model.dao.interfaces.BookPublisherDao;
 import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.model.dao.interfaces.BookPublisherDao;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -15,6 +13,7 @@ import java.util.List;
  */
 public class BookPublisherDaoImpl implements BookPublisherDao {
     private final EntityManager entityManager;
+
     public BookPublisherDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

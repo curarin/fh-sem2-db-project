@@ -15,13 +15,13 @@ import java.util.Set;
 public class Event {
     @Id
     @GeneratedValue
-    @Column(name="event_id", updatable = false, nullable = false)
+    @Column(name = "event_id", updatable = false, nullable = false)
     private Integer eventId;
 
-    @Column(name="event_name", nullable = false)
+    @Column(name = "event_name", nullable = false)
     private String eventName;
 
-    @Column(name="event_starts_at_ts", nullable = false)
+    @Column(name = "event_starts_at_ts", nullable = false)
     private LocalDateTime eventStartsAtTs;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -60,11 +60,11 @@ public class Event {
         this.books = books;
     }
 
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
-    }
-
     public EventType getEventType() {
         return this.eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 }

@@ -10,9 +10,14 @@ import java.util.List;
  */
 public interface EventRepository {
     public Event findById(Integer id);
+
     public List<Event> findAll();
+
     public List<Event> findByName(String name);
+
     public List<Event> findByType(String eventTypeName);
+
     public void save(Event event);
+
     public void remove(Integer id);
 }
