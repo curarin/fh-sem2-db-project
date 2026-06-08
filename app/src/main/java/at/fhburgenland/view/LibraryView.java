@@ -14,6 +14,7 @@ public class LibraryView {
                 |   ReiMi Library Management System |
                 =====================================
                 | (1) Books                         |
+                | (2) Events                        |
                 -------------------------------------
                 | (0) Exit                          |
                 =====================================
