@@ -87,7 +87,7 @@ public class EventRepositoryImpl implements EventRepository {
 
             // Check if Genre already exists - if yes, insert existing one
             EventTypeDao eventTypeDao = new EventTypeDaoImpl(entityManager);
-            updatedEvent.setEventType(eventTypeDao.readByName(updatedEvent.getEventName()).stream().findFirst().orElse(updatedEvent.getEventType()));
+            updatedEvent.setEventType(eventTypeDao.readByName(updatedEvent.getEventType().getEventTypeName()).stream().findFirst().orElse(updatedEvent.getEventType()));
 
             // Check if Book already exists insert existing one
             BookDao bookDao = new BookDaoImpl(entityManager);
@@ -99,7 +99,11 @@ public class EventRepositoryImpl implements EventRepository {
             updatedEvent.setBooks(checkedBookes);
 
             EventDao eventDao = new EventDaoImpl(entityManager);
-            Event existingEvent = eventDao.readById(updatedEvent.getEventId());
+            Event existingEvent = null;
+
+            if (updatedEvent.getEventId() != null) {
+                existingEvent = eventDao.readById(updatedEvent.getEventId());
+            }
 
             if (existingEvent == null) {
                 eventDao.create(updatedEvent);
@@ -108,6 +112,7 @@ public class EventRepositoryImpl implements EventRepository {
             }
             entityTransaction.commit();
         } catch (Exception exception) {
+            System.err.println(exception.getMessage());
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
@@ -130,6 +135,7 @@ public class EventRepositoryImpl implements EventRepository {
             eventDao.delete(existingEvent);
             entityTransaction.commit();
         } catch (Exception exception) {
+            System.err.println(exception.getMessage());
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }

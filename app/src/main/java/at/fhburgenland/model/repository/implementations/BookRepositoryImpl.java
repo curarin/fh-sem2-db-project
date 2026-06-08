@@ -128,6 +128,7 @@ public class BookRepositoryImpl implements BookRepository {
             }
             entityTransaction.commit();
         } catch (Exception exception) {
+            System.err.println(exception.getMessage());
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
@@ -149,6 +150,7 @@ public class BookRepositoryImpl implements BookRepository {
             bookDao.delete(book);
             entityTransaction.commit();
         } catch (Exception exception) {
+            System.err.println(exception.getMessage());
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
