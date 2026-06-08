@@ -57,8 +57,18 @@ public class EventController {
                                 eventView.printEvent(foundEvent);
                             }
                         }
-                        // Show all
+                        // Search by Event Type
                         case 3 -> {
+                            String eventTypeNameInput = eventView.getEventTypeNameByUser();
+                            List<Event> foundEvent = eventRepository.findByType(eventTypeNameInput);
+                            for (Event event : foundEvent) {
+                                if (event != null) {
+                                    eventView.printEvent(event);
+                                }
+                            }
+                        }
+                        // Show all
+                        case 4 -> {
                             List<Event> foundEvents = eventRepository.findAll();
                             for (Event event : foundEvents) {
                                 if (event != null) {
