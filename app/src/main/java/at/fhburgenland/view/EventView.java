@@ -107,7 +107,8 @@ public class EventView {
                 -------------------------------------
                 | (1) Search by Title               |
                 | (2) Search by ID                  |
-                | (3) Show all                      |
+                | (3) Search by Event Type          |
+                | (4) Show all                      |
                 -------------------------------------
                 | (0) Back                          |
                 -------------------------------------
