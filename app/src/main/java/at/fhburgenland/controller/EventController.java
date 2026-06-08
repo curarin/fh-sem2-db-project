@@ -97,7 +97,44 @@ public class EventController {
                 }
                 // Edit existing event
                 case 3 -> {
-                    System.out.println("To be added");
+                    List<Event> foundEvents = eventRepository.findAll();
+                    if (foundEvents.isEmpty()) {
+                        System.out.println("No events found");
+                    } else {
+                        eventRepository.findAll().forEach(eventView::printEvent);
+                        Integer eventIdInput = eventView.getEventIdByUser();
+                        Event eventToBeEdited = eventRepository.findById(eventIdInput);
+                        eventView.printEvent(eventToBeEdited);
+                        switch (eventView.showEditOptionsMenu()) {
+                            // Event Name
+                            case 1 -> {
+                                String newName = eventView.getEventNameByUser();
+                                eventToBeEdited.setEventName(newName);
+                                eventRepository.save(eventToBeEdited);
+                            }
+                            // Event Type Name
+                            case 2 -> {
+                                String newEventTypeName = eventView.getEventTypeNameByUser();
+                                EventType newEventType = new EventType();
+                                newEventType.setEventTypeName(newEventTypeName);
+                                eventToBeEdited.setEventType(newEventType);
+                                eventRepository.save(eventToBeEdited);
+                            }
+                            // Event Start Date
+                            case 3 -> {
+                                String eventDateInput = eventView.getEventStartDateByUser();
+                                String eventHourInput = eventView.getEventStartHourByUser();
+                                String eventMinuteInput = eventView.getEventStartMinuteByUser();
+
+                                String dateTimeString = eventDateInput + " " + eventHourInput + ":" + eventMinuteInput;
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:m");
+                                LocalDateTime newEventStart = LocalDateTime.parse(dateTimeString, formatter);
+                                eventToBeEdited.setEventStartsAtTs(newEventStart);
+                                eventRepository.save(eventToBeEdited);
+                            }
+                            default -> running = false;
+                        }
+                    }
                 }
                 // DElete Event
                 case 4 -> {

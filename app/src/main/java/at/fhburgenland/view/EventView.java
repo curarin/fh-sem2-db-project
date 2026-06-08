@@ -55,6 +55,21 @@ public class EventView {
         return scanner.nextLine();
     }
 
+    public int showEditOptionsMenu() {
+        System.out.println("""
+                -------------------------------------
+                |  What would you like to edit?     |
+                -------------------------------------
+                | (1) Event Name                    |
+                | (2) Event Type                    |
+                | (3) Event Start Date              |
+                -------------------------------------
+                | (0) Back                          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
     public String getEventStartDateByUser() {
         System.out.println("""
                 -------------------------------------
