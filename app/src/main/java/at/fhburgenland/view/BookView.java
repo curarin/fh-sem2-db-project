@@ -134,7 +134,6 @@ public class BookView {
                 -------------------------------------
                 """);
         return Integer.parseInt(scanner.nextLine());
-
     }
 
     public void printSearchStatistics(List<Book> books) {
