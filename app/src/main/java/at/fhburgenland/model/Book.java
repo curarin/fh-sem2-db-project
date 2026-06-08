@@ -34,6 +34,12 @@ public class Book {
     private Set<BookAuthor> bookAuthors = new HashSet<>();
 
     /**
+     * Each physical book copy can participate in one or many events
+     */
+    @ManyToMany(mappedBy = "books", fetch = FetchType.EAGER)
+    Set<Event> events = new HashSet<>();
+
+    /**
      * Genre category of each physical book copy
      */
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -95,6 +101,14 @@ public class Book {
     }
 
     /**
+     * Returns the set of events, where the book was part of it (m...n)
+     * @return Events
+     */
+    public Set<Event> getBookEvents() {
+        return this.events;
+    }
+
+    /**
      * Returns International Standard Book Number (ISBN)
      *
      * @return ISBN
@@ -130,6 +144,13 @@ public class Book {
         this.bookAuthors = new HashSet<>(bookAuthors);
     }
 
+    /**
+     * Sets the book events
+     * @param events Set of events
+     */
+    public void setBookEvents(Set<Event> events) {
+        this.events = new HashSet<>(events);
+    }
     /**
      * Sets the book Genre
      *
