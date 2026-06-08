@@ -3,7 +3,7 @@
 create sequence streetnumber_id_seq
     as integer;
 
-alter sequence streetnumber_id_seq owner to postgres;
+alter sequence streetnumber_id_seq owner to bswe;
 
 create table zip
 (
@@ -13,7 +13,7 @@ create table zip
 );
 
 alter table zip
-    owner to postgres;
+    owner to bswe;
 
 create table town
 (
@@ -23,7 +23,7 @@ create table town
 );
 
 alter table town
-    owner to postgres;
+    owner to bswe;
 
 create table country
 (
@@ -33,7 +33,7 @@ create table country
 );
 
 alter table country
-    owner to postgres;
+    owner to bswe;
 
 create table event_type
 (
@@ -43,7 +43,7 @@ create table event_type
 );
 
 alter table event_type
-    owner to postgres;
+    owner to bswe;
 
 create table publisher
 (
@@ -53,7 +53,7 @@ create table publisher
 );
 
 alter table publisher
-    owner to postgres;
+    owner to bswe;
 
 create table book_genre
 (
@@ -63,7 +63,7 @@ create table book_genre
 );
 
 alter table book_genre
-    owner to postgres;
+    owner to bswe;
 
 create table author
 (
@@ -73,7 +73,7 @@ create table author
 );
 
 alter table author
-    owner to postgres;
+    owner to bswe;
 
 create table book_location_floor
 (
@@ -83,7 +83,7 @@ create table book_location_floor
 );
 
 alter table book_location_floor
-    owner to postgres;
+    owner to bswe;
 
 create table book_location_shelf
 (
@@ -93,7 +93,7 @@ create table book_location_shelf
 );
 
 alter table book_location_shelf
-    owner to postgres;
+    owner to bswe;
 
 create table event
 (
@@ -106,7 +106,7 @@ create table event
 );
 
 alter table event
-    owner to postgres;
+    owner to bswe;
 
 create table book
 (
@@ -121,7 +121,7 @@ create table book
 );
 
 alter table book
-    owner to postgres;
+    owner to bswe;
 
 create table book_location
 (
@@ -134,7 +134,7 @@ create table book_location
 );
 
 alter table book_location
-    owner to postgres;
+    owner to bswe;
 
 create table book_stock_log
 (
@@ -149,7 +149,7 @@ create table book_stock_log
 );
 
 alter table book_stock_log
-    owner to postgres;
+    owner to bswe;
 
 create table author_book_map
 (
@@ -161,7 +161,7 @@ create table author_book_map
 );
 
 alter table author_book_map
-    owner to postgres;
+    owner to bswe;
 
 create table event_book_map
 (
@@ -173,7 +173,7 @@ create table event_book_map
 );
 
 alter table event_book_map
-    owner to postgres;
+    owner to bswe;
 
 create table street
 (
@@ -183,7 +183,7 @@ create table street
 );
 
 alter table street
-    owner to postgres;
+    owner to bswe;
 
 create table customer
 (
@@ -204,7 +204,7 @@ create table customer
 );
 
 alter table customer
-    owner to postgres;
+    owner to bswe;
 
 create table book_circulation_log
 (
@@ -222,7 +222,7 @@ create table book_circulation_log
 );
 
 alter table book_circulation_log
-    owner to postgres;
+    owner to bswe;
 
 create table customer_event_map
 (
@@ -234,7 +234,7 @@ create table customer_event_map
 );
 
 alter table customer_event_map
-    owner to postgres;
+    owner to bswe;
 
 -- add data
 
