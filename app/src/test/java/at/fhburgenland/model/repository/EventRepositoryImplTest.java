@@ -164,9 +164,6 @@ public class EventRepositoryImplTest {
 
         LocalDateTime first = allFoundEvents.get(0).getEventStartsAtTs();
         LocalDateTime second = allFoundEvents.get(1).getEventStartsAtTs();
-        for (Event foundEvent : allFoundEvents) {
-            System.out.println(foundEvent.getEventStartsAtTs());
-        }
         assertTrue(first.isAfter(second)); // The latest shall be first in list - so when we print its the first to show
     }
 
