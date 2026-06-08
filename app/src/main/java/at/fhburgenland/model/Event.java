@@ -25,7 +25,7 @@ public class Event {
     private LocalDateTime eventStartsAtTs;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "book_event_map", joinColumns = @JoinColumn(name = "isbn"), inverseJoinColumns = @JoinColumn(name = "book_event_id"))
+    @JoinTable(name = "book_event_map", joinColumns = @JoinColumn(name = "book_event_id"), inverseJoinColumns = @JoinColumn(name = "isbn"))
     private Set<Book> books = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.PERSIST)

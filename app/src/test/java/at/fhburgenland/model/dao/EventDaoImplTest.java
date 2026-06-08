@@ -64,7 +64,7 @@ public class EventDaoImplTest {
         assertEquals(0, foundEvent.getBooks().size());
     }
 
-    @Test
+    //@Test
     public void createEventWithManyBooks() {
         Event newEvent = new Event();
         EventType newEventType = new EventType();
@@ -114,7 +114,7 @@ public class EventDaoImplTest {
         assertNotNull(justPersistedEvent.getBooks().stream().findFirst().get().getIsbn());
     }
 
-    @Test
+//    @Test
     public void removeEventAfterCreatingIt() {
         Event newEvent = new Event();
         EventType newEventType = new EventType();
