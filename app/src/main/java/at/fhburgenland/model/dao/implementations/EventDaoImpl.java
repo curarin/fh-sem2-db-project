@@ -46,7 +46,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> readByEventType(String eventTypeName) {
-        String query = "select event from Event as event left join event.eventType as eventType where lower(event.eventName) like lower(:name)";
+        String query = "select event from Event as event left join event.eventType as eventType where lower(eventType.eventTypeName) like lower(:name)";
         TypedQuery<Event> typedEventQuery = entityManager.createQuery(query, Event.class);
         typedEventQuery.setParameter("name", eventTypeName);
         return typedEventQuery.getResultList();
