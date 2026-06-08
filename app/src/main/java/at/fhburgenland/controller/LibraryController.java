@@ -9,10 +9,12 @@ import at.fhburgenland.view.LibraryView;
 public class LibraryController {
     private final LibraryView view;
     private final BookController bookController;
+    private final EventController eventController;
 
-    public LibraryController(LibraryView view, BookController bookController) {
+    public LibraryController(LibraryView view, BookController bookController, EventController eventController) {
         this.view = view;
         this.bookController = bookController;
+        this.eventController = eventController;
     }
 
     public void start() {
@@ -25,7 +27,10 @@ public class LibraryController {
                 case 1 -> {
                     bookController.start();
                 }
-                case 0  -> {
+                case 2 -> {
+                    eventController.start();
+                }
+                case 0 -> {
                     running = false;
                 }
                 default -> {

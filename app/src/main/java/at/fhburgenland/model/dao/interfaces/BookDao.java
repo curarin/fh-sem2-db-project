@@ -9,11 +9,18 @@ import java.util.List;
  */
 public interface BookDao {
     void create(Book book);
+
     Book readByIsbn(String bookIsbn);
+
     List<Book> readByTitle(String bookTitle);
+
     List<Book> readByAuthor(String bookAuthor);
+
     List<Book> readByPublisher(String bookPublisher);
+
     List<Book> readByGenre(String bookGenre);
+
     void update(Book book);
+
     void delete(Book book);
 }

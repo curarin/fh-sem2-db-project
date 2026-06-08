@@ -1,0 +1,151 @@
+package at.fhburgenland.view;
+
+import at.fhburgenland.model.Book;
+import at.fhburgenland.model.Event;
+
+import java.util.Scanner;
+
+public class EventView {
+    private final Scanner scanner = new Scanner(System.in);
+
+    public int showMainMenu() {
+        System.out.println("""
+                =====================================
+                |   ReiMi Library Management System |
+                =====================================
+                | (1) Show existing Event           |
+                | (2) Add new Event                 |
+                | (3) Edit existing Event           |
+                | (4) Delete Event                  |
+                -------------------------------------
+                | (0) Main Menu                     |
+                =====================================
+                """);
+
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public String getEventNameByUser() {
+        System.out.println("""
+                -------------------------------------
+                |     Please enter Event Title      |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public boolean getUserChoiceForBookAddition() {
+        System.out.println("""
+                -------------------------------------
+                |  Add books to current event?      |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        return scanner.nextLine().equals("1");
+    }
+
+    public String getEventTypeNameByUser() {
+        System.out.println("""
+                -------------------------------------
+                |   Please enter Event Type Name    |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public int showEditOptionsMenu() {
+        System.out.println("""
+                -------------------------------------
+                |  What would you like to edit?     |
+                -------------------------------------
+                | (1) Event Name                    |
+                | (2) Event Type                    |
+                | (3) Event Start Date              |
+                -------------------------------------
+                | (0) Back                          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public String getEventStartDateByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Please enter Event Start Date    |
+                |  in this format: YYYY-mm-dd       |
+                |e.g. "2026-06-01" for 1. June 2026 |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public String getEventStartHourByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Please enter Event Start Hour    |
+                |  in this format: 23               |
+                |  "23" when the Event starts       |
+                |  at 23 o'clock                    |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public String getEventStartMinuteByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Please enter Event Start Hour    |
+                |  in this format: 58               |
+                |  "58" when the Event starts       |
+                |  at the 58th minute               |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public Integer getEventIdByUser() {
+        System.out.println("""
+                -------------------------------------
+                |     Please enter Event ID         |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public int showExistingEventMenu() {
+        System.out.println("""
+                -------------------------------------
+                |       Choose filter option        |
+                -------------------------------------
+                | (1) Search by Title               |
+                | (2) Search by ID                  |
+                | (3) Search by Event Type          |
+                | (4) Show all                      |
+                -------------------------------------
+                | (0) Back                          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public void printEvent(Event event) {
+        String bookPrint = String.format("""
+                -------------------------------------
+                |       Event found in system        |
+                -------------------------------------
+                | Event Title: %s
+                | Event Type: %s
+                | Event Starts at: %s
+                | Event ID: %s
+                """, event.getEventName(), event.getEventType().getEventTypeName(), event.getEventStartsAtTs(), event.getEventId());
+        System.out.println(bookPrint);
+        int bookCounter = 1;
+        for (Book book : event.getBooks()) {
+            System.out.printf("| Book (%d): %s (Genre: %s)\n", bookCounter, book.getBookTitle(), book.getBookGenre());
+            bookCounter++;
+        }
+        System.out.print("-------------------------------------\n");
+    }
+}

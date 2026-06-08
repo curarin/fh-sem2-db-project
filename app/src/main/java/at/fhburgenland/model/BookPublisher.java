@@ -5,15 +5,15 @@ import jakarta.persistence.*;
 /**
  * Book Publisher entity - 1:n to Book entity
  */
-@Entity(name="BookPublisher")
-@Table(name="book_publisher")
+@Entity(name = "BookPublisher")
+@Table(name = "book_publisher")
 public class BookPublisher {
     @Id
     @GeneratedValue
-    @Column(name="book_publisher_id", updatable = false, nullable = false)
+    @Column(name = "book_publisher_id", updatable = false, nullable = false)
     private Integer bookPublisherId;
 
-    @Column(name="book_publisher_name", nullable = false, unique = true)
+    @Column(name = "book_publisher_name", nullable = false, unique = true)
     private String bookPublisherName;
 
     public String getBookPublisherName() {

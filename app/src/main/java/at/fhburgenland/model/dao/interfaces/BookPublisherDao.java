@@ -9,8 +9,12 @@ import java.util.List;
  */
 public interface BookPublisherDao {
     void create(BookPublisher bookPublisher);
+
     BookPublisher readById(Integer bookPublisherId);
+
     List<BookPublisher> readByName(String bookPublisherName);
+
     void update(BookPublisher bookPublisher);
+
     void delete(BookPublisher bookPublisher);
 }

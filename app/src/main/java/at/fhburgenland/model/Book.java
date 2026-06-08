@@ -13,26 +13,27 @@ import java.util.Set;
 public class Book {
 
     /**
+     * Each physical book copy can participate in one or many events
+     */
+    @ManyToMany(mappedBy = "books", fetch = FetchType.EAGER)
+    Set<Event> events = new HashSet<>();
+    /**
      * Unique identifier of a physical book copy
      */
     @Id
     @Column(name = "isbn", updatable = false, nullable = false)
     private String isbn;
-
     /**
      * Title of the book as user defined String
      */
     @Column(name = "book_title", nullable = false)
     private String bookTitle;
-
-
     /**
      * One or many authors of each physical book copy
      */
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "author_book_map", joinColumns = @JoinColumn(name = "isbn"), inverseJoinColumns = @JoinColumn(name = "book_author_id"))
     private Set<BookAuthor> bookAuthors = new HashSet<>();
-
     /**
      * Genre category of each physical book copy
      */
@@ -67,43 +68,6 @@ public class Book {
     }
 
     /**
-     * Returns the book genre
-     *
-     * @return BookGenre
-     */
-    public BookGenre getBookGenre() {
-        return this.bookGenre;
-    }
-
-    /**
-     * Returns the book publisher
-     *
-     * @return BookPublisher
-     */
-    public BookPublisher getBookPublisher() {
-        return this.bookPublisher;
-    }
-
-
-    /**
-     * Returns the Set of book authors (1...n)
-     *
-     * @return BookAuthors
-     */
-    public Set<BookAuthor> getBookAuthors() {
-        return this.bookAuthors;
-    }
-
-    /**
-     * Returns International Standard Book Number (ISBN)
-     *
-     * @return ISBN
-     */
-    public String getIsbn() {
-        return this.isbn;
-    }
-
-    /**
      * Sets a new book title
      *
      * @param bookTitle New title of the book
@@ -113,21 +77,12 @@ public class Book {
     }
 
     /**
-     * Sets the International Standard Book Number (ISBN)
+     * Returns the book genre
      *
-     * @param isbn ISBN
+     * @return BookGenre
      */
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    /**
-     * Sets the Book Authors
-     *
-     * @param bookAuthors Set of book Authors
-     */
-    public void setBookAuthors(Set<BookAuthor> bookAuthors) {
-        this.bookAuthors = new HashSet<>(bookAuthors);
+    public BookGenre getBookGenre() {
+        return this.bookGenre;
     }
 
     /**
@@ -140,12 +95,75 @@ public class Book {
     }
 
     /**
+     * Returns the book publisher
+     *
+     * @return BookPublisher
+     */
+    public BookPublisher getBookPublisher() {
+        return this.bookPublisher;
+    }
+
+    /**
      * Sets the books publisher
      *
      * @param bookPublisher Publisher name
      */
     public void setBookPublisher(BookPublisher bookPublisher) {
         this.bookPublisher = bookPublisher;
+    }
+
+    /**
+     * Returns the Set of book authors (1...n)
+     *
+     * @return BookAuthors
+     */
+    public Set<BookAuthor> getBookAuthors() {
+        return this.bookAuthors;
+    }
+
+    /**
+     * Sets the Book Authors
+     *
+     * @param bookAuthors Set of book Authors
+     */
+    public void setBookAuthors(Set<BookAuthor> bookAuthors) {
+        this.bookAuthors = new HashSet<>(bookAuthors);
+    }
+
+    /**
+     * Returns the set of events, where the book was part of it (m...n)
+     *
+     * @return Events
+     */
+    public Set<Event> getBookEvents() {
+        return this.events;
+    }
+
+    /**
+     * Sets the book events
+     *
+     * @param events Set of events
+     */
+    public void setBookEvents(Set<Event> events) {
+        this.events = new HashSet<>(events);
+    }
+
+    /**
+     * Returns International Standard Book Number (ISBN)
+     *
+     * @return ISBN
+     */
+    public String getIsbn() {
+        return this.isbn;
+    }
+
+    /**
+     * Sets the International Standard Book Number (ISBN)
+     *
+     * @param isbn ISBN
+     */
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
 }

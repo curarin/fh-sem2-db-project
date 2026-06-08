@@ -134,7 +134,6 @@ public class BookView {
                 -------------------------------------
                 """);
         return Integer.parseInt(scanner.nextLine());
-
     }
 
     public void printSearchStatistics(List<Book> books) {
@@ -152,7 +151,7 @@ public class BookView {
                 |       Book found in system        |
                 -------------------------------------
                 | Book Title: %s
-                | Book Book Genre: %s
+                | Book Genre: %s
                 | Book Publisher: %s
                 | Book ISBN: %s
                 """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn());

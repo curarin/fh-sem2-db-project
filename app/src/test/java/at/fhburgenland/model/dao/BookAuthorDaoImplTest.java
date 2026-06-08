@@ -22,6 +22,11 @@ public class BookAuthorDaoImplTest {
         entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
     }
 
+    @AfterAll
+    public static void tearDownEntityManagerFactory() {
+        entityManagerFactory.close();
+    }
+
     @BeforeEach
     public void setupEntityManager() {
         entityManager = entityManagerFactory.createEntityManager();
@@ -36,11 +41,6 @@ public class BookAuthorDaoImplTest {
             entityTransaction.rollback();
         }
         entityManager.close();
-    }
-
-    @AfterAll
-    public static void tearDownEntityManagerFactory() {
-        entityManagerFactory.close();
     }
 
     @Test

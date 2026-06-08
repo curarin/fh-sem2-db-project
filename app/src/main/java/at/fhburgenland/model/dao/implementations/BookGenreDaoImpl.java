@@ -1,7 +1,7 @@
 package at.fhburgenland.model.dao.implementations;
 
-import at.fhburgenland.model.dao.interfaces.BookGenreDao;
 import at.fhburgenland.model.BookGenre;
+import at.fhburgenland.model.dao.interfaces.BookGenreDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
