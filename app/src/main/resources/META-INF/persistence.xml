@@ -12,8 +12,15 @@
         <class>at.fhburgenland.model.BookAuthor</class>
         <class>at.fhburgenland.model.BookGenre</class>
         <class>at.fhburgenland.model.BookPublisher</class>
+        <class>at.fhburgenland.model.BookStockLog</class>
+        <class>at.fhburgenland.model.Country</class>
+        <class>at.fhburgenland.model.Customer</class>
         <class>at.fhburgenland.model.Event</class>
         <class>at.fhburgenland.model.EventType</class>
+        <class>at.fhburgenland.model.Street</class>
+        <class>at.fhburgenland.model.Town</class>
+        <class>at.fhburgenland.model.Zip</class>
+        <class>at.fhburgenland.model.CustomerEventMap</class>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
@@ -32,8 +39,14 @@
         <class>at.fhburgenland.model.BookAuthor</class>
         <class>at.fhburgenland.model.BookGenre</class>
         <class>at.fhburgenland.model.BookPublisher</class>
+        <class>at.fhburgenland.model.BookStockLog</class>
+        <class>at.fhburgenland.model.Country</class>
+        <class>at.fhburgenland.model.Customer</class>
         <class>at.fhburgenland.model.Event</class>
         <class>at.fhburgenland.model.EventType</class>
+        <class>at.fhburgenland.model.Street</class>
+        <class>at.fhburgenland.model.Town</class>
+        <class>at.fhburgenland.model.Zip</class>
         <properties>
             <!-- JDBC Database Connection Settings -->
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
