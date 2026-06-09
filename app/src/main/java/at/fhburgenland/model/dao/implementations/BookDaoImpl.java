@@ -1,6 +1,7 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.Book;
+import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.dao.interfaces.BookDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -57,6 +58,14 @@ public class BookDaoImpl implements BookDao {
         String query = "select book from Book as book left join book.bookGenre as bookGenre where lower(bookGenre.bookGenreName) like lower(:bookGenre)";
         TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
         typedBookQuery.setParameter("bookGenre", bookGenre);
+        return typedBookQuery.getResultList();
+    }
+
+    @Override
+    public List<Book> readByStockState(Boolean bookIsCurrentlyInStock) {
+        String query = "select book from Book as book left join book.bookStockLog as bookStockLog where bookStockLog.bookIsInStock = :bookIsCurrentlyInStock";
+        TypedQuery<Book> typedBookQuery = entityManager.createQuery(query, Book.class);
+        typedBookQuery.setParameter("bookIsCurrentlyInStock", bookIsCurrentlyInStock);
         return typedBookQuery.getResultList();
     }
 

@@ -2,14 +2,9 @@ package at.fhburgenland.model.repository.implementations;
 
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.dao.implementations.BookAuthorDaoImpl;
-import at.fhburgenland.model.dao.implementations.BookDaoImpl;
-import at.fhburgenland.model.dao.implementations.BookGenreDaoImpl;
-import at.fhburgenland.model.dao.implementations.BookPublisherDaoImpl;
-import at.fhburgenland.model.dao.interfaces.BookAuthorDao;
-import at.fhburgenland.model.dao.interfaces.BookDao;
-import at.fhburgenland.model.dao.interfaces.BookGenreDao;
-import at.fhburgenland.model.dao.interfaces.BookPublisherDao;
+import at.fhburgenland.model.BookStockLog;
+import at.fhburgenland.model.dao.implementations.*;
+import at.fhburgenland.model.dao.interfaces.*;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -86,6 +81,22 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
+    @Override
+    public List<Book> findByStockState(Boolean bookIsCurrentlyInStock) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+
+            BookDao bookDao = new BookDaoImpl(entityManager);
+            return bookDao.readByStockState(bookIsCurrentlyInStock);
+        } finally {
+            entityManager.close();
+        }
+    }
+
     /**
      * Implements save logic - checks if dependent objects already exist (e.g. Book Author, Publisher, Genre,...) and
      * handles logic. E.g. if object already exists, it reads the existing entity and passes it into the Book Object.
@@ -117,6 +128,16 @@ public class BookRepositoryImpl implements BookRepository {
                 checkedBookAuthors.add(bookAuthorDao.readByName(bookAuthor.getBookAuthorName()).stream().findFirst().orElse(bookAuthor));
             }
             updatedBook.setBookAuthors(checkedBookAuthors);
+
+            // Check if Stock Log already exists
+            BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
+            BookStockLog bockStockLog = bookStockLogDao.findByValue(updatedBook.getBookStockLog().getBookIsInStock());
+
+            if (bockStockLog == null) {
+                bockStockLog = updatedBook.getBookStockLog();
+                bookStockLogDao.create(bockStockLog);
+            }
+            updatedBook.setBookStockLog(bockStockLog);
 
             BookDao bookDao = new BookDaoImpl(entityManager);
             Book existingBook = bookDao.readByIsbn(updatedBook.getIsbn());

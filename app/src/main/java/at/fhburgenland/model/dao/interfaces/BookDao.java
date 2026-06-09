@@ -20,6 +20,8 @@ public interface BookDao {
 
     List<Book> readByGenre(String bookGenre);
 
+    List<Book> readByStockState(Boolean bookIsCurrentlyInStock);
+
     void update(Book book);
 
     void delete(Book book);

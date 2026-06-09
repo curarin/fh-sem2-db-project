@@ -1,9 +1,8 @@
 package at.fhburgenland.model.repository;
 
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.BookGenre;
-import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.model.*;
+import at.fhburgenland.model.dao.implementations.BookStockLogDaoImpl;
+import at.fhburgenland.model.dao.interfaces.BookStockLogDao;
 import at.fhburgenland.model.repository.implementations.BookRepositoryImpl;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import jakarta.persistence.EntityManagerFactory;
@@ -39,9 +38,15 @@ public class BookRepositoryImplTest {
         BookAuthor author = new BookAuthor();
         author.setBookAuthorName(authorName);
 
+        BookStockLog stockLog = new BookStockLog();
+        stockLog.setBookIsInStock(true);
+
         BookGenre genre = new BookGenre();
         String genreName = "Standard Genre".concat(String.valueOf(randomNumber));
         genre.setBookGenreName(genreName);
+
+        BookStockLog bookStockLog = new BookStockLog();
+        bookStockLog.setBookIsInStock(true);
 
         BookPublisher publisher = new BookPublisher();
         String publisherName = "Standard Publisher".concat(String.valueOf(randomNumber));
@@ -57,6 +62,7 @@ public class BookRepositoryImplTest {
         book.setBookGenre(genre);
         book.setBookPublisher(publisher);
         book.setBookAuthors(Set.of(author));
+        book.setBookStockLog(stockLog);
 
         return book;
     }
@@ -78,6 +84,20 @@ public class BookRepositoryImplTest {
         newBook.setBookTitle("New Book Title");
         bookRepository.save(newBook);
         assertEquals("New Book Title", bookRepository.findByIsbn("12344").getBookTitle());
+    }
+
+    @Test
+    public void updateBookWithNewStockState() {
+        Book newBook = createStandardBook("12345");
+        bookRepository.save(newBook);
+        assertNotNull(bookRepository.findByIsbn("12345"));
+        assertTrue(bookRepository.findByIsbn("12345").getBookStockLog().getBookIsInStock());
+
+        BookStockLog stockLog = new BookStockLog();
+        stockLog.setBookIsInStock(false);
+        newBook.setBookStockLog(stockLog);
+        bookRepository.save(newBook);
+        assertFalse(bookRepository.findByIsbn("12345").getBookStockLog().getBookIsInStock());
     }
 
     @Test
