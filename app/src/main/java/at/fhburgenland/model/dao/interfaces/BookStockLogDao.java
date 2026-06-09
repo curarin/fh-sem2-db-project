@@ -11,5 +11,5 @@ public interface BookStockLogDao {
     void create(BookStockLog bookStockLog);
     void update(BookStockLog bookStockLog);
     void delete(BookStockLog bookStockLog);
-    BookStockLog findByValue(boolean bookIsInStock);
+    List<BookStockLog> findByValue(boolean bookIsInStock);
 }

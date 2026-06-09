@@ -105,13 +105,6 @@ public class EventDaoImplTest {
         book2.setBookAuthors(Set.of(bookAuthor));
         book3.setBookAuthors(Set.of(bookAuthor));
 
-        BookStockLog bookStockLog = new BookStockLog();
-        bookStockLog.setBookIsInStock(true);
-
-        book1.setBookStockLog(bookStockLog);
-        book2.setBookStockLog(bookStockLog);
-        book3.setBookStockLog(bookStockLog);
-
         newEvent.setBooks(Set.of(book1, book2, book3));
         eventDao.create(newEvent);
 

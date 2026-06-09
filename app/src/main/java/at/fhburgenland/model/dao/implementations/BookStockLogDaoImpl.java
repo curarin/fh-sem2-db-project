@@ -30,12 +30,12 @@ public class BookStockLogDaoImpl implements BookStockLogDao {
     }
 
     @Override
-    public BookStockLog findByValue(boolean bookIsInStock) {
+    public List<BookStockLog> findByValue(boolean bookIsInStock) {
         BookStockLog bookStockLog = new BookStockLog();
         bookStockLog.setBookIsInStock(bookIsInStock);
         String query = "select bookStockLog from BookStockLog as bookStockLog where bookStockLog.bookIsInStock = :bookIsInStock";
         TypedQuery<BookStockLog> typedQuery = entityManager.createQuery(query, BookStockLog.class);
         typedQuery.setParameter("bookIsInStock", bookIsInStock);
-        return typedQuery.getSingleResultOrNull();
+        return typedQuery.getResultList();
     }
 }

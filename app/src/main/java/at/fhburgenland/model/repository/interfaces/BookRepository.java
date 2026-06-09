@@ -21,6 +21,7 @@ public interface BookRepository {
     public List<Book> findByStockState(Boolean bookIsCurrentlyInStock);
 
     public void save(Book book);
+    public void saveBookCopyCount(Book book, int bookCopyCount);
 
     public void remove(String isbn);
 }

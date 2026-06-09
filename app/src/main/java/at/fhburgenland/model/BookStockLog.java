@@ -13,7 +13,11 @@ public class BookStockLog {
     @Column(name = "book_stock_log_id", updatable = false, nullable = false)
     private Integer bookStockLogId;
 
-    @Column(name = "book_is_in_stock", nullable = false, unique = true)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "isbn", nullable = false)
+    Book book;
+
+    @Column(name = "book_is_in_stock", nullable = false)
     private Boolean bookIsInStock;
 
     public Boolean getBookIsInStock() {
@@ -22,5 +26,13 @@ public class BookStockLog {
 
     public void setBookIsInStock(Boolean bookIsInStock) {
         this.bookIsInStock = bookIsInStock;
+    }
+
+    public Book getBook() {
+        return this.book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }
