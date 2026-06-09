@@ -48,11 +48,19 @@ public class Book {
     @JoinColumn(name = "book_publisher_id", nullable = false)
     private BookPublisher bookPublisher;
 
-    public Book(String isbn, String bookTitle, BookGenre bookGenre, BookPublisher bookPublisher) {
+    /**
+     * Indicator whether a book is currently in stock
+     */
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "book_stock_log_id", nullable = false)
+    private BookStockLog bookStockLog;
+
+    public Book(String isbn, String bookTitle, BookGenre bookGenre, BookPublisher bookPublisher, BookStockLog bockIsInStock) {
         this.isbn = isbn;
         this.bookTitle = bookTitle;
         this.bookGenre = bookGenre;
         this.bookPublisher = bookPublisher;
+        this.bookStockLog = bockIsInStock;
     }
 
     public Book() {
@@ -164,6 +172,22 @@ public class Book {
      */
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    /**
+     * Gets the current book stock state
+     * @return
+     */
+    public BookStockLog getBookStockLog() {
+        return this.bookStockLog;
+    }
+
+    /**
+     * Sets a new Book stock state
+     * @param bookStockLog Indicator if a book is currently in stock or not
+     */
+    public void setBookStockLog(BookStockLog bookStockLog) {
+        this.bookStockLog = bookStockLog;
     }
 
 }
