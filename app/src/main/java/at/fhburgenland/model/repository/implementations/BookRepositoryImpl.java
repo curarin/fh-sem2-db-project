@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,9 +74,33 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public List<Book> findByPublisher(String publisher) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         try {
             BookDao bookDao = new BookDaoImpl(entityManager);
             return bookDao.readByPublisher(publisher);
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public List<Book> findByStockState(Boolean bookIsCurrentlyInStock) {
+        List<Book> books = new ArrayList<>();
+        Set<String> foundIsbns = new HashSet<>();
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
+            for (BookStockLog bookStockLog : bookStockLogDao.findByValue(bookIsCurrentlyInStock)) {
+                // Wir wollen nur unique Bücher hier haben und weil wir da schon auf ne List als Return Type commited
+                // sind, ziehen wir den Spaghetti Code durch um hier ne zusätzliche Logik zu bauen. yolo
+                Book foundBook = bookStockLog.getBook();
+                if (foundIsbns.add(foundBook.getIsbn())) {
+                    books.add(foundBook);
+                }
+            }
+            return books;
         } finally {
             entityManager.close();
         }
@@ -120,6 +145,36 @@ public class BookRepositoryImpl implements BookRepository {
                 bookDao.create(updatedBook);
             } else {
                 bookDao.update(updatedBook);
+            }
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            System.err.println(exception.getMessage());
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public void saveBookCopyCount(Book book, int bookCopyCount) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+
+            BookDao bookDao = new BookDaoImpl(entityManager);
+            Book managedBook = bookDao.readByIsbn(book.getIsbn());
+
+            BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
+            for (int i = 1; i <= bookCopyCount; i++) {
+                BookStockLog bookStockLog = new BookStockLog();
+                bookStockLog.setBook(managedBook);
+                bookStockLog.setBookIsInStock(true);
+                bookStockLogDao.create(bookStockLog);
             }
             entityTransaction.commit();
         } catch (Exception exception) {

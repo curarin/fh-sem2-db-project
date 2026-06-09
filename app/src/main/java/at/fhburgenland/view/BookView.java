@@ -63,10 +63,10 @@ public class BookView {
         return scanner.nextLine();
     }
 
-    public boolean getBookIsInStockChoiceByUser() {
+    public boolean getBookStockStateByUser() {
         System.out.println("""
                 -------------------------------------
-                |  Is the book currently in Stock?  |
+                |  Shall the book be in stock?      |
                 -------------------------------------
                 | (1) Yes                           |
                 | (2) No                            |
@@ -84,6 +84,16 @@ public class BookView {
                 return false;
             }
         }
+    }
+
+    public int getBookCountByUser() {
+        System.out.println("""
+                -------------------------------------
+                |       Please enter the amount     |
+                |           of book copies          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
     }
 
     public boolean getBookAuthorChoiceByUser() {
@@ -153,7 +163,6 @@ public class BookView {
                 | (2) Genre                         |
                 | (3) Author                        |
                 | (4) Publisher                     |
-                | (5) Stock State                   |
                 -------------------------------------
                 | (0) Back                          |
                 -------------------------------------

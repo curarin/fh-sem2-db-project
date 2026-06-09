@@ -1,6 +1,9 @@
 package at.fhburgenland.controller;
 
-import at.fhburgenland.model.*;
+import at.fhburgenland.model.Book;
+import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.BookGenre;
+import at.fhburgenland.model.BookPublisher;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.view.BookView;
 
@@ -38,7 +41,8 @@ public class BookController {
                     // Show & Print books with various combinations of lookups
                     switch (view.showExistingBookMenu()) {
                         case 1 -> {
-                            Book foundBook = repository.findByIsbn(view.getIsbnByUser());
+                            String isbn = view.getIsbnByUser();
+                            Book foundBook = repository.findByIsbn(isbn);
                             if (foundBook != null) {
                                 view.printBook(foundBook);
                             }
@@ -81,7 +85,13 @@ public class BookController {
                         }
                         case 6 -> {
                             // Filter by Stock State true / false
-                            // ToDo
+                            List<Book> booksByStockLockState = repository.findByStockState(view.getBookStockStateByUser());
+                            for (Book book : booksByStockLockState) {
+                                if (book != null) {
+                                    view.printBook(book);
+                                }
+                            }
+                            view.printSearchStatistics(booksByStockLockState);
                         }
                         case 0 -> running = false;
                     }
@@ -105,11 +115,10 @@ public class BookController {
                             bookAuthorsInput.add(currentBookAuthor);
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
-                        Boolean bookIsCurrentlyInStock = view.getBookIsInStockChoiceByUser();
+                        int bookCounter = view.getBookCountByUser();
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();
                         BookPublisher bookPublisher = new BookPublisher();
-
 
                         bookGenre.setBookGenreName(bookGenreInput);
                         bookPublisher.setBookPublisherName(bookPublisherInput);
@@ -121,9 +130,9 @@ public class BookController {
                         book.setBookAuthors(bookAuthorsInput);
 
                         repository.save(book);
+                        repository.saveBookCopyCount(book, bookCounter);
                         view.printBook(book);
                     }
-
                 }
                 case 3 -> {
                     // Edit existing book
@@ -162,10 +171,6 @@ public class BookController {
                             updatedBookPublisher.setBookPublisherName(view.getBookPublisherByUser());
                             bookToBeEdited.setBookPublisher(updatedBookPublisher);
                             repository.save(bookToBeEdited);
-                        }
-                        case 5 -> {
-                            // Stock State
-                            // ToDo
                         }
                     }
                 }
