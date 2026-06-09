@@ -94,12 +94,12 @@ public class EventDaoImplTest {
         book3.setBookGenre(bookGenre);
 
         book1.setIsbn("1-2-3" + UUID.randomUUID());
-        book2.setIsbn("1-2-3-4"+ UUID.randomUUID());
-        book3.setIsbn("1-2-3-4-5"+ UUID.randomUUID());
+        book2.setIsbn("1-2-3-4" + UUID.randomUUID());
+        book3.setIsbn("1-2-3-4-5" + UUID.randomUUID());
 
-        book1.setBookTitle("Test 1: Book Title"+ UUID.randomUUID());
-        book2.setBookTitle("Test 2: Book Title"+ UUID.randomUUID());
-        book3.setBookTitle("Test 3: Book Title"+ UUID.randomUUID());
+        book1.setBookTitle("Test 1: Book Title" + UUID.randomUUID());
+        book2.setBookTitle("Test 2: Book Title" + UUID.randomUUID());
+        book3.setBookTitle("Test 3: Book Title" + UUID.randomUUID());
 
         book1.setBookAuthors(Set.of(bookAuthor));
         book2.setBookAuthors(Set.of(bookAuthor));

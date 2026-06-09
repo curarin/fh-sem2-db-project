@@ -1,8 +1,6 @@
 package at.fhburgenland.model.repository;
 
 import at.fhburgenland.model.*;
-import at.fhburgenland.model.dao.implementations.BookStockLogDaoImpl;
-import at.fhburgenland.model.dao.interfaces.BookStockLogDao;
 import at.fhburgenland.model.repository.implementations.BookRepositoryImpl;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import jakarta.persistence.EntityManagerFactory;

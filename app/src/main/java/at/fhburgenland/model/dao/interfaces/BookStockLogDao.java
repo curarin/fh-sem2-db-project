@@ -9,7 +9,10 @@ import java.util.List;
  */
 public interface BookStockLogDao {
     void create(BookStockLog bookStockLog);
+
     void update(BookStockLog bookStockLog);
+
     void delete(BookStockLog bookStockLog);
+
     List<BookStockLog> findByValue(boolean bookIsInStock);
 }

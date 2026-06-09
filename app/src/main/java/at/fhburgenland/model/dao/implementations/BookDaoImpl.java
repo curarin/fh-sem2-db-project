@@ -1,7 +1,6 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.dao.interfaces.BookDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

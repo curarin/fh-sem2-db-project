@@ -1,6 +1,7 @@
 package at.fhburgenland.model.repository;
 
-import at.fhburgenland.model.*;
+import at.fhburgenland.model.Event;
+import at.fhburgenland.model.EventType;
 import at.fhburgenland.model.repository.implementations.EventRepositoryImpl;
 import at.fhburgenland.model.repository.interfaces.EventRepository;
 import jakarta.persistence.EntityManagerFactory;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

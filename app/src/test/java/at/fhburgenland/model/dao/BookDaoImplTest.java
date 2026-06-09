@@ -1,10 +1,11 @@
 package at.fhburgenland.model.dao;
 
-import at.fhburgenland.model.*;
+import at.fhburgenland.model.Book;
+import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.BookGenre;
+import at.fhburgenland.model.BookPublisher;
 import at.fhburgenland.model.dao.implementations.BookDaoImpl;
-import at.fhburgenland.model.dao.implementations.BookStockLogDaoImpl;
 import at.fhburgenland.model.dao.interfaces.BookDao;
-import at.fhburgenland.model.dao.interfaces.BookStockLogDao;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
 
