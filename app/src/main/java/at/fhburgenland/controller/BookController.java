@@ -114,10 +114,8 @@ public class BookController {
                         Boolean bookIsCurrentlyInStock = view.getBookIsInStockChoiceByUser();
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();
-                        BookStockLog bookStockLog = new BookStockLog();
                         BookPublisher bookPublisher = new BookPublisher();
 
-                        bookStockLog.setBookIsInStock(bookIsCurrentlyInStock);
 
                         bookGenre.setBookGenreName(bookGenreInput);
                         bookPublisher.setBookPublisherName(bookPublisherInput);
@@ -127,7 +125,6 @@ public class BookController {
                         book.setBookGenre(bookGenre);
                         book.setBookPublisher(bookPublisher);
                         book.setBookAuthors(bookAuthorsInput);
-                        book.setBookStockLog(bookStockLog);
 
                         repository.save(book);
                         view.printBook(book);
@@ -174,10 +171,7 @@ public class BookController {
                         }
                         case 5 -> {
                             // Stock State
-                            BookStockLog updatedBookStockLog = new BookStockLog();
-                            updatedBookStockLog.setBookIsInStock(view.getBookIsInStockChoiceByUser());
-                            bookToBeEdited.setBookStockLog(updatedBookStockLog);
-                            repository.save(bookToBeEdited);
+                            // ToDo
                         }
                     }
                 }

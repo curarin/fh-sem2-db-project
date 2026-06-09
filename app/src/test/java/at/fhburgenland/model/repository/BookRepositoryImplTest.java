@@ -45,9 +45,6 @@ public class BookRepositoryImplTest {
         String genreName = "Standard Genre".concat(String.valueOf(randomNumber));
         genre.setBookGenreName(genreName);
 
-        BookStockLog bookStockLog = new BookStockLog();
-        bookStockLog.setBookIsInStock(true);
-
         BookPublisher publisher = new BookPublisher();
         String publisherName = "Standard Publisher".concat(String.valueOf(randomNumber));
         publisher.setBookPublisherName(publisherName);
@@ -62,7 +59,6 @@ public class BookRepositoryImplTest {
         book.setBookGenre(genre);
         book.setBookPublisher(publisher);
         book.setBookAuthors(Set.of(author));
-        book.setBookStockLog(stockLog);
 
         return book;
     }
@@ -86,19 +82,6 @@ public class BookRepositoryImplTest {
         assertEquals("New Book Title", bookRepository.findByIsbn("12344").getBookTitle());
     }
 
-    @Test
-    public void updateBookWithNewStockState() {
-        Book newBook = createStandardBook("12345");
-        bookRepository.save(newBook);
-        assertNotNull(bookRepository.findByIsbn("12345"));
-        assertTrue(bookRepository.findByIsbn("12345").getBookStockLog().getBookIsInStock());
-
-        BookStockLog stockLog = new BookStockLog();
-        stockLog.setBookIsInStock(false);
-        newBook.setBookStockLog(stockLog);
-        bookRepository.save(newBook);
-        assertFalse(bookRepository.findByIsbn("12345").getBookStockLog().getBookIsInStock());
-    }
 
     @Test
     public void removeBookFromDatabase() {

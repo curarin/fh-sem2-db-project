@@ -69,21 +69,9 @@ public class BookDaoImplTest {
         book.setBookGenre(genre);
         book.setBookPublisher(publisher);
         book.setBookAuthors(Set.of(author));
-        book.setBookStockLog(getOrCreateStockLog(true));
         return book;
     }
 
-    private BookStockLog getOrCreateStockLog(boolean value) {
-        BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
-        BookStockLog stockLog = bookStockLogDao.findByValue(value);
-
-        if (stockLog == null) {
-            stockLog = new BookStockLog();
-            stockLog.setBookIsInStock(value);
-            bookStockLogDao.create(stockLog);
-        }
-        return stockLog;
-    }
 
     @AfterEach
     public void tearDownEntityManager() {
@@ -106,8 +94,6 @@ public class BookDaoImplTest {
 
     @Test
     public void createBookFromManyBookAuthors() {
-        BookStockLog bookStockLog = new BookStockLog();
-        bookStockLog.setBookIsInStock(true);
         BookAuthor bookAuthor1 = new BookAuthor();
         bookAuthor1.setBookAuthorName("Standard Author 1");
         BookAuthor bookAuthor2 = new BookAuthor();
@@ -122,7 +108,6 @@ public class BookDaoImplTest {
         bookPublisher.setBookPublisherName("Standard Publisher");
 
         Book bookWithManyAuthors = new Book();
-        bookWithManyAuthors.setBookStockLog(bookStockLog);
         bookWithManyAuthors.setIsbn("123456789");
         bookWithManyAuthors.setBookTitle("Standard Book Title");
         bookWithManyAuthors.setBookGenre(bookGenre);

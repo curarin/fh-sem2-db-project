@@ -129,16 +129,6 @@ public class BookRepositoryImpl implements BookRepository {
             }
             updatedBook.setBookAuthors(checkedBookAuthors);
 
-            // Check if Stock Log already exists
-            BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
-            BookStockLog bockStockLog = bookStockLogDao.findByValue(updatedBook.getBookStockLog().getBookIsInStock());
-
-            if (bockStockLog == null) {
-                bockStockLog = updatedBook.getBookStockLog();
-                bookStockLogDao.create(bockStockLog);
-            }
-            updatedBook.setBookStockLog(bockStockLog);
-
             BookDao bookDao = new BookDaoImpl(entityManager);
             Book existingBook = bookDao.readByIsbn(updatedBook.getIsbn());
 

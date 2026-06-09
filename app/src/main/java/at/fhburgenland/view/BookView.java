@@ -179,8 +179,7 @@ public class BookView {
                 | Book Genre: %s
                 | Book Publisher: %s
                 | Book ISBN: %s
-                | Book is currently in stock: %s
-                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn(), book.getBookStockLog().getBookIsInStock());
+                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn());
         System.out.println(bookPrint);
         int authorCounter = 1;
         for (BookAuthor bookAuthor : book.getBookAuthors()) {
