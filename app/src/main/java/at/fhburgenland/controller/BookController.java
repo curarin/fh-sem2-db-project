@@ -1,9 +1,6 @@
 package at.fhburgenland.controller;
 
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.BookGenre;
-import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.view.BookView;
 
@@ -82,6 +79,16 @@ public class BookController {
                             }
                             view.printSearchStatistics(booksByAuthor);
                         }
+                        case 6 -> {
+                            // Filter by Stock State true / false
+                            List<Book> booksByStockState = repository.findByStockState(view.getBookIsInStockChoiceByUser());
+                            for (Book book : booksByStockState) {
+                                if (book != null) {
+                                    view.printBook(book);
+                                }
+                            }
+                            view.printSearchStatistics(booksByStockState);
+                        }
                         case 0 -> running = false;
                     }
 
@@ -104,9 +111,13 @@ public class BookController {
                             bookAuthorsInput.add(currentBookAuthor);
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
+                        Boolean bookIsCurrentlyInStock = view.getBookIsInStockChoiceByUser();
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();
+                        BookStockLog bookStockLog = new BookStockLog();
                         BookPublisher bookPublisher = new BookPublisher();
+
+                        bookStockLog.setBookIsInStock(bookIsCurrentlyInStock);
 
                         bookGenre.setBookGenreName(bookGenreInput);
                         bookPublisher.setBookPublisherName(bookPublisherInput);
@@ -116,6 +127,7 @@ public class BookController {
                         book.setBookGenre(bookGenre);
                         book.setBookPublisher(bookPublisher);
                         book.setBookAuthors(bookAuthorsInput);
+                        book.setBookStockLog(bookStockLog);
 
                         repository.save(book);
                         view.printBook(book);
@@ -158,6 +170,13 @@ public class BookController {
                             BookPublisher updatedBookPublisher = new BookPublisher();
                             updatedBookPublisher.setBookPublisherName(view.getBookPublisherByUser());
                             bookToBeEdited.setBookPublisher(updatedBookPublisher);
+                            repository.save(bookToBeEdited);
+                        }
+                        case 5 -> {
+                            // Stock State
+                            BookStockLog updatedBookStockLog = new BookStockLog();
+                            updatedBookStockLog.setBookIsInStock(view.getBookIsInStockChoiceByUser());
+                            bookToBeEdited.setBookStockLog(updatedBookStockLog);
                             repository.save(bookToBeEdited);
                         }
                     }

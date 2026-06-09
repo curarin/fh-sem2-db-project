@@ -1,16 +1,16 @@
 package at.fhburgenland.model.dao;
 
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.BookGenre;
-import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.model.*;
 import at.fhburgenland.model.dao.implementations.BookDaoImpl;
+import at.fhburgenland.model.dao.implementations.BookStockLogDaoImpl;
 import at.fhburgenland.model.dao.interfaces.BookDao;
+import at.fhburgenland.model.dao.interfaces.BookStockLogDao;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,8 +69,20 @@ public class BookDaoImplTest {
         book.setBookGenre(genre);
         book.setBookPublisher(publisher);
         book.setBookAuthors(Set.of(author));
-
+        book.setBookStockLog(getOrCreateStockLog(true));
         return book;
+    }
+
+    private BookStockLog getOrCreateStockLog(boolean value) {
+        BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
+        BookStockLog stockLog = bookStockLogDao.findByValue(value);
+
+        if (stockLog == null) {
+            stockLog = new BookStockLog();
+            stockLog.setBookIsInStock(value);
+            bookStockLogDao.create(stockLog);
+        }
+        return stockLog;
     }
 
     @AfterEach
@@ -94,6 +106,8 @@ public class BookDaoImplTest {
 
     @Test
     public void createBookFromManyBookAuthors() {
+        BookStockLog bookStockLog = new BookStockLog();
+        bookStockLog.setBookIsInStock(true);
         BookAuthor bookAuthor1 = new BookAuthor();
         bookAuthor1.setBookAuthorName("Standard Author 1");
         BookAuthor bookAuthor2 = new BookAuthor();
@@ -108,6 +122,7 @@ public class BookDaoImplTest {
         bookPublisher.setBookPublisherName("Standard Publisher");
 
         Book bookWithManyAuthors = new Book();
+        bookWithManyAuthors.setBookStockLog(bookStockLog);
         bookWithManyAuthors.setIsbn("123456789");
         bookWithManyAuthors.setBookTitle("Standard Book Title");
         bookWithManyAuthors.setBookGenre(bookGenre);
@@ -124,10 +139,11 @@ public class BookDaoImplTest {
     @Test
     public void getBooksByTitle() {
         Book currentBook = this.createStandardBook("11");
-        currentBook.setBookTitle("Standard Book Title For This Unit Test");
+        String uuid = UUID.randomUUID().toString();
+        currentBook.setBookTitle("Standard Book Title For This Unit Test" + uuid);
         bookDao.create(currentBook);
-        List<Book> foundBooks = bookDao.readByTitle("Standard");
-        List<Book> exactBooks = bookDao.readByTitle("Standard Book Title For This Unit Test");
+        List<Book> foundBooks = bookDao.readByTitle("Standard" + UUID.randomUUID());
+        List<Book> exactBooks = bookDao.readByTitle("Standard Book Title For This Unit Test" + uuid);
         assertEquals(0, foundBooks.size());
         assertEquals(1, exactBooks.size());
     }

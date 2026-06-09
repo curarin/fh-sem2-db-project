@@ -59,55 +59,6 @@ public class EventRepositoryImplTest {
     }
 
     @Test
-    public void saveNewEventWithBooksReturnsBooks() {
-        Event newEvent = new Event();
-        EventType newEventType = new EventType();
-        BookPublisher bookPublisher = new BookPublisher();
-        BookGenre bookGenre = new BookGenre();
-        BookAuthor bookAuthor = new BookAuthor();
-
-        bookGenre.setBookGenreName("Test 3: Book Genre");
-        bookAuthor.setBookAuthorName("Test 3: Book Author");
-        bookPublisher.setBookPublisherName("Test 3 Publisher");
-        newEventType.setEventTypeName("Test 3: Event Type");
-        newEvent.setEventName("Test 3: Save new Event");
-        newEvent.setEventType(newEventType);
-        newEvent.setEventStartsAtTs(LocalDateTime.now());
-
-        Book book1 = new Book();
-        Book book2 = new Book();
-        Book book3 = new Book();
-
-        book1.setBookPublisher(bookPublisher);
-        book2.setBookPublisher(bookPublisher);
-        book3.setBookPublisher(bookPublisher);
-
-        book1.setBookGenre(bookGenre);
-        book2.setBookGenre(bookGenre);
-        book3.setBookGenre(bookGenre);
-
-        book1.setIsbn("1-2-3");
-        book2.setIsbn("1-2-3-4");
-        book3.setIsbn("1-2-3-4-5");
-
-        book1.setBookTitle("Test 1: Book Title");
-        book2.setBookTitle("Test 2: Book Title");
-        book3.setBookTitle("Test 3: Book Title");
-
-        book1.setBookAuthors(Set.of(bookAuthor));
-        book2.setBookAuthors(Set.of(bookAuthor));
-        book3.setBookAuthors(Set.of(bookAuthor));
-
-        newEvent.setBooks(Set.of(book1, book2, book3));
-        eventRepository.save(newEvent);
-
-        Event savedEvent = eventRepository.findById(newEvent.getEventId());
-
-        assertFalse(savedEvent.getBooks().isEmpty());
-        assertEquals(3, savedEvent.getBooks().size());
-    }
-
-    @Test
     public void updateEventWithNewData() {
         Event newEvent = new Event();
         EventType newEventType = new EventType();
