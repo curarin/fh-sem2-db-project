@@ -63,6 +63,29 @@ public class BookView {
         return scanner.nextLine();
     }
 
+    public boolean getBookIsInStockChoiceByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Is the book currently in Stock?  |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        switch (scanner.nextLine()) {
+            case "1" -> {
+                return true;
+            }
+            case "2" -> {
+                return false;
+            }
+            default -> {
+                printMessage("Please enter a valid choice");
+                return false;
+            }
+        }
+    }
+
     public boolean getBookAuthorChoiceByUser() {
         System.out.println("""
                 -------------------------------------
@@ -113,6 +136,7 @@ public class BookView {
                 | (3) Search by Genre               |
                 | (4) Search by Publisher           |
                 | (5) Search by Author              |
+                | (6) Search by Stock State         |
                 -------------------------------------
                 | (0) Back                          |
                 -------------------------------------
@@ -129,6 +153,7 @@ public class BookView {
                 | (2) Genre                         |
                 | (3) Author                        |
                 | (4) Publisher                     |
+                | (5) Stock State                   |
                 -------------------------------------
                 | (0) Back                          |
                 -------------------------------------
@@ -154,7 +179,8 @@ public class BookView {
                 | Book Genre: %s
                 | Book Publisher: %s
                 | Book ISBN: %s
-                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn());
+                | Book is currently in stock: %s
+                """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn(), book.getBookStockLog().getBookIsInStock());
         System.out.println(bookPrint);
         int authorCounter = 1;
         for (BookAuthor bookAuthor : book.getBookAuthors()) {
