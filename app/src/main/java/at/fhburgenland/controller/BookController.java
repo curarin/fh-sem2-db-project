@@ -81,13 +81,7 @@ public class BookController {
                         }
                         case 6 -> {
                             // Filter by Stock State true / false
-                            List<Book> booksByStockState = repository.findByStockState(view.getBookIsInStockChoiceByUser());
-                            for (Book book : booksByStockState) {
-                                if (book != null) {
-                                    view.printBook(book);
-                                }
-                            }
-                            view.printSearchStatistics(booksByStockState);
+                            // ToDo
                         }
                         case 0 -> running = false;
                     }

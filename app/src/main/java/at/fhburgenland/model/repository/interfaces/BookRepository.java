@@ -18,7 +18,6 @@ public interface BookRepository {
     public List<Book> findByGenre(String genre);
 
     public List<Book> findByPublisher(String publisher);
-    public List<Book> findByStockState(Boolean bookIsCurrentlyInStock);
 
     public void save(Book book);
 

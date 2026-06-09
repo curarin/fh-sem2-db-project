@@ -81,22 +81,6 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
-    @Override
-    public List<Book> findByStockState(Boolean bookIsCurrentlyInStock) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = null;
-
-        try {
-            entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-
-            BookDao bookDao = new BookDaoImpl(entityManager);
-            return bookDao.readByStockState(bookIsCurrentlyInStock);
-        } finally {
-            entityManager.close();
-        }
-    }
-
     /**
      * Implements save logic - checks if dependent objects already exist (e.g. Book Author, Publisher, Genre,...) and
      * handles logic. E.g. if object already exists, it reads the existing entity and passes it into the Book Object.
