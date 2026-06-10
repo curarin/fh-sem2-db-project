@@ -33,4 +33,12 @@ public class BookLocation {
     public void setBookLocationShelf(BookLocationShelf bookLocationShelf) {
         this.bookLocationShelf = bookLocationShelf;
     }
+
+    public BookLocationFloor getBookLocationFloor() {
+        return this.bookLocationFloor;
+    }
+
+    public BookLocationShelf getBookLocationShelf() {
+        return this.bookLocationShelf;
+    }
 }
