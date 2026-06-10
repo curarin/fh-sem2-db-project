@@ -116,6 +116,9 @@ public class BookController {
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
                         int bookCounter = view.getBookCountByUser();
+                        int bookLocationFloor = view.getBookLocationFloorByUser();
+                        int bookLocationShelf = view.getBookLocationShelfByUser();
+
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();
                         BookPublisher bookPublisher = new BookPublisher();
@@ -128,6 +131,8 @@ public class BookController {
                         book.setBookGenre(bookGenre);
                         book.setBookPublisher(bookPublisher);
                         book.setBookAuthors(bookAuthorsInput);
+
+                        // ToDo: Set location
 
                         repository.save(book);
                         repository.saveBookCopyCount(book, bookCounter);
