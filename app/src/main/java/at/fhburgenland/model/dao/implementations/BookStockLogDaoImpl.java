@@ -38,4 +38,12 @@ public class BookStockLogDaoImpl implements BookStockLogDao {
         typedQuery.setParameter("bookIsInStock", bookIsInStock);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<BookStockLog> findByIsbn(String isbn) {
+        String query = "select bookStockLog from BookStockLog as bookStockLog where bookStockLog.book.isbn = :isbn";
+        TypedQuery<BookStockLog> typedQuery = entityManager.createQuery(query, BookStockLog.class);
+        typedQuery.setParameter("isbn", isbn);
+        return typedQuery.getResultList();
+    }
 }
