@@ -115,9 +115,10 @@ public class BookController {
                             bookAuthorsInput.add(currentBookAuthor);
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
-                        int bookCounter = view.getBookCountByUser();
                         int bookLocationFloor = view.getBookLocationFloorByUser();
                         int bookLocationShelf = view.getBookLocationShelfByUser();
+                        int bookCounter = view.getBookCountByUser(bookLocationFloor, bookLocationShelf);
+
 
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();

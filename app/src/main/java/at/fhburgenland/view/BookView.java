@@ -108,13 +108,20 @@ public class BookView {
         }
     }
 
-    public int getBookCountByUser() {
-        System.out.println("""
+    public int getBookCountByUser(Integer floorNumber, Integer shelfNumber) {
+        String output = String.format("""
                 -------------------------------------
+                |   How many physical book copies   |
+                |  are located at chosen location:  |
+                |                                   |
+                |   Floor: %d                       |
+                |   Shelf: %d                       |
+                |                                   |
                 |       Please enter the amount     |
                 |           of book copies          |
                 -------------------------------------
-                """);
+                """, floorNumber, shelfNumber);
+        System.out.println(output);
         return Integer.parseInt(scanner.nextLine());
     }
 
