@@ -29,5 +29,51 @@ public class BookCirculationLog {
     @JoinColumn(name = "fk_stockid")
     private BookStockLog fkStockid;
 
+    public Integer getBookCirculationLogId() {
+        return bookCirculationLogId;
+    }
 
+    public void setBookCirculationLogId(Integer bookCirculationLogId) {
+        this.bookCirculationLogId = bookCirculationLogId;
+    }
+
+    public LocalDate getLoanStartsAtDate() {
+        return loanStartsAtDate;
+    }
+
+    public void setLoanStartsAtDate(LocalDate loanStartsAtDate) {
+        this.loanStartsAtDate = loanStartsAtDate;
+    }
+
+    public LocalDate getLoanEndsAtDate() {
+        return loanEndsAtDate;
+    }
+
+    public void setLoanEndsAtDate(LocalDate loanEndsAtDate) {
+        this.loanEndsAtDate = loanEndsAtDate;
+    }
+
+    public LocalDate getBookReturnedAtDate() {
+        return bookReturnedAtDate;
+    }
+
+    public void setBookReturnedAtDate(LocalDate bookReturnedAtDate) {
+        this.bookReturnedAtDate = bookReturnedAtDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public BookStockLog getFkStockid() {
+        return fkStockid;
+    }
+
+    public void setFkStockid(BookStockLog fkStockid) {
+        this.fkStockid = fkStockid;
+    }
 }
