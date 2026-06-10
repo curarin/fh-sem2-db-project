@@ -1,9 +1,6 @@
 package at.fhburgenland.controller;
 
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.BookGenre;
-import at.fhburgenland.model.BookPublisher;
+import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.view.BookView;
 
@@ -45,6 +42,7 @@ public class BookController {
                             Book foundBook = repository.findByIsbn(isbn);
                             if (foundBook != null) {
                                 view.printBook(foundBook);
+                                view.printStockStatistics(repository.findStockByIsbn(isbn));
                             }
                         }
                         case 2 -> {
@@ -115,14 +113,23 @@ public class BookController {
                             bookAuthorsInput.add(currentBookAuthor);
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
-                        int bookLocationFloor = view.getBookLocationFloorByUser();
-                        int bookLocationShelf = view.getBookLocationShelfByUser();
-                        int bookCounter = view.getBookCountByUser(bookLocationFloor, bookLocationShelf);
+                        int bookLocationFloorInput = view.getBookLocationFloorByUser();
+                        int bookLocationShelfInput = view.getBookLocationShelfByUser();
+                        int bookCounter = view.getBookCountByUser(bookLocationFloorInput, bookLocationShelfInput);
 
 
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();
                         BookPublisher bookPublisher = new BookPublisher();
+
+                        BookLocation bookLocation = new BookLocation();
+                        BookLocationFloor bookLocationFloor = new BookLocationFloor();
+                        BookLocationShelf bookLocationShelf = new BookLocationShelf();
+
+                        bookLocationFloor.setBookLocationFloorNumber(bookLocationFloorInput);
+                        bookLocationShelf.setBookLocationShelfNumber(bookLocationShelfInput);
+                        bookLocation.setBookLocationFloor(bookLocationFloor);
+                        bookLocation.setBookLocationShelf(bookLocationShelf);
 
                         bookGenre.setBookGenreName(bookGenreInput);
                         bookPublisher.setBookPublisherName(bookPublisherInput);
@@ -133,10 +140,8 @@ public class BookController {
                         book.setBookPublisher(bookPublisher);
                         book.setBookAuthors(bookAuthorsInput);
 
-                        // ToDo: Set location
-
                         repository.save(book);
-                        repository.saveBookCopyCount(book, bookCounter);
+                        repository.saveBookCopyCount(book, bookCounter, bookLocation);
                         view.printBook(book);
                     }
                 }

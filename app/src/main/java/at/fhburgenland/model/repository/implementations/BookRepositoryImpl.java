@@ -2,6 +2,7 @@ package at.fhburgenland.model.repository.implementations;
 
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.BookLocation;
 import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.dao.implementations.*;
 import at.fhburgenland.model.dao.interfaces.*;
@@ -83,6 +84,12 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 
+    /**
+     * Returns unique ISBNs - User story behind is: 'I want to know which books are in stock, no matter the exact count'
+     *
+     * @param bookIsCurrentlyInStock Is in stock true / false
+     * @return List of Books
+     */
     @Override
     public List<Book> findByStockState(Boolean bookIsCurrentlyInStock) {
         List<Book> books = new ArrayList<>();
@@ -101,6 +108,18 @@ public class BookRepositoryImpl implements BookRepository {
                 }
             }
             return books;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public List<BookStockLog> findStockByIsbn(String isbn) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
+            return bookStockLogDao.findByIsbn(isbn);
         } finally {
             entityManager.close();
         }
@@ -158,7 +177,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void saveBookCopyCount(Book book, int bookCopyCount) {
+    public void saveBookCopyCount(Book book, int bookCopyCount, BookLocation bookLocation) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = null;
 
@@ -172,6 +191,7 @@ public class BookRepositoryImpl implements BookRepository {
             BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
             for (int i = 1; i <= bookCopyCount; i++) {
                 BookStockLog bookStockLog = new BookStockLog();
+                bookStockLog.setBookLocation(bookLocation);
                 bookStockLog.setBook(managedBook);
                 bookStockLog.setBookIsInStock(true);
                 bookStockLogDao.create(bookStockLog);

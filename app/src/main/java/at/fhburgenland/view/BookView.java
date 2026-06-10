@@ -2,9 +2,13 @@ package at.fhburgenland.view;
 
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.BookLocation;
+import at.fhburgenland.model.BookStockLog;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Handles views related to book stuff - e.g. prompt user for ISBN, Author, Book Title,...
@@ -208,15 +212,48 @@ public class BookView {
         System.out.println(bookPrint);
     }
 
+    public void printStockStatistics(List<BookStockLog> stock) {
+        int inStockCounter = 0;
+        Set<BookLocation> foundLocations = new HashSet<>();
+
+        for (BookStockLog bookStockLog : stock) {
+            if (bookStockLog.getBookIsInStock()) {
+                inStockCounter++;
+            }
+        }
+        String stockPrint = String.format("""
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                |       Total book copies           |
+                |       currently in stock:         |
+                |               %d                  |
+                -------------------------------------
+                |           Located at:             |
+                """, inStockCounter);
+        System.out.println(stockPrint);
+        for (BookStockLog bookStockLog : stock) {
+            if (bookStockLog.getBookIsInStock()) {
+                if (foundLocations.add(bookStockLog.getBookLocation())) {
+                    String locatedAt = String.format("""
+                            | Floor: %d                         |
+                            | Shelf: %d                         |
+                            """, bookStockLog.getBookLocation().getBookLocationFloor().getBookLocationFloorNumber(), bookStockLog.getBookLocation().getBookLocationShelf().getBookLocationShelfNumber());
+                    System.out.print(locatedAt);
+                }
+
+            }
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
     public void printBook(Book book) {
         String bookPrint = String.format("""
                 -------------------------------------
                 |       Book found in system        |
                 -------------------------------------
-                | Book Title: %s
-                | Book Genre: %s
-                | Book Publisher: %s
-                | Book ISBN: %s
+                | Book Title: %s                    |
+                | Book Genre: %s                    |
+                | Book Publisher: %s                |
+                | Book ISBN: %s                     |
                 """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn());
         System.out.println(bookPrint);
         int authorCounter = 1;
