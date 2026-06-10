@@ -45,6 +45,28 @@ public class BookView {
         return scanner.nextLine();
     }
 
+    public Integer getBookLocationFloorByUser() {
+        System.out.println("""
+                -------------------------------------
+                |       On which floor is           |
+                |        the book located?          |
+                |   enter number - e.g. "5"         |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public Integer getBookLocationShelfByUser() {
+        System.out.println("""
+                -------------------------------------
+                |       In which shelf is           |
+                |        the book located?          |
+                |   enter number - e.g. "5"         |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
     public String getBookPublisherByUser() {
         System.out.println("""
                 -------------------------------------
