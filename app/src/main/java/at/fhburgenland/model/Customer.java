@@ -63,6 +63,14 @@ public class Customer {
         this.lastName = lastName;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     public Country getCountry() {
         return country;
     }
