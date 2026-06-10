@@ -29,4 +29,9 @@ public class BookLocationFloorDaoImpl implements BookLocationFloorDao {
     public BookLocationFloor readById(Integer bookLocationFloorId) {
         return entityManager.find(BookLocationFloor.class, bookLocationFloorId);
     }
+
+    @Override
+    public BookLocationFloor readByNumber(Integer bookLocationFloorNumber) {
+        return entityManager.find(BookLocationFloor.class, bookLocationFloorNumber);
+    }
 }

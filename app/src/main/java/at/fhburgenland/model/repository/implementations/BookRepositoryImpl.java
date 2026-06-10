@@ -1,9 +1,6 @@
 package at.fhburgenland.model.repository.implementations;
 
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.BookLocation;
-import at.fhburgenland.model.BookStockLog;
+import at.fhburgenland.model.*;
 import at.fhburgenland.model.dao.implementations.*;
 import at.fhburgenland.model.dao.interfaces.*;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
@@ -186,12 +183,36 @@ public class BookRepositoryImpl implements BookRepository {
             entityTransaction.begin();
 
             BookDao bookDao = new BookDaoImpl(entityManager);
+            BookLocationDao bookLocationDao = new BookLocationDaoImpl(entityManager);
+            BookLocationFloorDao bookLocationFloorDao = new BookLocationFloorDaoImpl(entityManager);
+            BookLocationShelfDao bookLocationShelfDao = new BookLocationShelfDaoImpl(entityManager);
+            BookLocationFloor managedFloor = bookLocationFloorDao.readByNumber(bookLocation.getBookLocationFloor().getBookLocationFloorNumber());
+            BookLocationShelf managedShelf = bookLocationShelfDao.readByNumber(bookLocation.getBookLocationShelf().getBookLocationShelfNumber());
+
             Book managedBook = bookDao.readByIsbn(book.getIsbn());
+
+            if (managedFloor == null) {
+                managedFloor = bookLocation.getBookLocationFloor();
+                bookLocationFloorDao.create(managedFloor);
+            }
+            if (managedShelf == null) {
+                managedShelf = bookLocation.getBookLocationShelf();
+                bookLocationShelfDao.create(managedShelf);
+            }
+
+            BookLocation managedLocation = bookLocationDao.readByFloorAndShelf(managedFloor, managedShelf);
+
+            if (managedLocation == null) {
+                managedLocation = new BookLocation();
+                managedLocation.setBookLocationFloor(managedFloor);
+                managedLocation.setBookLocationShelf(managedShelf);
+                bookLocationDao.create(managedLocation);
+            }
 
             BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
             for (int i = 1; i <= bookCopyCount; i++) {
                 BookStockLog bookStockLog = new BookStockLog();
-                bookStockLog.setBookLocation(bookLocation);
+                bookStockLog.setBookLocation(managedLocation);
                 bookStockLog.setBook(managedBook);
                 bookStockLog.setBookIsInStock(true);
                 bookStockLogDao.create(bookStockLog);

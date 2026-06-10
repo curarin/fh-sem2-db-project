@@ -10,4 +10,5 @@ public interface BookLocationFloorDao {
     void update(BookLocationFloor bookLocationFloor);
     void delete(BookLocationFloor bookLocationFloor);
     BookLocationFloor readById(Integer bookLocationFloorId);
+    BookLocationFloor readByNumber(Integer bookLocationFloorNumber);
 }

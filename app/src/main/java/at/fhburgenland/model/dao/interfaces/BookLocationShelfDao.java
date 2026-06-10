@@ -10,4 +10,5 @@ public interface BookLocationShelfDao {
     void update(BookLocationShelf bookLocationShelf);
     void delete(BookLocationShelf bookLocationShelf);
     BookLocationShelf readById(Integer bookLocationId);
+    BookLocationShelf readByNumber(Integer bookLocationFloorNumber);
 }

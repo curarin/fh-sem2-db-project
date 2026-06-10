@@ -30,5 +30,10 @@ public class BookLocationShelfDaoImpl implements BookLocationShelfDao {
         return entityManager.find(BookLocationShelf.class, bookLocationId);
     }
 
+    @Override
+    public BookLocationShelf readByNumber(Integer bookLocationFloorNumber) {
+        return entityManager.find(BookLocationShelf.class, bookLocationFloorNumber);
+    }
+
 
 }
