@@ -21,6 +21,7 @@
         <class>at.fhburgenland.model.Town</class>
         <class>at.fhburgenland.model.Zip</class>
         <class>at.fhburgenland.model.CustomerEventMap</class>
+        <class>at.fhburgenland.model.BookCirculationLog</class>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
