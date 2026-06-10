@@ -154,4 +154,37 @@ public class BookRepositoryImplTest {
         assertFalse(bookRepository.findByPublisher(mainPublisherToTest.getBookPublisherName()).isEmpty());
         assertEquals(3, bookRepository.findByPublisher(mainPublisherToTest.getBookPublisherName()).size());
     }
+
+    @Test
+    public void create30PhysicalCopiesOfABook() {
+        Book uniqueBook = new Book();
+        uniqueBook.setIsbn("UNIQUE");
+        BookAuthor mainAuthorForUniqueBook = new BookAuthor();
+        mainAuthorForUniqueBook.setBookAuthorName("Main Author for Unique Book");
+
+        BookPublisher mainPublisherForUniqueBook = new BookPublisher();
+        mainPublisherForUniqueBook.setBookPublisherName("Main Publisher for Unique Book");
+
+        BookGenre mainGenreForUniqueBook = new BookGenre();
+        mainGenreForUniqueBook.setBookGenreName("Main Genre for Unique Book");
+
+        uniqueBook.setBookGenre(mainGenreForUniqueBook);
+        uniqueBook.setBookAuthors(Set.of(mainAuthorForUniqueBook));
+        uniqueBook.setBookPublisher(mainPublisherForUniqueBook);
+
+        uniqueBook.setBookTitle("Book which is about to be super unique");
+
+        BookLocation mainLocationForUniqueBook = new BookLocation();
+        BookLocationFloor mainLocationFloorForUniqueBook = new BookLocationFloor();
+        mainLocationFloorForUniqueBook.setBookLocationFloorNumber(1);
+        BookLocationShelf mainLocationShelfForUniqueBook = new BookLocationShelf();
+        mainLocationShelfForUniqueBook.setBookLocationShelfNumber(1);
+        mainLocationForUniqueBook.setBookLocationFloor(mainLocationFloorForUniqueBook);
+        mainLocationForUniqueBook.setBookLocationShelf(mainLocationShelfForUniqueBook);
+
+        bookRepository.save(uniqueBook);
+        bookRepository.saveBookCopyCount(bookRepository.findByIsbn(uniqueBook.getIsbn()), 30, mainLocationForUniqueBook);
+
+        assertEquals(30, bookRepository.findStockByIsbn(uniqueBook.getIsbn()).size());
+    }
 }
