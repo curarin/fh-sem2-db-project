@@ -15,7 +15,7 @@ public class BookLocationShelf {
     @Column(name = "book_location_shelf_id", updatable = false, nullable = false)
     private Integer bookLocationShelfId;
 
-    @Column(name = "book_location_floor_number", nullable = false, unique = true)
+    @Column(name = "book_location_shelf_number", nullable = false, unique = true)
     private Integer bookLocationShelfNumber;
 
     public Integer getBookLocationShelfId() {
