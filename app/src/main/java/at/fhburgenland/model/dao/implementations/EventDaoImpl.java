@@ -21,7 +21,6 @@ public class EventDaoImpl implements EventDao {
     @Override
     public void create(Event event) {
         entityManager.persist(event);
-
     }
 
     @Override
