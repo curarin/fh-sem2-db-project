@@ -33,7 +33,7 @@ public class ZipDaoImpl implements ZipDao {
         String query = "select m from Zip m where lower(m.zipCode) = lower(:name)";
         TypedQuery<Zip> typedQuery = entityManager.createQuery(query, Zip.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList().getFirst();
+        return typedQuery.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override

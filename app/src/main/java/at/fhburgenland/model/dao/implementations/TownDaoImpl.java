@@ -33,7 +33,7 @@ public class TownDaoImpl implements TownDao {
         String query = "select t from Town t where lower(t.townName) = lower(:name)";
         TypedQuery<Town> typedQuery = entityManager.createQuery(query, Town.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList().getFirst();
+        return typedQuery.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override

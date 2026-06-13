@@ -42,18 +42,61 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAll() {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            CustomerDao customerDao = new CustomerDaoImpl(entityManager);
+            return customerDao.findAll();
+        }
+    }
+
+    @Override
     public Customer create(Customer customer) {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            CustomerDao customerDao = new CustomerDaoImpl(entityManager);
+            customerDao.create(customer);
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            throw new RuntimeException(exception);
+        } finally {
+            entityManager.close();
+        }
+        return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            CustomerDao customerDao = new CustomerDaoImpl(entityManager);
+            customerDao.update(customer);
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            throw new RuntimeException(exception);
+        } finally {
+            entityManager.close();
+        }
+        return customer;
     }
 
     @Override
-    public void save(String firstName, String lastName, String streetString,
-                     String zipString, String townString, String countryString) {
+    public boolean save(String firstName, String lastName, String streetString, String zipString, String townString, String cityString, String countryString) {
+
+        boolean entityCreated = false;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = null;
 
@@ -65,10 +108,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             ZipDao zipDao = new ZipDaoImpl(entityManager);
             StreetDao streetDao = new StreetDaoImpl(entityManager);
             TownDao townDao = new TownDaoImpl(entityManager);
+            CityDao cityDao = new CityDaoImpl(entityManager);
             CountryDao countryDao = new CountryDaoImpl(entityManager);
 
             Zip zip = zipDao.findByZip(zipString);
             Town town = townDao.findByName(townString);
+            City city = cityDao.readByName(cityString).stream().findFirst().orElse(null);
             Street street = streetDao.findByName(streetString);
             Country country = countryDao.findByName(countryString);
 
@@ -82,6 +127,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 town = new Town();
                 town.setName(townString);
                 townDao.create(town);
+            }
+
+            if (city == null) {
+                city = new City();
+                city.setCityName(cityString);
+                cityDao.create(city);
             }
 
             if (street == null) {
@@ -107,18 +158,21 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.setCountry(country);
                 customer.setZip(zip);
                 customer.setTown(town);
+                customer.setCity(city);
                 customerDao.create(customer);
+                entityCreated = true;
             }
 
             entityTransaction.commit();
         } catch (Exception exception) {
-            System.err.println(exception.getMessage());
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
+            throw new RuntimeException(exception);
+        } finally {
+            entityManager.close();
         }
-
-
+        return entityCreated;
     }
 
 
@@ -131,13 +185,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
             CustomerDao customerDao = new CustomerDaoImpl(entityManager);
-            customerDao.delete(customer);
+            customerDao.delete(entityManager.merge(customer));
             entityTransaction.commit();
         } catch (Exception exception) {
-            System.err.println(exception.getMessage());
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
+            throw new RuntimeException(exception);
         } finally {
             entityManager.close();
         }

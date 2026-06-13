@@ -10,7 +10,7 @@ public class Country {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "country_name", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "country_name", nullable = false, length = 255)
     private String countryName;
 
     public Integer getId() {

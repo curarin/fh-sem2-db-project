@@ -33,7 +33,7 @@ public class CountryDaoImpl implements CountryDao {
         String query = "select country from Country country where lower(country.countryName) = lower(:name)";
         TypedQuery<Country> typedQuery = entityManager.createQuery(query, Country.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList().getFirst();
+        return typedQuery.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override

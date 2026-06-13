@@ -12,9 +12,11 @@ public interface CustomerRepository {
 
     public List<Customer> findByLastName(String lastName);
 
+    public List<Customer> findAll();
+
     public Customer create(Customer customer);
 
-    void save(String firstName, String lastName, String street, String zip, String town, String country);
+    boolean save(String firstName, String lastName, String street, String zip, String town, String city, String country);
 
     public void remove(Customer customer);
 

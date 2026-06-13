@@ -33,7 +33,7 @@ public class StreetDaoImpl implements StreetDao {
         String query = "select street from Street street where lower(street.street) = lower(:name)";
         TypedQuery<Street> typedQuery = entityManager.createQuery(query, Street.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList().getFirst();
+        return typedQuery.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override

@@ -48,6 +48,13 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
+    public List<Customer> findAll() {
+        String query = "select c from Customer c";
+        TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
+        return typedQuery.getResultList();
+    }
+
+    @Override
     public Customer findByNameAndLastNameAndAddress(String firstName, String lastName, Street street, Country country, Zip zip, Town town) {
         String query = """
                 select c from Customer c
