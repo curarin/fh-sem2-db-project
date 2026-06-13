@@ -29,4 +29,7 @@ public class Street {
         this.street = street;
     }
 
+    public void setName(String streetString) {
+        this.street = streetString;
+    }
 }

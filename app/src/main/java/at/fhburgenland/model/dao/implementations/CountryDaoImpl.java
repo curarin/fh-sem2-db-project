@@ -29,11 +29,11 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public List<Country> readByName(String name) {
+    public Country findByName(String name) {
         String query = "select country from Country country where lower(country.countryName) = lower(:name)";
         TypedQuery<Country> typedQuery = entityManager.createQuery(query, Country.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList();
+        return typedQuery.getResultList().getFirst();
     }
 
     @Override

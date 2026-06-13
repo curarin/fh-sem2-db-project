@@ -1,6 +1,6 @@
 package at.fhburgenland.model.dao.interfaces;
 
-import at.fhburgenland.model.Customer;
+import at.fhburgenland.model.*;
 
 import java.util.List;
 
@@ -12,9 +12,11 @@ public interface CustomerDao {
 
     Customer readById(Integer id);
 
-    List<Customer> readByLastName(String name);
+    List<Customer> findByLastName(String name);
 
-    Customer findByFirstName(String firstName);
+    List<Customer> findByFirstName(String firstName);
+
+    Customer findByNameAndLastNameAndAddress(String firstName, String lastName, Street street, Country country, Zip zip, Town town);
 
     void update(Customer model);
     

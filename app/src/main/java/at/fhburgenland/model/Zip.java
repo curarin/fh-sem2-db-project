@@ -29,4 +29,7 @@ public class Zip {
         this.zipCode = zipCode;
     }
 
+    public void setZip(String zip) {
+       this.zipCode = zip;
+    }
 }

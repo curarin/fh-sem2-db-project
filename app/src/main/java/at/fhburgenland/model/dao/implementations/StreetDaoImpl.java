@@ -29,11 +29,11 @@ public class StreetDaoImpl implements StreetDao {
     }
 
     @Override
-    public List<Street> readByName(String name) {
+    public Street findByName(String name) {
         String query = "select street from Street street where lower(street.street) = lower(:name)";
         TypedQuery<Street> typedQuery = entityManager.createQuery(query, Street.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList();
+        return typedQuery.getResultList().getFirst();
     }
 
     @Override

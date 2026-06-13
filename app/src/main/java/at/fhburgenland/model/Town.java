@@ -29,4 +29,7 @@ public class Town {
         this.townName = townName;
     }
 
+    public void setName(String townString) {
+        this.townName = townString;
+    }
 }

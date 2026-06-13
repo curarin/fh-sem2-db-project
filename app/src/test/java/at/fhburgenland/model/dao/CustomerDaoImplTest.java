@@ -6,6 +6,9 @@ import at.fhburgenland.model.dao.interfaces.CustomerDao;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerDaoImplTest {
@@ -41,27 +44,25 @@ public class CustomerDaoImplTest {
     }
 
     /**
-     * Creates a new customer with the given first and last name.
-     * https://www.baeldung.com/hibernate-entitymanager#1-persisting-entities
-     * @param firstName first name of the customer
-     * @param lastName lastname of the customer
-     * @return Customer
+     * Standard customer generation method
      */
-    private Customer createCustomer(String firstName, String lastName) {
+    private Customer createStandardCustomer(String firstName, String lastName) {
+        int randomNumber = ThreadLocalRandom.current().nextInt();
+
         Country country = new Country();
-        country.setCountryName("Austria");
+        country.setCountryName("Country".concat(String.valueOf(randomNumber)));
         entityManager.persist(country);
 
         City city = new City();
-        city.setCityName("Eisenstadt");
+        city.setCityName("City".concat(String.valueOf(randomNumber)));
         entityManager.persist(city);
 
         Zip zip = new Zip();
-        zip.setZipCode("7000");
+        zip.setZipCode(String.valueOf(Math.abs(randomNumber % 10000)));
         entityManager.persist(zip);
 
         Town town = new Town();
-        town.setTownName("Eisenstadt");
+        town.setTownName("Town".concat(String.valueOf(randomNumber)));
         entityManager.persist(town);
 
         Customer customer = new Customer();
@@ -71,54 +72,87 @@ public class CustomerDaoImplTest {
         customer.setCity(city);
         customer.setZip(zip);
         customer.setTown(town);
-        
+
         return customer;
     }
 
     @Test
-    public void testFindByFirstName() {
-        Customer customer = createCustomer("Maria", "Donner");
+    public void createAndReadCustomer() {
+        Customer customer = createStandardCustomer("Maria", "Donner");
         customerDao.create(customer);
-        
-        Customer found = customerDao.findByFirstName("Maria");
-        assertNotNull(found);
-        assertEquals("Maria", found.getFirstName());
-        assertEquals("Donner", found.getLastName());
+
+        Customer result = customerDao.readById(customer.getCustomerId());
+        assertNotNull(result);
+        assertEquals("Maria", result.getFirstName());
+        assertEquals("Donner", result.getLastName());
     }
 
     @Test
-    public void testFindByFirstNameIgnoreCase() {
-        Customer customer = createCustomer("Victoria", "Prein");
+    public void updateCustomer() {
+        Customer customer = createStandardCustomer("Maria", "Donner");
         customerDao.create(customer);
-        
-        Customer found = customerDao.findByFirstName("Victoria");
-        assertNotNull(found);
-        assertEquals("Victoria", found.getFirstName());
+
+        Customer createdCustomer = customerDao.readById(customer.getCustomerId());
+        assertNotNull(createdCustomer);
+        assertEquals("Maria", createdCustomer.getFirstName());
+
+        createdCustomer.setFirstName("Updated");
+        customerDao.update(createdCustomer);
+        assertEquals("Updated", customerDao.readById(customer.getCustomerId()).getFirstName());
     }
 
     @Test
-    public void testFindByFirstNameNotFound() {
-        assertThrows(NoResultException.class, () -> {
-            customerDao.findByFirstName("NonExistent");
-        });
+    public void deleteCustomer() {
+        Customer customer = createStandardCustomer("Maria", "Donner");
+        customerDao.create(customer);
+        assertNotNull(customerDao.readById(customer.getCustomerId()));
+
+        customerDao.delete(customer);
+        assertNull(customerDao.readById(customer.getCustomerId()));
     }
 
     @Test
-    public void testReadByLastName() {
-        Customer customer = createCustomer("Johann", "Meier");
+    public void findByFirstName() {
+        Customer customer = createStandardCustomer("Maria", "Donner");
         customerDao.create(customer);
-        
-        java.util.List<Customer> found = customerDao.readByLastName("Meier");
+
+        List<Customer> found = customerDao.findByFirstName("Maria");
+        assertFalse(found.isEmpty());
+        assertEquals("Maria", found.getFirst().getFirstName());
+    }
+
+    @Test
+    public void findByFirstNameIgnoreCase() {
+        Customer customer = createStandardCustomer("Victoria", "Prein");
+        customerDao.create(customer);
+
+        List<Customer> found = customerDao.findByFirstName("victoria");
+        assertFalse(found.isEmpty());
+        assertEquals("Victoria", found.get(0).getFirstName());
+    }
+
+    @Test
+    public void findByFirstNameNotFound() {
+        List<Customer> found = customerDao.findByFirstName("NonExistent");
+        assertTrue(found.isEmpty());
+    }
+
+    @Test
+    public void findByLastName() {
+        Customer customer = createStandardCustomer("Johann", "Meier");
+        customerDao.create(customer);
+
+        List<Customer> found = customerDao.findByLastName("Meier");
         assertFalse(found.isEmpty());
         assertEquals("Johann", found.get(0).getFirstName());
     }
 
     @Test
-    public void testReadByLastNameIgnoreCase() {
-        Customer customer = createCustomer("Hannes", "Rupert");
+    public void findByLastNameIgnoreCase() {
+        Customer customer = createStandardCustomer("Hannes", "Rupert");
         customerDao.create(customer);
-        
-        java.util.List<Customer> found = customerDao.readByLastName("rupert");
+
+        List<Customer> found = customerDao.findByLastName("rupert");
         assertFalse(found.isEmpty());
         assertEquals("Hannes", found.get(0).getFirstName());
     }
