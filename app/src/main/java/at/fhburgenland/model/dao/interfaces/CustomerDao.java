@@ -12,9 +12,12 @@ public interface CustomerDao {
 
     Customer readById(Integer id);
 
-    List<Customer> readByName(String name);
+    List<Customer> readByLastName(String name);
+
+    Customer findByFirstName(String firstName);
 
     void update(Customer model);
     
     void delete(Customer model);
+
 }

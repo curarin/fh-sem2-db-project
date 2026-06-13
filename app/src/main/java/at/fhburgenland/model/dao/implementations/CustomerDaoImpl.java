@@ -29,11 +29,19 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public List<Customer> readByName(String name) {
-        String query = "select m from Customer m where lower(m.lastName) = lower(:name)";
+    public List<Customer> readByLastName(String lastName) {
+        String query = "select customer from Customer customer where lower(customer.lastName) = lower(:name)";
         TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
-        typedQuery.setParameter("name", name);
+        typedQuery.setParameter("name", lastName);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public Customer findByFirstName(String firstName) {
+        String query = "select c from Customer c where lower(c.firstName) = lower(:firstName)";
+        TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
+        typedQuery.setParameter("firstName", firstName);
+        return typedQuery.getSingleResult();
     }
 
     @Override
