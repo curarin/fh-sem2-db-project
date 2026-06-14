@@ -16,6 +16,7 @@ public class LibraryView {
                 | (1) Books                         |
                 | (2) Events                        |
                 | (3) Customers                     |
+                | (4) Book transactions             |
                 -------------------------------------
                 | (0) Exit                          |
                 =====================================

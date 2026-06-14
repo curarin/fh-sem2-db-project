@@ -1,0 +1,65 @@
+package at.fhburgenland.view;
+
+import java.util.Scanner;
+
+public class CirculationView {
+    private final Scanner scanner = new Scanner(System.in);
+
+    public int showMainMenu() {
+        System.out.println("""
+                =====================================
+                |   Book Circulation Management      |
+                =====================================
+                | (1) Borrow a Book                 |
+                | (2) Return a Book                 |
+                -------------------------------------
+                | (0) Back                          |
+                =====================================
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public int getCustomerIdByUser() {
+        System.out.println("""
+                -------------------------------------
+                |     Please enter Customer ID      |
+                -------------------------------------
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public String getIsbnByUser() {
+        System.out.println("""
+                -------------------------------------
+                |       Please enter ISBN           |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public int getCirculationLogIdByUser() {
+        System.out.println("""
+                -------------------------------------
+                |    Please enter Circulation ID    |
+                -------------------------------------
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
+}
