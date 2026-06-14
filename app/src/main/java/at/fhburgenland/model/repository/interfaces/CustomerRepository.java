@@ -16,7 +16,9 @@ public interface CustomerRepository {
 
     public Customer create(Customer customer);
 
-    boolean save(String firstName, String lastName, String street, String zip, String town, String city, String country);
+    boolean save(String firstName, String lastName, String street, String streetNumber, String zip, String town, String city, String country);
+
+    void save(Customer customer);
 
     public void remove(Customer customer);
 

@@ -117,6 +117,35 @@ public class CustomerView {
         return scanner.nextLine();
     }
 
+    public String getStreetNumberByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Enter Street Number:             |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public int showEditOptionsMenu() {
+        System.out.println("""
+                -------------------------------------
+                | Choose edit option                |
+                -------------------------------------
+                | (1) Edit First Name               |
+                | (2) Edit Last Name                |
+                | (3) Edit Street                   |
+                | (4) Edit Street Number            |
+                | (5) Edit Zip                      |
+                | (6) Edit Town                     |
+                | (7) Edit City                     |
+                | (8) Edit Country                  |
+                -------------------------------------
+                | (0) Back                          |
+                -------------------------------------
+                """);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
     public void printCustomer(Customer customer) {
         if (customer == null) return;
         String customerPrint = String.format("""
@@ -136,7 +165,7 @@ public class CustomerView {
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getStreet() != null ? customer.getStreet().getStreet() : "N/A",
-                customer.getStreetnumber() != null ? customer.getStreetnumber() : "N/A",
+                customer.getStreetNumber() != null ? customer.getStreetNumber() : "N/A",
                 customer.getZip() != null ? customer.getZip().getZipCode() : "N/A",
                 customer.getTown() != null ? customer.getTown().getTownName() : "N/A",
                 customer.getCity() != null ? customer.getCity().getCityName() : "N/A",

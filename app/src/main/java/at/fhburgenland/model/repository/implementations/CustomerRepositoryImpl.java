@@ -94,8 +94,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public boolean save(String firstName, String lastName, String streetString, String zipString, String townString, String cityString, String countryString) {
-
+    public boolean save(String firstName, String lastName, String streetString, String streetNumberString, String zipString, String townString, String cityString, String countryString) {
+        //needed to steer dialog flow
         boolean entityCreated = false;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = null;
@@ -155,6 +155,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.setFirstName(firstName);
                 customer.setLastName(lastName);
                 customer.setStreet(street);
+                customer.setStreetNumber(streetNumberString);
                 customer.setCountry(country);
                 customer.setZip(zip);
                 customer.setTown(town);
@@ -175,6 +176,84 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return entityCreated;
     }
 
+
+    @Override
+    public void save(Customer customer) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+
+            CustomerDao customerDao = new CustomerDaoImpl(entityManager);
+            ZipDao zipDao = new ZipDaoImpl(entityManager);
+            StreetDao streetDao = new StreetDaoImpl(entityManager);
+            TownDao townDao = new TownDaoImpl(entityManager);
+            CityDao cityDao = new CityDaoImpl(entityManager);
+            CountryDao countryDao = new CountryDaoImpl(entityManager);
+
+            if (customer.getZip() != null) {
+                Zip zip = zipDao.findByZip(customer.getZip().getZipCode());
+                if (zip == null) {
+                    zip = customer.getZip();
+                    zipDao.create(zip);
+                }
+                customer.setZip(zip);
+            }
+
+            if (customer.getTown() != null) {
+                Town town = townDao.findByName(customer.getTown().getTownName());
+                if (town == null) {
+                    town = customer.getTown();
+                    townDao.create(town);
+                }
+                customer.setTown(town);
+            }
+
+            if (customer.getCity() != null) {
+                City city = cityDao.readByName(customer.getCity().getCityName()).stream().findFirst().orElse(null);
+                if (city == null) {
+                    city = customer.getCity();
+                    cityDao.create(city);
+                }
+                customer.setCity(city);
+            }
+
+            if (customer.getStreet() != null) {
+                Street street = streetDao.findByName(customer.getStreet().getStreet());
+                if (street == null) {
+                    street = customer.getStreet();
+                    streetDao.create(street);
+                }
+                customer.setStreet(street);
+            }
+
+            if (customer.getCountry() != null) {
+                Country country = countryDao.findByName(customer.getCountry().getCountryName());
+                if (country == null) {
+                    country = customer.getCountry();
+                    countryDao.create(country);
+                }
+                customer.setCountry(country);
+            }
+
+            if (customer.getCustomerId() == null) {
+                customerDao.create(customer);
+            } else {
+                customerDao.update(customer);
+            }
+
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            throw new RuntimeException(exception);
+        } finally {
+            entityManager.close();
+        }
+    }
 
     @Override
     public void remove(Customer customer) {

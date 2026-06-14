@@ -37,7 +37,7 @@ public class Customer {
     private Street street;
 
     @Column(name = "streetnumber", length = 15)
-    private String streetnumber;
+    private String streetNumber;
 
     public Integer getCustomerId() {
         return customerId;
@@ -103,12 +103,12 @@ public class Customer {
         this.street = street;
     }
 
-    public String getStreetnumber() {
-        return streetnumber;
+    public String getStreetNumber() {
+        return streetNumber;
     }
 
-    public void setStreetnumber(String streetnumber) {
-        this.streetnumber = streetnumber;
+    public void setStreetNumber(String streetnumber) {
+        this.streetNumber = streetnumber;
     }
 
 }

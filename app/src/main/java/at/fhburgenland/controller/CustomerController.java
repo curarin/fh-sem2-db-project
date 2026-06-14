@@ -1,6 +1,6 @@
 package at.fhburgenland.controller;
 
-import at.fhburgenland.model.Customer;
+import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
 import at.fhburgenland.view.CustomerView;
 
@@ -62,13 +62,77 @@ public class CustomerController {
                     String town = customerView.getTownByUser();
                     String city = customerView.getCityByUser();
                     String country = customerView.getCountryByUser();
+                    String streetNumber = customerView.getStreetNumberByUser();
 
-                    boolean customerCreated = customerRepository.save(firstName, lastName, street, zip, town, city, country);
+                    boolean customerCreated = customerRepository.save(firstName, lastName, street, streetNumber, zip, town, city, country);
 
                     if (!customerCreated) {
                         customerView.printMessage("Customer created successfully!");
                     } else {
                         customerView.printMessage("Customer already exists");
+                    }
+                }
+                case 3 -> {
+                    // Edit existing customer
+                    int id = customerView.getCustomerIdByUser();
+                    Customer customerToBeEdited = customerRepository.findById(id);
+                    customerView.printCustomer(customerToBeEdited);
+
+                    if (customerToBeEdited != null) {
+                        switch (customerView.showEditOptionsMenu()) {
+                            case 1 -> {
+                                String firstName = customerView.getCustomerFirstNameByUser();
+                                customerToBeEdited.setFirstName(firstName);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 2 -> {
+                                String lastName = customerView.getCustomerLastNameByUser();
+                                customerToBeEdited.setLastName(lastName);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 3 -> {
+                                String streetName = customerView.getStreetByUser();
+                                Street street = new Street();
+                                street.setStreet(streetName);
+                                customerToBeEdited.setStreet(street);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 4 -> {
+                                String streetNumber = customerView.getStreetNumberByUser();
+                                customerToBeEdited.setStreetNumber(streetNumber);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 5 -> {
+                                String zipCode = customerView.getZipByUser();
+                                Zip zip = new Zip();
+                                zip.setZipCode(zipCode);
+                                customerToBeEdited.setZip(zip);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 6 -> {
+                                String townName = customerView.getTownByUser();
+                                Town town = new Town();
+                                town.setTownName(townName);
+                                customerToBeEdited.setTown(town);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 7 -> {
+                                String cityName = customerView.getCityByUser();
+                                City city = new City();
+                                city.setCityName(cityName);
+                                customerToBeEdited.setCity(city);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                            case 8 -> {
+                                String countryName = customerView.getCountryByUser();
+                                Country country = new Country();
+                                country.setCountryName(countryName);
+                                customerToBeEdited.setCountry(country);
+                                customerRepository.save(customerToBeEdited);
+                            }
+                        }
+                    } else {
+                        customerView.printMessage("Customer with ID " + id + " not found.");
                     }
                 }
                 case 4 -> {
