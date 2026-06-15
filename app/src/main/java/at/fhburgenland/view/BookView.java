@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * Handles views related to book stuff - e.g. prompt user for ISBN, Author, Book Title,...
- * Passes the value down to controller layer.
+ * Passes the value down to a controller layer.
  */
 public class BookView {
 

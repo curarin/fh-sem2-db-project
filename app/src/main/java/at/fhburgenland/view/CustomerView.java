@@ -27,7 +27,11 @@ public class CustomerView {
                 =====================================
                 """);
 
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public int showExistingCustomerMenu() {
@@ -42,7 +46,11 @@ public class CustomerView {
                 | (0) Back                          |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public String getCustomerFirstNameByUser() {
@@ -69,7 +77,11 @@ public class CustomerView {
                 |  Enter Customer ID:               |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public String getStreetByUser() {
@@ -143,7 +155,11 @@ public class CustomerView {
                 | (0) Back                          |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public void printCustomer(Customer customer) {
@@ -152,6 +168,7 @@ public class CustomerView {
                 -------------------------------------
                 |       Customer found in system    |
                 -------------------------------------
+                | ID:          %s
                 | First Name:  %s
                 | Last Name:   %s
                 | Street:      %s
@@ -162,6 +179,7 @@ public class CustomerView {
                 | Country:     %s
                 -------------------------------------
                 """,
+                customer.getCustomerId(),
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getStreet() != null ? customer.getStreet().getStreet() : "N/A",

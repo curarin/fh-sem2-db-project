@@ -103,4 +103,17 @@ public class CirculationRepositoryImpl implements CirculationRepository {
             entityManager.close();
         }
     }
+
+    @Override
+    public List<BookCirculationLog> findOpenBooksByCustomer(Customer customer) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            BookCirculationLogDao circulationLogDao = new BookCirculationLogDaoImpl(entityManager);
+            return circulationLogDao.readByCustomerId(customer.getCustomerId()).stream()
+                    .filter(log -> log.getBookReturnedAtDate() == null)
+                    .toList();
+        } finally {
+            entityManager.close();
+        }
+    }
 }

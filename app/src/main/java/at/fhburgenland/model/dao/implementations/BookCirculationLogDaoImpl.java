@@ -27,7 +27,9 @@ public class BookCirculationLogDaoImpl implements BookCirculationLogDao {
     public List<BookCirculationLog> readByCustomerId(Integer customerId) {
         TypedQuery<BookCirculationLog> query = entityManager.createQuery(
                 "SELECT b FROM BookCirculationLog b " +
-                "WHERE b.customer.id= :customerId", BookCirculationLog.class);
+                "JOIN FETCH b.fkStockid s " +
+                "JOIN FETCH s.book " +
+                "WHERE b.customer.customerId = :customerId", BookCirculationLog.class);
         query.setParameter("customerId", customerId);
         return query.getResultList();
     }

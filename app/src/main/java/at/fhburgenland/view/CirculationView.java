@@ -1,6 +1,8 @@
 package at.fhburgenland.view;
 
+import java.util.List;
 import java.util.Scanner;
+import at.fhburgenland.model.BookCirculationLog;
 
 public class CirculationView {
     private final Scanner scanner = new Scanner(System.in);
@@ -62,4 +64,18 @@ public class CirculationView {
         System.out.println(message);
     }
 
+    public void printBorrowedBooks(BookCirculationLog log) {
+        System.out.println("ID: " + log.getBookCirculationLogId() + " | Book: " + log.getFkStockid().getBook().getBookTitle() + " | Loan Date: " + log.getLoanStartsAtDate());
+    }
+
+    public void printBorrowedBooks(List<BookCirculationLog> logs) {
+        if (logs.isEmpty()) {
+            System.out.println("No borrowed books found for this customer.");
+        } else {
+            System.out.println("Borrowed Books:");
+            for (BookCirculationLog log : logs) {
+                printBorrowedBooks(log);
+            }
+        }
+    }
 }

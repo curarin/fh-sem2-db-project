@@ -23,7 +23,8 @@ public class Main {
                 new CirculationRepositoryImpl(entityManagerFactory),
                 bookRepository,
                 customerRepository,
-                new CirculationView()
+                new CirculationView(),
+                new CustomerView()
         );
         
         LibraryController libraryController = new LibraryController(new LibraryView(), bookController, eventController, customerController, circulationLogController);

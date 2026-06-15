@@ -25,34 +25,7 @@ public class CustomerController {
 
             switch (choice) {
                 case 1 -> {
-                    switch (customerView.showExistingCustomerMenu()) {
-                        case 1 -> {
-                            String firstName = customerView.getCustomerFirstNameByUser();
-                            List<Customer> customers = customerRepository.findByFirstName(firstName);
-                            for (Customer customer : customers) {
-                                customerView.printCustomer(customer);
-                            }
-                            customerView.printSearchStatistics(customers);
-                        }
-                        case 2 -> {
-                            String lastName = customerView.getCustomerLastNameByUser();
-                            List<Customer> customers = customerRepository.findByLastName(lastName);
-                            for (Customer customer : customers) {
-                                customerView.printCustomer(customer);
-                            }
-                            customerView.printSearchStatistics(customers);
-                        }
-                        case 3 -> {
-                            int id = customerView.getCustomerIdByUser();
-                            Customer customer = customerRepository.findById(id);
-                            if (customer != null) {
-                                customerView.printCustomer(customer);
-                            } else {
-                                customerView.printMessage("Customer with ID " + id + " not found.");
-                            }
-                        }
-                        case 0 -> running = false;
-                    }
+                    Customer customer = selectCustomer(customerView, customerRepository);
                 }
                 case 2 -> {
                     String firstName = customerView.getCustomerFirstNameByUser();
@@ -150,4 +123,57 @@ public class CustomerController {
             }
         }
     }
+
+    public static Customer selectCustomer(CustomerView customerView, CustomerRepository customerRepository) {
+        Integer selectedCustomerId = switch (customerView.showExistingCustomerMenu()) {
+            case 1 -> {
+                String firstName = customerView.getCustomerFirstNameByUser();
+                List<Customer> customers = customerRepository.findByFirstName(firstName);
+                if (customers.isEmpty()) {
+                    customerView.printMessage("No customers found.");
+                    yield null;
+                }
+                for (Customer customer : customers) {
+                    customerView.printCustomer(customer);
+                }
+                customerView.printSearchStatistics(customers);
+                int id = customerView.getCustomerIdByUser();
+                yield (id <= 0) ? null : id;
+            }
+            case 2 -> {
+                String lastName = customerView.getCustomerLastNameByUser();
+                List<Customer> customers = customerRepository.findByLastName(lastName);
+                if (customers.isEmpty()) {
+                    customerView.printMessage("No customers found.");
+                    yield null;
+                }
+                for (Customer customer : customers) {
+                    customerView.printCustomer(customer);
+                }
+                customerView.printSearchStatistics(customers);
+                int id = customerView.getCustomerIdByUser();
+                yield (id <= 0) ? null : id;
+            }
+            case 3 -> {
+                int id = customerView.getCustomerIdByUser();
+                if (id <= 0) yield null;
+                Customer customer = customerRepository.findById(id);
+                if (customer != null) {
+                    customerView.printCustomer(customer);
+                    yield customer.getCustomerId();
+                } else {
+                    customerView.printMessage("Customer with ID " + id + " not found.");
+                    yield null;
+                }
+            }
+            default -> null;
+        };
+
+        if (selectedCustomerId != null) {
+            return customerRepository.findById(selectedCustomerId);
+        }
+
+        return null;
+    }
+
 }

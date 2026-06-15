@@ -14,8 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,5 +79,47 @@ public class CirculationRepositoryImplTest {
         assertThrows(RuntimeException.class, () -> {
             circulationRepository.borrowBook(customer, book);
         });
+    }
+
+    @Test
+    void testFindOpenBooksByCustomer() {
+        Customer customer = createAndSaveCustomer();
+        
+        Book book = new Book();
+        book.setIsbn("1234567890");
+        book.setBookTitle("Test Book");
+        
+        BookGenre genre = new BookGenre();
+        genre.setBookGenreName("Test Genre");
+        book.setBookGenre(genre);
+        
+        BookPublisher publisher = new BookPublisher();
+        publisher.setBookPublisherName("Test Publisher");
+        book.setBookPublisher(publisher);
+        
+        bookRepository.save(book);
+        
+        BookLocation location = new BookLocation();
+        BookLocationFloor floor = new BookLocationFloor();
+        floor.setBookLocationFloorNumber(1);
+        location.setBookLocationFloor(floor);
+        
+        BookLocationShelf shelf = new BookLocationShelf();
+        shelf.setBookLocationShelfNumber(1);
+        location.setBookLocationShelf(shelf);
+        
+        bookRepository.saveBookCopyCount(book, 1, location);
+        
+        circulationRepository.borrowBook(customer, book);
+        
+        List<BookCirculationLog> openLogs = circulationRepository.findOpenBooksByCustomer(customer);
+        assertNotNull(openLogs);
+        assertEquals(1, openLogs.size());
+        assertEquals(book.getIsbn(), openLogs.get(0).getFkStockid().getBook().getIsbn());
+        
+        circulationRepository.returnBook(openLogs.get(0).getBookCirculationLogId());
+        
+        openLogs = circulationRepository.findOpenBooksByCustomer(customer);
+        assertEquals(0, openLogs.size());
     }
 }
