@@ -462,4 +462,6 @@ INSERT INTO public.town (town_name) VALUES ('Großwilfersdorf');
 
 INSERT INTO public.zip (zip_code) VALUES ('1010');
 INSERT INTO public.zip (zip_code) VALUES ('8010');
-INSERT INTO public.zip (zip_code) VALUES ('8263');
+INSERT INTO public.zip (zip_code) VALUES ('8263');#
+
+commit
