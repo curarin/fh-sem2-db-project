@@ -2,7 +2,9 @@ package at.fhburgenland.controller;
 
 import at.fhburgenland.model.Event;
 import at.fhburgenland.model.EventType;
+import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.model.repository.interfaces.EventRepository;
+import at.fhburgenland.view.BookView;
 import at.fhburgenland.view.EventView;
 
 import java.time.LocalDateTime;
@@ -16,10 +18,14 @@ import java.util.List;
 public class EventController {
     private final EventRepository eventRepository;
     private final EventView eventView;
+    private final BookRepository bookRepository;
+    private final BookView bookView;
 
-    public EventController(EventRepository eventRepository, EventView eventView) {
+    public EventController(EventRepository eventRepository, EventView eventView, BookRepository bookRepository, BookView bookView) {
         this.eventRepository = eventRepository;
         this.eventView = eventView;
+        this.bookRepository = bookRepository;
+        this.bookView = bookView;
     }
 
     /**
