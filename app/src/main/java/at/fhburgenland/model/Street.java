@@ -10,7 +10,7 @@ public class Street {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "street", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "street", nullable = false, length = 255)
     private String street;
 
     public Integer getId() {
@@ -29,4 +29,7 @@ public class Street {
         this.street = street;
     }
 
+    public void setName(String streetString) {
+        this.street = streetString;
+    }
 }

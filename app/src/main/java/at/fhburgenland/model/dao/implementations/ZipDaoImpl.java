@@ -29,11 +29,11 @@ public class ZipDaoImpl implements ZipDao {
     }
 
     @Override
-    public List<Zip> readByName(String name) {
+    public Zip findByZip(String name) {
         String query = "select m from Zip m where lower(m.zipCode) = lower(:name)";
         TypedQuery<Zip> typedQuery = entityManager.createQuery(query, Zip.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList();
+        return typedQuery.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override

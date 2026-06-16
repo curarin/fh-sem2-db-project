@@ -10,7 +10,7 @@ public class Town {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "town_name", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "town_name", nullable = false, length = 255)
     private String townName;
 
     public Integer getId() {
@@ -29,4 +29,7 @@ public class Town {
         this.townName = townName;
     }
 
+    public void setName(String townString) {
+        this.townName = townString;
+    }
 }

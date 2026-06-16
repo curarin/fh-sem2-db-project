@@ -1,11 +1,14 @@
 package at.fhburgenland.model.dao.implementations;
 
-import at.fhburgenland.model.Customer;
+import at.fhburgenland.model.*;
 
 import at.fhburgenland.model.dao.interfaces.CustomerDao;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,11 +32,46 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public List<Customer> readByName(String name) {
-        String query = "select m from Customer m where lower(m.lastName) = lower(:name)";
+    public List<Customer> findByLastName(String lastName) {
+        String query = "select customer from Customer customer where lower(customer.lastName) = lower(:name)";
         TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
-        typedQuery.setParameter("name", name);
+        typedQuery.setParameter("name", lastName);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Customer> findByFirstName(String firstName) {
+        String query = "select c from Customer c where lower(c.firstName) = lower(:firstName)";
+        TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
+        typedQuery.setParameter("firstName", firstName);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        String query = "select c from Customer c";
+        TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public Customer findByNameAndLastNameAndAddress(String firstName, String lastName, Street street, Country country, Zip zip, Town town) {
+        String query = """
+                select c from Customer c
+                where lower(c.firstName) = lower(:firstName) 
+                and lower(c.lastName) = lower(:lastName) 
+                and c.street = :street 
+                and c.country = :country 
+                and c.zip = :zip 
+                and c.town = :town""";
+        TypedQuery<Customer> typedQuery = entityManager.createQuery(query, Customer.class);
+        typedQuery.setParameter("firstName", firstName);
+        typedQuery.setParameter("lastName", lastName);
+        typedQuery.setParameter("street", street);
+        typedQuery.setParameter("country", country);
+        typedQuery.setParameter("zip", zip);
+        typedQuery.setParameter("town", town);
+        return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList().get(0);
     }
 
     @Override

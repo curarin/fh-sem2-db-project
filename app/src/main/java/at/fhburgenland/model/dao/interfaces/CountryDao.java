@@ -12,7 +12,7 @@ public interface CountryDao {
 
     Country readById(Integer id);
 
-    List<Country> readByName(String name);
+    Country findByName(String name);
 
     void update(Country model);
 

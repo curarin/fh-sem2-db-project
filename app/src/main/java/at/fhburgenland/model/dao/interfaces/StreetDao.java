@@ -12,7 +12,7 @@ public interface StreetDao {
 
     Street readById(Integer id);
 
-    List<Street> readByName(String name);
+    Street findByName(String name);
 
     void update(Street model);
 

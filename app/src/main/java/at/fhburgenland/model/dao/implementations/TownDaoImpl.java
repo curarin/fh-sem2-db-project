@@ -29,11 +29,11 @@ public class TownDaoImpl implements TownDao {
     }
 
     @Override
-    public List<Town> readByName(String name) {
-        String query = "select m from Town m where lower(m.townName) = lower(:name)";
+    public Town findByName(String name) {
+        String query = "select t from Town t where lower(t.townName) = lower(:name)";
         TypedQuery<Town> typedQuery = entityManager.createQuery(query, Town.class);
         typedQuery.setParameter("name", name);
-        return typedQuery.getResultList();
+        return typedQuery.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface ZipDao {
 
     Zip readById(Integer id);
 
-    List<Zip> readByName(String name);
+    Zip findByZip(String name);
 
     void update(Zip model);
 

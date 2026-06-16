@@ -112,13 +112,9 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<BookStockLog> findStockByIsbn(String isbn) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        try {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
             return bookStockLogDao.findByIsbn(isbn);
-        } finally {
-            entityManager.close();
         }
     }
 

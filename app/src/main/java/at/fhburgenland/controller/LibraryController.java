@@ -10,11 +10,17 @@ public class LibraryController {
     private final LibraryView view;
     private final BookController bookController;
     private final EventController eventController;
+    private final CustomerController customerController;
+    private final CirculationLogController circulationLogController;
 
-    public LibraryController(LibraryView view, BookController bookController, EventController eventController) {
+    public LibraryController(LibraryView view, BookController bookController,
+                             EventController eventController, CustomerController customerController,
+                             CirculationLogController circulationLogController) {
         this.view = view;
         this.bookController = bookController;
         this.eventController = eventController;
+        this.customerController = customerController;
+        this.circulationLogController = circulationLogController;
     }
 
     public void start() {
@@ -29,6 +35,12 @@ public class LibraryController {
                 }
                 case 2 -> {
                     eventController.start();
+                }
+                case 3 -> {
+                    customerController.start();
+                }
+                case 4 -> {
+                    circulationLogController.start();
                 }
                 case 0 -> {
                     running = false;

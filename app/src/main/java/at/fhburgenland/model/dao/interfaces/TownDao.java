@@ -2,8 +2,6 @@ package at.fhburgenland.model.dao.interfaces;
 
 import at.fhburgenland.model.Town;
 
-import java.util.List;
-
 /**
  * Abstract class that provides CRUD operations for Town
  */
@@ -12,7 +10,7 @@ public interface TownDao {
 
     Town readById(Integer id);
 
-    List<Town> readByName(String name);
+    Town findByName(String name);
 
     void update(Town model);
 

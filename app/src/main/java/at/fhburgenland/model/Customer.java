@@ -10,34 +10,34 @@ public class Customer {
     @Column(name = "customer_id", nullable = false)
     private Integer customerId;
 
-    @Column(name = "first_name", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "first_name", nullable = false, length = 255)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "last_name", nullable = false, length = 255)
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "zip_id", nullable = false)
     private Zip zip;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "town_id", nullable = false)
     private Town town;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "street_id")
     private Street street;
 
     @Column(name = "streetnumber", length = 15)
-    private String streetnumber;
+    private String streetNumber;
 
     public Integer getCustomerId() {
         return customerId;
@@ -103,12 +103,12 @@ public class Customer {
         this.street = street;
     }
 
-    public String getStreetnumber() {
-        return streetnumber;
+    public String getStreetNumber() {
+        return streetNumber;
     }
 
-    public void setStreetnumber(String streetnumber) {
-        this.streetnumber = streetnumber;
+    public void setStreetNumber(String streetnumber) {
+        this.streetNumber = streetnumber;
     }
 
 }

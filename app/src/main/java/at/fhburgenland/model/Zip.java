@@ -10,7 +10,7 @@ public class Zip {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "zip_code", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "zip_code", nullable = false, length = 255)
     private String zipCode;
 
     public Integer getId() {
@@ -29,4 +29,7 @@ public class Zip {
         this.zipCode = zipCode;
     }
 
+    public void setZip(String zip) {
+       this.zipCode = zip;
+    }
 }
