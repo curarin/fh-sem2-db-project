@@ -22,13 +22,13 @@ public class AnalyticsView {
                 |   ReiMi Library Management System |
                 =====================================
                 | (1) Analytics Query 1:            |
-                    -   -   -   -   -   -   -   -
+                -------------------------------------
                 | Show all borrowed books for a     |
                 | given customer incl. borrow date  |
                 | within a defined time range       |
-                -------------------------------------
+                =====================================
                 | (2) Analytics Query 2:            |
-                    -   -   -   -   -   -   -   -
+                -------------------------------------
                 | Show for each customer:           |
                 |   - Count of borrowed books       |
                 |   - Count of visited events       |
@@ -36,15 +36,15 @@ public class AnalyticsView {
                 |                                   |
                 | Customer has to be over           |
                 | a user defined threshold          |
-                -------------------------------------
+                =====================================
                 | (3) Analytics Query 3:            |
-                    -   -   -   -   -   -   -   -
+                -------------------------------------
                 | Show all physical existing books  |
                 | for a given book incl.            |
                 | its location                      |
-                -------------------------------------
+                =====================================
                 | (4) Analytics Query 4:            |
-                    -   -   -   -   -   -   -   -
+                -------------------------------------
                 | Show the attendant count for      |
                 | each event and show only those    |
                 | which have above average          |
