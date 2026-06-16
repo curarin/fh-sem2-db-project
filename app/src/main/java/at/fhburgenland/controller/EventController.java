@@ -1,5 +1,6 @@
 package at.fhburgenland.controller;
 
+import at.fhburgenland.model.Book;
 import at.fhburgenland.model.Event;
 import at.fhburgenland.model.EventType;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
@@ -9,7 +10,10 @@ import at.fhburgenland.view.EventView;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Controller representation of Event - maps user input from view to repository methods.
@@ -99,6 +103,13 @@ public class EventController {
                     newEvent.setEventName(eventTitleInput);
                     newEvent.setEventType(newEventType);
                     newEvent.setEventStartsAtTs(eventStart);
+
+                    Set<Book> booksToBeAdded = new HashSet<>();
+                    while (eventView.getUserChoiceForBookAddition()) {
+                        String isbnInput = bookView.getIsbnByUser();
+                        booksToBeAdded.add(bookRepository.findByIsbn(isbnInput));
+                    }
+                    newEvent.setBooks(booksToBeAdded);
                     eventRepository.save(newEvent);
                 }
                 // Edit existing event
