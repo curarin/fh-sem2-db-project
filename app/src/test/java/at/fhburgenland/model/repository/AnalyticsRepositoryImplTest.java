@@ -109,7 +109,7 @@ public class AnalyticsRepositoryImplTest {
         String town = "Graz";
         String country = "Austria";
 
-        customerRepository.save(firstName, lastName, street,streetNumber, zip, town, "Capital City", country);
+        customerRepository.save(firstName, lastName, street, streetNumber, zip, town, "Capital City", country);
         Customer newCustomer = customerRepository.findByLastName("Dorfer").get(0);
 
         // Then we loan a book
@@ -123,6 +123,37 @@ public class AnalyticsRepositoryImplTest {
         assertEquals(4, foundBorrowedBooksForAlfred.size());
         AnalyticsView view = new AnalyticsView();
         view.printBooksAtLoanByCustomer(newCustomer, foundBorrowedBooksForAlfred, LocalDate.now(), LocalDate.now().plusWeeks(2));
-
     }
+
+    /**
+     * Show all physical existing books for a given book incl. its location
+     */
+    @Test
+    public void testSecondAnalyticsQuery() {
+        Book firstBook = createStandardBook("10");
+        Book secondBook = createStandardBook("20");
+        Book thirdBook = createStandardBook("30");
+        Book fourthBook = createStandardBook("40");
+
+        for (Book book : Arrays.asList(firstBook, secondBook, thirdBook, fourthBook)) {
+            BookLocation mainLocationForUniqueBook = new BookLocation();
+            BookLocationFloor locationFloor = new BookLocationFloor();
+            locationFloor.setBookLocationFloorNumber(ThreadLocalRandom.current().nextInt());
+
+            BookLocationShelf locationShelf = new BookLocationShelf();
+            locationShelf.setBookLocationShelfNumber(ThreadLocalRandom.current().nextInt());
+
+            mainLocationForUniqueBook.setBookLocationFloor(locationFloor);
+            mainLocationForUniqueBook.setBookLocationShelf(locationShelf);
+
+            bookRepository.save(book);
+            bookRepository.saveBookCopyCount(book, 3, mainLocationForUniqueBook);
+
+        }
+        assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(firstBook.getIsbn()).size());
+        assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(secondBook.getIsbn()).size());
+        assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(thirdBook.getIsbn()).size());
+        assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(fourthBook.getIsbn()).size());
+    }
+
 }

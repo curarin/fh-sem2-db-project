@@ -1,14 +1,15 @@
 package at.fhburgenland.controller;
 
 import at.fhburgenland.model.Book;
+import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.Customer;
 import at.fhburgenland.model.repository.interfaces.AnalyticsRepository;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
 import at.fhburgenland.view.AnalyticsView;
+import at.fhburgenland.view.BookView;
 import at.fhburgenland.view.CustomerView;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +22,15 @@ public class AnalyticsController {
     private final CustomerRepository customerRepository;
     private final BookRepository bookRepository;
     private final AnalyticsView analyticsView;
-    private final CustomerView customerView;
+    private final BookView bookView;
 
 
-    public AnalyticsController(AnalyticsView analyticsView, CustomerView customerView, AnalyticsRepository analyticsRepository, CustomerRepository customerRepository, BookRepository bookRepository) {
+    public AnalyticsController(AnalyticsView analyticsView, BookView bookView, AnalyticsRepository analyticsRepository, CustomerRepository customerRepository, BookRepository bookRepository) {
         this.analyticsRepository = analyticsRepository;
         this.customerRepository = customerRepository;
         this.bookRepository = bookRepository;
         this.analyticsView = analyticsView;
-        this.customerView = customerView;
+        this.bookView = bookView;
     }
 
     /**
@@ -68,9 +69,66 @@ public class AnalyticsController {
                 // Geben Sie alle verfügbaren Exemplare eines bestimmten Buches
                 // inklusive Standort (Regal und Stockwerk) aus.
                 case 3 -> {
-                    System.out.println("...implemented...");
-                    // Get a specific book
-
+                    switch (bookView.showExistingBookMenu()) {
+                        case 1 -> {
+                            String isbn = bookView.getIsbnByUser();
+                            Book foundBook = bookRepository.findByIsbn(isbn);
+                            if (foundBook != null) {
+                                bookView.printBook(foundBook);
+                                bookView.printStockStatistics(bookRepository.findStockByIsbn(isbn));
+                            }
+                        }
+                        case 2 -> {
+                            List<Book> booksByTitle = bookRepository.findByBookName(bookView.getBookTitleByUser());
+                            for (Book book : booksByTitle) {
+                                if (book != null) {
+                                    bookView.printBook(book);
+                                }
+                            }
+                            bookView.printSearchStatistics(booksByTitle);
+                        }
+                        case 3 -> {
+                            List<Book> booksByGenre = bookRepository.findByGenre(bookView.getBookGenreByUser());
+                            for (Book book : booksByGenre) {
+                                if (book != null) {
+                                    bookView.printBook(book);
+                                }
+                            }
+                            bookView.printSearchStatistics(booksByGenre);
+                        }
+                        case 4 -> {
+                            List<Book> booksByPublisher = bookRepository.findByPublisher(bookView.getBookPublisherByUser());
+                            for (Book book : booksByPublisher) {
+                                if (book != null) {
+                                    bookView.printBook(book);
+                                }
+                            }
+                            bookView.printSearchStatistics(booksByPublisher);
+                        }
+                        case 5 -> {
+                            List<Book> booksByAuthor = bookRepository.findByAuthor(bookView.getBookAuthorByUser());
+                            for (Book book : booksByAuthor) {
+                                if (book != null) {
+                                    bookView.printBook(book);
+                                }
+                            }
+                            bookView.printSearchStatistics(booksByAuthor);
+                        }
+                        case 6 -> {
+                            // Filter by Stock State true / false
+                            List<Book> booksByStockLockState = bookRepository.findByStockState(bookView.getBookStockStateByUser());
+                            for (Book book : booksByStockLockState) {
+                                if (book != null) {
+                                    bookView.printBook(book);
+                                }
+                            }
+                            bookView.printSearchStatistics(booksByStockLockState);
+                        }
+                        case 0 -> running = false;
+                    }
+                    Book wantedBook = bookRepository.findByIsbn(bookView.getIsbnByUser());
+                    List<BookStockLog> allPhysicalCopiesOfWantedBook = analyticsRepository.getBookStockLogByBookIsbn(wantedBook.getIsbn());
+                    analyticsView.printAllPhysicalCopiesOfWantedBook(allPhysicalCopiesOfWantedBook);
                 }
                 // Ermitteln Sie für jede Veranstaltung die Anzahl der Teilnehmer und geben Sie nur Veranstaltungen aus,
                 // die mehr Teilnehmer als der Durchschnitt aller Veranstaltungen haben.
