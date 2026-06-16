@@ -20,7 +20,7 @@ public class Main {
         EventController eventController = new EventController(eventRepository, new EventView(), bookRepository, new BookView());
         CustomerController customerController = new CustomerController(customerRepository, new CustomerView());
         CirculationLogController circulationLogController = new CirculationLogController(circulationRepository, bookRepository, customerRepository, new CirculationView(), new CustomerView());
-        AnalyticsController analyticsController = new AnalyticsController(new AnalyticsView(), new CustomerView(), analyticsRepository, customerRepository, bookRepository);
+        AnalyticsController analyticsController = new AnalyticsController(new AnalyticsView(), new BookView(), analyticsRepository, customerRepository, bookRepository);
 
         LibraryController libraryController = new LibraryController(new LibraryView(), bookController, eventController, customerController, circulationLogController, analyticsController);
         libraryController.start();

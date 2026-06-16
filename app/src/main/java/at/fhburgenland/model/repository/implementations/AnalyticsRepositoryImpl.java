@@ -46,7 +46,21 @@ public class AnalyticsRepositoryImpl implements AnalyticsRepository {
 
     @Override
     public List<BookStockLog> getBookStockLogByBookIsbn(String isbn) {
-        return List.of();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String query = """
+                    select
+                        bookStockLog
+                    from BookStockLog bookStockLog
+                    where
+                        bookStockLog.book.isbn = :isbn
+                    """;
+            TypedQuery<BookStockLog> bookStockLogQuery = entityManager.createQuery(query, BookStockLog.class);
+            bookStockLogQuery.setParameter("isbn", isbn);
+            return bookStockLogQuery.getResultList();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

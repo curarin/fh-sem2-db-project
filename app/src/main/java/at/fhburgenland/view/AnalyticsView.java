@@ -1,12 +1,12 @@
 package at.fhburgenland.view;
 
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.BookAuthor;
-import at.fhburgenland.model.Customer;
+import at.fhburgenland.model.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AnalyticsView {
@@ -101,5 +101,38 @@ public class AnalyticsView {
                     """, book.getBookTitle(), authors, book.getIsbn());
             System.out.println(specificPrint);
         }
+    }
+
+    public void printAllPhysicalCopiesOfWantedBook(List<BookStockLog> allPhysicalCopiesOfWantedBook) {
+        int inStockCounter = 0;
+        Set<BookLocation> foundLocations = new HashSet<>();
+
+        for (BookStockLog bookStockLog : allPhysicalCopiesOfWantedBook) {
+            if (bookStockLog.getBookIsInStock()) {
+                inStockCounter++;
+            }
+        }
+        String stockPrint = String.format("""
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                |       Total book copies           |
+                |       currently in stock:         |
+                |               %d                  |
+                -------------------------------------
+                |           Located at:             |
+                """, inStockCounter);
+        System.out.println(stockPrint);
+        for (BookStockLog bookStockLog : allPhysicalCopiesOfWantedBook) {
+            if (bookStockLog.getBookIsInStock()) {
+                if (foundLocations.add(bookStockLog.getBookLocation())) {
+                    String locatedAt = String.format("""
+                            | Floor: %d                         |
+                            | Shelf: %d                         |
+                            """, bookStockLog.getBookLocation().getBookLocationFloor().getBookLocationFloorNumber(), bookStockLog.getBookLocation().getBookLocationShelf().getBookLocationShelfNumber());
+                    System.out.print(locatedAt);
+                }
+
+            }
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 }
