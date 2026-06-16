@@ -1,6 +1,7 @@
 package at.fhburgenland.model.repository;
 
 import at.fhburgenland.model.*;
+import at.fhburgenland.model.dto.CustomerAnalyticsDto;
 import at.fhburgenland.model.repository.implementations.*;
 import at.fhburgenland.model.repository.interfaces.*;
 import at.fhburgenland.view.AnalyticsView;
@@ -11,12 +12,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AnalyticsRepositoryImplTest {
     private static AnalyticsRepository analyticsRepository;
@@ -154,6 +157,64 @@ public class AnalyticsRepositoryImplTest {
         assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(secondBook.getIsbn()).size());
         assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(thirdBook.getIsbn()).size());
         assertEquals(3, analyticsRepository.getBookStockLogByBookIsbn(fourthBook.getIsbn()).size());
+    }
+
+    /**
+     * Show for each customer:
+     *  - count of books at loan
+     *  - count of visited events
+     *  - count of total activities
+     */
+    @Test
+    public void testThirdAnalyticsQuery() {
+        // First we create books
+        Book firstBook = createStandardBook("11");
+        Book secondBook = createStandardBook("12");
+        Book thirdBook = createStandardBook("13");
+        Book fourthBook = createStandardBook("14");
+
+        for (Book book : Arrays.asList(firstBook, secondBook, thirdBook, fourthBook)) {
+            BookLocation mainLocationForUniqueBook = new BookLocation();
+            BookLocationFloor locationFloor = new BookLocationFloor();
+            locationFloor.setBookLocationFloorNumber(ThreadLocalRandom.current().nextInt());
+
+            BookLocationShelf locationShelf = new BookLocationShelf();
+            locationShelf.setBookLocationShelfNumber(ThreadLocalRandom.current().nextInt());
+
+            mainLocationForUniqueBook.setBookLocationFloor(locationFloor);
+            mainLocationForUniqueBook.setBookLocationShelf(locationShelf);
+
+            bookRepository.save(book);
+            bookRepository.saveBookCopyCount(book, ThreadLocalRandom.current().nextInt(1, 7), mainLocationForUniqueBook);
+        }
+
+        // Then we create a customer
+
+        String firstName = "Alfred";
+        String lastName = "Dorfer";
+        String street = "Waltendorf";
+        String zip = "8010";
+        String streetNumber = "14";
+        String town = "Graz";
+        String country = "Austria";
+
+        customerRepository.save(firstName, lastName, street, streetNumber, zip, town, "Capital City", country);
+        Customer newCustomer = customerRepository.findByLastName("Dorfer").get(0);
+
+        // Then we create an event
+        Event newEventWithBooks = new Event();
+        EventType newEventType = new EventType();
+        newEventType.setEventTypeName("Test 9: Event Type");
+        newEventWithBooks.setEventName("Test 9: Save new Event");
+        newEventWithBooks.setEventType(newEventType);
+        newEventWithBooks.setEventStartsAtTs(LocalDateTime.now());
+
+        // Then the Customer visits events
+        // TODO
+
+        List<CustomerAnalyticsDto> dto = analyticsRepository.getActivityCountsPerCustomerByThreshold(0);
+        assertNotNull(dto);
+
     }
 
 }
