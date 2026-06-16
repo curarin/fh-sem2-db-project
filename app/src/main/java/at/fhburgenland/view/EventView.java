@@ -22,7 +22,12 @@ public class EventView {
                 =====================================
                 """);
 
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+
     }
 
     public String getEventNameByUser() {
@@ -67,7 +72,12 @@ public class EventView {
                 | (0) Back                          |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+
     }
 
     public String getEventStartDateByUser() {
@@ -105,13 +115,17 @@ public class EventView {
         return scanner.nextLine();
     }
 
-    public Integer getEventIdByUser() {
+    public int getEventIdByUser() {
         System.out.println("""
                 -------------------------------------
                 |     Please enter Event ID         |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public int showExistingEventMenu() {
@@ -127,7 +141,11 @@ public class EventView {
                 | (0) Back                          |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public void printEvent(Event event) {

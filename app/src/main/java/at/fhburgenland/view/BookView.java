@@ -49,7 +49,7 @@ public class BookView {
         return scanner.nextLine();
     }
 
-    public Integer getBookLocationFloorByUser() {
+    public int getBookLocationFloorByUser() {
         System.out.println("""
                 -------------------------------------
                 |       On which floor is           |
@@ -57,10 +57,14 @@ public class BookView {
                 |   enter number - e.g. "5"         |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
-    public Integer getBookLocationShelfByUser() {
+    public int getBookLocationShelfByUser() {
         System.out.println("""
                 -------------------------------------
                 |       In which shelf is           |
@@ -68,7 +72,11 @@ public class BookView {
                 |   enter number - e.g. "5"         |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public String getBookPublisherByUser() {
@@ -126,7 +134,11 @@ public class BookView {
                 -------------------------------------
                 """, floorNumber, shelfNumber);
         System.out.println(output);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public boolean getBookAuthorChoiceByUser() {
@@ -165,8 +177,12 @@ public class BookView {
                 | (0) Main Menu                     |
                 =====================================
                 """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
 
-        return Integer.parseInt(scanner.nextLine());
     }
 
     public int showExistingBookMenu() {
@@ -184,7 +200,12 @@ public class BookView {
                 | (0) Back                          |
                 -------------------------------------
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+
     }
 
     public int showEditOptionsMenu() {

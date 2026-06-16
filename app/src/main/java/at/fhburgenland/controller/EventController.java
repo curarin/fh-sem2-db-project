@@ -57,7 +57,10 @@ public class EventController {
                         }
                         // Search by ID
                         case 2 -> {
-                            Integer eventIdInput = eventView.getEventIdByUser();
+                            int eventIdInput = 0;
+                            while (eventIdInput <= 0) {
+                                eventIdInput = eventView.getEventIdByUser();
+                            }
                             Event foundEvent = eventRepository.findById(eventIdInput);
                             if (foundEvent != null) {
                                 eventView.printEvent(foundEvent);
@@ -83,6 +86,7 @@ public class EventController {
                             }
                         }
                         case 0 -> running = false;
+                        default -> System.out.println("Wrong choice. Try again.");
                     }
                 }
                 // Add new Event
@@ -148,7 +152,8 @@ public class EventController {
                                 eventToBeEdited.setEventStartsAtTs(newEventStart);
                                 eventRepository.save(eventToBeEdited);
                             }
-                            default -> running = false;
+                            case 0 -> running = false;
+                            default -> System.out.println("Wrong choice. Try again.");
                         }
                     }
                 }

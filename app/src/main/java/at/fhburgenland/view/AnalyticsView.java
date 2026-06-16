@@ -16,7 +16,7 @@ public class AnalyticsView {
         System.out.println(message);
     }
 
-    public Integer showMainMenu() {
+    public int showMainMenu() {
         System.out.println("""
                 =====================================
                 |   ReiMi Library Management System |

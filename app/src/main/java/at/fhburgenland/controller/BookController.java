@@ -92,6 +92,7 @@ public class BookController {
                             view.printSearchStatistics(booksByStockLockState);
                         }
                         case 0 -> running = false;
+                        default -> System.out.println("Invalid choice.");
                     }
 
                 }
@@ -113,10 +114,18 @@ public class BookController {
                             bookAuthorsInput.add(currentBookAuthor);
                             anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                         }
-                        int bookLocationFloorInput = view.getBookLocationFloorByUser();
-                        int bookLocationShelfInput = view.getBookLocationShelfByUser();
-                        int bookCounter = view.getBookCountByUser(bookLocationFloorInput, bookLocationShelfInput);
-
+                        int bookLocationFloorInput = 0;
+                        while (bookLocationFloorInput <= 0) {
+                            bookLocationFloorInput = view.getBookLocationFloorByUser();
+                        }
+                        int bookLocationShelfInput = 0;
+                        while (bookLocationShelfInput <= 0) {
+                            bookLocationShelfInput = view.getBookLocationShelfByUser();
+                        }
+                        int bookCounter = 0;
+                        while (bookCounter <= 0) {
+                            bookCounter = view.getBookCountByUser(bookLocationFloorInput, bookLocationShelfInput);
+                        }
 
                         Book book = new Book();
                         BookGenre bookGenre = new BookGenre();
@@ -183,6 +192,7 @@ public class BookController {
                             bookToBeEdited.setBookPublisher(updatedBookPublisher);
                             repository.save(bookToBeEdited);
                         }
+                        default -> System.out.println("Invalid choice.");
                     }
                 }
                 case 4 -> {

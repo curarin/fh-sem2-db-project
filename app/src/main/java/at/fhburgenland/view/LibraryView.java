@@ -22,6 +22,11 @@ public class LibraryView {
                 | (0) Exit                          |
                 =====================================
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+
     }
 }

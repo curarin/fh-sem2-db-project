@@ -126,9 +126,12 @@ public class AnalyticsController {
                         }
                         case 0 -> running = false;
                     }
+                    System.out.println("Please prepare your valid ISBN in order to show all copies");
                     Book wantedBook = bookRepository.findByIsbn(bookView.getIsbnByUser());
-                    List<BookStockLog> allPhysicalCopiesOfWantedBook = analyticsRepository.getBookStockLogByBookIsbn(wantedBook.getIsbn());
-                    analyticsView.printAllPhysicalCopiesOfWantedBook(allPhysicalCopiesOfWantedBook);
+                    if (wantedBook != null) {
+                        List<BookStockLog> allPhysicalCopiesOfWantedBook = analyticsRepository.getBookStockLogByBookIsbn(wantedBook.getIsbn());
+                        analyticsView.printAllPhysicalCopiesOfWantedBook(allPhysicalCopiesOfWantedBook);
+                    }
                 }
                 // Ermitteln Sie für jede Veranstaltung die Anzahl der Teilnehmer und geben Sie nur Veranstaltungen aus,
                 // die mehr Teilnehmer als der Durchschnitt aller Veranstaltungen haben.
@@ -137,6 +140,7 @@ public class AnalyticsController {
 
                 }
                 case 0 -> running = false;
+                default -> System.out.println("Invalid option");
             }
         }
     }
