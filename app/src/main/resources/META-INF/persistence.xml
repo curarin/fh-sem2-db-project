@@ -25,7 +25,7 @@
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/dbjava"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbjava"/>
             <property name="jakarta.persistence.jdbc.user" value="bswe"/>
 
             <property name="jakarta.persistence.jdbc.password" value="fogl"/>
