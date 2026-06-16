@@ -15,9 +15,10 @@ public class Main {
     public static void main(String[] args) {
         BookRepositoryImpl bookRepository = new BookRepositoryImpl(entityManagerFactory);
         CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
+        EventRepositoryImpl eventRepository = new EventRepositoryImpl(entityManagerFactory);
         
         BookController bookController = new BookController(bookRepository, new BookView());
-        EventController eventController = new EventController(new EventRepositoryImpl(entityManagerFactory), new EventView());
+        EventController eventController = new EventController(eventRepository, new EventView(), bookRepository, new BookView());
         CustomerController customerController = new CustomerController(customerRepository, new CustomerView());
         CirculationLogController circulationLogController = new CirculationLogController(
                 new CirculationRepositoryImpl(entityManagerFactory),
