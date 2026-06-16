@@ -26,19 +26,19 @@ public class BookLocation {
         return this.bookLocationId;
     }
 
-    public void setBookLocationFloor(BookLocationFloor bookLocationFloor) {
-        this.bookLocationFloor = bookLocationFloor;
-    }
-
-    public void setBookLocationShelf(BookLocationShelf bookLocationShelf) {
-        this.bookLocationShelf = bookLocationShelf;
-    }
-
     public BookLocationFloor getBookLocationFloor() {
         return this.bookLocationFloor;
     }
 
+    public void setBookLocationFloor(BookLocationFloor bookLocationFloor) {
+        this.bookLocationFloor = bookLocationFloor;
+    }
+
     public BookLocationShelf getBookLocationShelf() {
         return this.bookLocationShelf;
+    }
+
+    public void setBookLocationShelf(BookLocationShelf bookLocationShelf) {
+        this.bookLocationShelf = bookLocationShelf;
     }
 }

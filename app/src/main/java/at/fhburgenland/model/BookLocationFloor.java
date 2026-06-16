@@ -22,11 +22,11 @@ public class BookLocationFloor {
         return this.bookLocationFloorId;
     }
 
-    public void setBookLocationFloorNumber(Integer bookLocationFloorNumber) {
-        this.bookLocationFloorNumber = bookLocationFloorNumber;
-    }
-
     public Integer getBookLocationFloorNumber() {
         return this.bookLocationFloorNumber;
+    }
+
+    public void setBookLocationFloorNumber(Integer bookLocationFloorNumber) {
+        this.bookLocationFloorNumber = bookLocationFloorNumber;
     }
 }

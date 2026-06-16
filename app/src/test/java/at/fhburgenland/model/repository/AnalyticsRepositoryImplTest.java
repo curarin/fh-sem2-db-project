@@ -161,9 +161,9 @@ public class AnalyticsRepositoryImplTest {
 
     /**
      * Show for each customer:
-     *  - count of books at loan
-     *  - count of visited events
-     *  - count of total activities
+     * - count of books at loan
+     * - count of visited events
+     * - count of total activities
      */
     @Test
     public void testThirdAnalyticsQuery() {

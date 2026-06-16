@@ -1,16 +1,17 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.BookCirculationLog;
-
 import at.fhburgenland.model.dao.interfaces.BookCirculationLogDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
-/** implementation of BookCirculationLogDao
+/**
+ * implementation of BookCirculationLogDao
  * offers CRUD operations
- * */
+ *
+ */
 public class BookCirculationLogDaoImpl implements BookCirculationLogDao {
     private final EntityManager entityManager;
 
@@ -27,9 +28,9 @@ public class BookCirculationLogDaoImpl implements BookCirculationLogDao {
     public List<BookCirculationLog> readByCustomerId(Integer customerId) {
         TypedQuery<BookCirculationLog> query = entityManager.createQuery(
                 "SELECT b FROM BookCirculationLog b " +
-                "JOIN FETCH b.fkStockid s " +
-                "JOIN FETCH s.book " +
-                "WHERE b.customer.customerId = :customerId", BookCirculationLog.class);
+                        "JOIN FETCH b.fkStockid s " +
+                        "JOIN FETCH s.book " +
+                        "WHERE b.customer.customerId = :customerId", BookCirculationLog.class);
         query.setParameter("customerId", customerId);
         return query.getResultList();
     }

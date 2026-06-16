@@ -2,8 +2,6 @@ package at.fhburgenland.model.dao.interfaces;
 
 import at.fhburgenland.model.CustomerCard;
 
-import java.util.List;
-
 /**
  * Abstract class that provides CRUD operations for CustomerCard
  */
@@ -13,6 +11,6 @@ public interface CustomerCardDao {
     CustomerCard readById(Integer id);
 
     void update(CustomerCard model);
-    
+
     void delete(CustomerCard model);
 }

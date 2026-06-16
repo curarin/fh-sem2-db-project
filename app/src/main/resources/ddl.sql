@@ -153,10 +153,10 @@ ALTER TABLE customer
 
 CREATE TABLE event
 (
-    event_id           INTEGER                     NOT NULL,
-    event_name         VARCHAR(255)                NOT NULL,
+    event_id           INTEGER      NOT NULL,
+    event_name         VARCHAR(255) NOT NULL,
     event_starts_at_ts TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    event_type_id      INTEGER                     NOT NULL,
+    event_type_id      INTEGER      NOT NULL,
     CONSTRAINT pk_event PRIMARY KEY (event_id)
 );
 

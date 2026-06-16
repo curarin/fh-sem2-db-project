@@ -15,13 +15,13 @@ public interface CustomerDao {
     List<Customer> findByLastName(String name);
 
     List<Customer> findByFirstName(String firstName);
-    
+
     List<Customer> findAll();
 
     Customer findByNameAndLastNameAndAddress(String firstName, String lastName, Street street, Country country, Zip zip, Town town);
 
     void update(Customer model);
-    
+
     void delete(Customer model);
 
 }

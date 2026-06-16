@@ -3,11 +3,13 @@ package at.fhburgenland.model.dao;
 import at.fhburgenland.model.*;
 import at.fhburgenland.model.dao.implementations.CustomerDaoImpl;
 import at.fhburgenland.model.dao.interfaces.CustomerDao;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,14 +1,10 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.*;
-
 import at.fhburgenland.model.dao.interfaces.CustomerDao;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

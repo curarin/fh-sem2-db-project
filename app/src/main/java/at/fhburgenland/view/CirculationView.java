@@ -1,8 +1,9 @@
 package at.fhburgenland.view;
 
+import at.fhburgenland.model.BookCirculationLog;
+
 import java.util.List;
 import java.util.Scanner;
-import at.fhburgenland.model.BookCirculationLog;
 
 public class CirculationView {
     private final Scanner scanner = new Scanner(System.in);

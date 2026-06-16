@@ -1,8 +1,6 @@
 package at.fhburgenland.model.dao.interfaces;
 
-import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookCirculationLog;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 

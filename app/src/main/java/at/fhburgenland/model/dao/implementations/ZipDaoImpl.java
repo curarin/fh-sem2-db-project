@@ -1,12 +1,9 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.Zip;
-
 import at.fhburgenland.model.dao.interfaces.ZipDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-
-import java.util.List;
 
 /**
  * Concrete implementation of Zip DAO - offers CRUD operations

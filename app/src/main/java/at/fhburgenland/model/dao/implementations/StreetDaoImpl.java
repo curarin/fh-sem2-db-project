@@ -1,12 +1,9 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.Street;
-
 import at.fhburgenland.model.dao.interfaces.StreetDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-
-import java.util.List;
 
 /**
  * Concrete implementation of Street DAO - offers CRUD operations

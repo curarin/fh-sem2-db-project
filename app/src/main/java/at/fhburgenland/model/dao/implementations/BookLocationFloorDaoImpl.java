@@ -10,6 +10,7 @@ public class BookLocationFloorDaoImpl implements BookLocationFloorDao {
     public BookLocationFloorDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
     @Override
     public void create(BookLocationFloor bookLocationFloor) {
         entityManager.persist(bookLocationFloor);

@@ -1,7 +1,6 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.City;
-
 import at.fhburgenland.model.dao.interfaces.CityDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

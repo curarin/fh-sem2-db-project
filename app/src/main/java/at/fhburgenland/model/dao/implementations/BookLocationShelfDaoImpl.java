@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 
 public class BookLocationShelfDaoImpl implements BookLocationShelfDao {
     private final EntityManager entityManager;
+
     public BookLocationShelfDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

@@ -165,20 +165,20 @@ public class CustomerView {
     public void printCustomer(Customer customer) {
         if (customer == null) return;
         String customerPrint = String.format("""
-                -------------------------------------
-                |       Customer found in system    |
-                -------------------------------------
-                | ID:          %s
-                | First Name:  %s
-                | Last Name:   %s
-                | Street:      %s
-                | Street Nr:   %s
-                | Zip:         %s
-                | Town:        %s
-                | City:        %s
-                | Country:     %s
-                -------------------------------------
-                """,
+                        -------------------------------------
+                        |       Customer found in system    |
+                        -------------------------------------
+                        | ID:          %s
+                        | First Name:  %s
+                        | Last Name:   %s
+                        | Street:      %s
+                        | Street Nr:   %s
+                        | Zip:         %s
+                        | Town:        %s
+                        | City:        %s
+                        | Country:     %s
+                        -------------------------------------
+                        """,
                 customer.getCustomerId(),
                 customer.getFirstName(),
                 customer.getLastName(),
@@ -200,10 +200,6 @@ public class CustomerView {
                 """, customers.size());
         System.out.println(statsPrint);
     }
-
-    
-
-
 
 
 }

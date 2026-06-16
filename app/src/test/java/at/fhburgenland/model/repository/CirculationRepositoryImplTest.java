@@ -40,27 +40,27 @@ public class CirculationRepositoryImplTest {
         Customer customer = new Customer();
         customer.setFirstName("Pete");
         customer.setLastName("Petrovic");
-        
+
         City city = new City();
         city.setCityName("Wien");
         customer.setCity(city);
-        
+
         Country country = new Country();
         country.setCountryName("Austria");
         customer.setCountry(country);
-        
+
         Zip zip = new Zip();
         zip.setZipCode("1010");
         customer.setZip(zip);
-        
+
         Town town = new Town();
         town.setTownName("Graz");
         customer.setTown(town);
-        
+
         Street street = new Street();
         street.setStreet("Rabaa");
         customer.setStreet(street);
-        
+
         customerRepository.save(customer);
         return customer;
     }
@@ -73,7 +73,7 @@ public class CirculationRepositoryImplTest {
         book.setIsbn(isbn);
         book.setBookTitle("No Stock Book");
         bookRepository.save(book); // Saved book but no copies in stock
-        
+
         Customer customer = createAndSaveCustomer();
 
         assertThrows(RuntimeException.class, () -> {
@@ -84,41 +84,41 @@ public class CirculationRepositoryImplTest {
     @Test
     void testFindOpenBooksByCustomer() {
         Customer customer = createAndSaveCustomer();
-        
+
         Book book = new Book();
         book.setIsbn("1234567890");
         book.setBookTitle("Test Book");
-        
+
         BookGenre genre = new BookGenre();
         genre.setBookGenreName("Test Genre");
         book.setBookGenre(genre);
-        
+
         BookPublisher publisher = new BookPublisher();
         publisher.setBookPublisherName("Test Publisher");
         book.setBookPublisher(publisher);
-        
+
         bookRepository.save(book);
-        
+
         BookLocation location = new BookLocation();
         BookLocationFloor floor = new BookLocationFloor();
         floor.setBookLocationFloorNumber(1);
         location.setBookLocationFloor(floor);
-        
+
         BookLocationShelf shelf = new BookLocationShelf();
         shelf.setBookLocationShelfNumber(1);
         location.setBookLocationShelf(shelf);
-        
+
         bookRepository.saveBookCopyCount(book, 1, location);
-        
+
         circulationRepository.borrowBook(customer, book);
-        
+
         List<BookCirculationLog> openLogs = circulationRepository.findOpenBooksByCustomer(customer);
         assertNotNull(openLogs);
         assertEquals(1, openLogs.size());
         assertEquals(book.getIsbn(), openLogs.get(0).getFkStockid().getBook().getIsbn());
-        
+
         circulationRepository.returnBook(openLogs.get(0).getBookCirculationLogId());
-        
+
         openLogs = circulationRepository.findOpenBooksByCustomer(customer);
         assertEquals(0, openLogs.size());
     }

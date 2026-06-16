@@ -1,12 +1,8 @@
 package at.fhburgenland.model.dao.implementations;
 
 import at.fhburgenland.model.CustomerCard;
-
 import at.fhburgenland.model.dao.interfaces.CustomerCardDao;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-
-import java.util.List;
 
 /**
  * Concrete implementation of CustomerCard DAO - offers CRUD operations as well as additional

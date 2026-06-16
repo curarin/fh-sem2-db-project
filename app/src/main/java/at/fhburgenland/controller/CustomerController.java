@@ -11,11 +11,62 @@ public class CustomerController {
     private final CustomerRepository customerRepository;
     private final CustomerView customerView;
 
-    public CustomerController(CustomerRepository customerRepo, CustomerView customerView){
+    public CustomerController(CustomerRepository customerRepo, CustomerView customerView) {
         this.customerRepository = customerRepo;
         this.customerView = customerView;
     }
 
+    public static Customer selectCustomer(CustomerView customerView, CustomerRepository customerRepository) {
+        Integer selectedCustomerId = switch (customerView.showExistingCustomerMenu()) {
+            case 1 -> {
+                String firstName = customerView.getCustomerFirstNameByUser();
+                List<Customer> customers = customerRepository.findByFirstName(firstName);
+                if (customers.isEmpty()) {
+                    customerView.printMessage("No customers found.");
+                    yield null;
+                }
+                for (Customer customer : customers) {
+                    customerView.printCustomer(customer);
+                }
+                customerView.printSearchStatistics(customers);
+                int id = customerView.getCustomerIdByUser();
+                yield (id <= 0) ? null : id;
+            }
+            case 2 -> {
+                String lastName = customerView.getCustomerLastNameByUser();
+                List<Customer> customers = customerRepository.findByLastName(lastName);
+                if (customers.isEmpty()) {
+                    customerView.printMessage("No customers found.");
+                    yield null;
+                }
+                for (Customer customer : customers) {
+                    customerView.printCustomer(customer);
+                }
+                customerView.printSearchStatistics(customers);
+                int id = customerView.getCustomerIdByUser();
+                yield (id <= 0) ? null : id;
+            }
+            case 3 -> {
+                int id = customerView.getCustomerIdByUser();
+                if (id <= 0) yield null;
+                Customer customer = customerRepository.findById(id);
+                if (customer != null) {
+                    customerView.printCustomer(customer);
+                    yield customer.getCustomerId();
+                } else {
+                    customerView.printMessage("Customer with ID " + id + " not found.");
+                    yield null;
+                }
+            }
+            default -> null;
+        };
+
+        if (selectedCustomerId != null) {
+            return customerRepository.findById(selectedCustomerId);
+        }
+
+        return null;
+    }
 
     public void start() {
         boolean running = true;
@@ -122,58 +173,6 @@ public class CustomerController {
                 default -> customerView.printMessage("Invalid choice. Please try again.");
             }
         }
-    }
-
-    public static Customer selectCustomer(CustomerView customerView, CustomerRepository customerRepository) {
-        Integer selectedCustomerId = switch (customerView.showExistingCustomerMenu()) {
-            case 1 -> {
-                String firstName = customerView.getCustomerFirstNameByUser();
-                List<Customer> customers = customerRepository.findByFirstName(firstName);
-                if (customers.isEmpty()) {
-                    customerView.printMessage("No customers found.");
-                    yield null;
-                }
-                for (Customer customer : customers) {
-                    customerView.printCustomer(customer);
-                }
-                customerView.printSearchStatistics(customers);
-                int id = customerView.getCustomerIdByUser();
-                yield (id <= 0) ? null : id;
-            }
-            case 2 -> {
-                String lastName = customerView.getCustomerLastNameByUser();
-                List<Customer> customers = customerRepository.findByLastName(lastName);
-                if (customers.isEmpty()) {
-                    customerView.printMessage("No customers found.");
-                    yield null;
-                }
-                for (Customer customer : customers) {
-                    customerView.printCustomer(customer);
-                }
-                customerView.printSearchStatistics(customers);
-                int id = customerView.getCustomerIdByUser();
-                yield (id <= 0) ? null : id;
-            }
-            case 3 -> {
-                int id = customerView.getCustomerIdByUser();
-                if (id <= 0) yield null;
-                Customer customer = customerRepository.findById(id);
-                if (customer != null) {
-                    customerView.printCustomer(customer);
-                    yield customer.getCustomerId();
-                } else {
-                    customerView.printMessage("Customer with ID " + id + " not found.");
-                    yield null;
-                }
-            }
-            default -> null;
-        };
-
-        if (selectedCustomerId != null) {
-            return customerRepository.findById(selectedCustomerId);
-        }
-
-        return null;
     }
 
 }

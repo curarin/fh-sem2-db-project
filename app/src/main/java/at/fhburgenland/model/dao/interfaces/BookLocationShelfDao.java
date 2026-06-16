@@ -7,8 +7,12 @@ import at.fhburgenland.model.BookLocationShelf;
  */
 public interface BookLocationShelfDao {
     void create(BookLocationShelf bookLocationShelf);
+
     void update(BookLocationShelf bookLocationShelf);
+
     void delete(BookLocationShelf bookLocationShelf);
+
     BookLocationShelf readById(Integer bookLocationId);
+
     BookLocationShelf readByNumber(Integer bookLocationFloorNumber);
 }

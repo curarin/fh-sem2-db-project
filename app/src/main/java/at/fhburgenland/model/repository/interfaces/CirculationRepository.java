@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CirculationRepository {
     void borrowBook(Customer customer, Book book);
+
     void returnBook(int circulationLogId);
+
     List<BookCirculationLog> findOpenBooksByCustomer(Customer customer);
 }

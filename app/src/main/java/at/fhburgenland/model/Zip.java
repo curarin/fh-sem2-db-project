@@ -30,6 +30,6 @@ public class Zip {
     }
 
     public void setZip(String zip) {
-       this.zipCode = zip;
+        this.zipCode = zip;
     }
 }

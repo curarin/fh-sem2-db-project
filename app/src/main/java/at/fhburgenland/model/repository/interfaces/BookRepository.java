@@ -23,6 +23,7 @@ public interface BookRepository {
 
     /**
      * Returns all unique ISBNs depending on Stock State
+     *
      * @param bookIsCurrentlyInStock true/false
      * @return List of ISBNs currently in stock / not in stock
      */
@@ -30,6 +31,7 @@ public interface BookRepository {
 
     /**
      * Returns the stock state for a given book
+     *
      * @param isbn ISBN of the book
      * @return list of books
      */

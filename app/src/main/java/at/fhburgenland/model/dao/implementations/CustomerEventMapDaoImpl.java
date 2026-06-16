@@ -4,9 +4,6 @@ import at.fhburgenland.model.CustomerEventMap;
 import at.fhburgenland.model.CustomerEventMapId;
 import at.fhburgenland.model.dao.interfaces.CustomerEventMapDao;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-
-import java.util.List;
 
 /**
  * Concrete implementation of CustomerEventMap DAO - offers CRUD operations as well as additional
