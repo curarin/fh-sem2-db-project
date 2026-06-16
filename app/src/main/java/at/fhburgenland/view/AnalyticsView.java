@@ -1,6 +1,13 @@
 package at.fhburgenland.view;
 
+import at.fhburgenland.model.Book;
+import at.fhburgenland.model.BookAuthor;
+import at.fhburgenland.model.Customer;
+
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AnalyticsView {
     private final Scanner scanner = new Scanner(System.in);
@@ -50,6 +57,49 @@ public class AnalyticsView {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
             return -1;
+        }
+    }
+
+    public String getStartDateByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Please enter Start Date          |
+                |  in this format: YYYY-mm-dd       |
+                |e.g. "2026-06-01" for 1. June 2026 |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public String getEndtDateByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Please enter End Date            |
+                |  in this format: YYYY-mm-dd       |
+                |e.g. "2026-06-01" for 1. June 2026 |
+                -------------------------------------
+                """);
+        return scanner.nextLine();
+    }
+
+    public void printBooksAtLoanByCustomer(Customer selectedCustomer, List<Book> selectedBooks, LocalDate startDate, LocalDate endDate) {
+        String bookPrint = String.format("""
+                -------------------------------------
+                |       Books for: %s %s
+                -------------------------------------
+                | Date Range Start: %s
+                | Date Range End: %s
+                -------------------------------------
+                """, selectedCustomer.getFirstName(), selectedCustomer.getLastName(), startDate, endDate);
+        System.out.println(bookPrint);
+        for (Book book : selectedBooks) {
+            String authors = book.getBookAuthors().stream().map(BookAuthor::getBookAuthorName).collect(Collectors.joining(", "));
+            String specificPrint = String.format("""
+                    | Title: %s
+                    | Authors: %s
+                    | Book Isbn: %s
+                    """, book.getBookTitle(), authors, book.getIsbn());
+            System.out.println(specificPrint);
         }
     }
 }
