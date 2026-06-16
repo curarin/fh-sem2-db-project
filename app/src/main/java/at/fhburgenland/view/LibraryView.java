@@ -17,6 +17,7 @@ public class LibraryView {
                 | (2) Events                        |
                 | (3) Customers                     |
                 | (4) Book transactions             |
+                | (5) Analytic Insights             |
                 -------------------------------------
                 | (0) Exit                          |
                 =====================================
