@@ -5,10 +5,12 @@ import at.fhburgenland.model.dto.CustomerAnalyticsDto;
 import at.fhburgenland.model.repository.implementations.*;
 import at.fhburgenland.model.repository.interfaces.*;
 import at.fhburgenland.view.AnalyticsView;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -29,6 +31,22 @@ public class AnalyticsRepositoryImplTest {
     private static EventRepository eventRepository;
     private static EntityManagerFactory entityManagerFactory;
     private static EventCustomerRepository eventCustomerRepository;
+
+    @BeforeEach
+    public void cleanDatabase() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        entityManager.createQuery("delete from CustomerEventMap").executeUpdate();
+        entityManager.createQuery("delete from BookCirculationLog").executeUpdate();
+        entityManager.createQuery("delete from Event").executeUpdate();
+        entityManager.createQuery("delete from Customer").executeUpdate();
+        entityManager.createQuery("delete from BookStockLog").executeUpdate();
+        entityManager.createQuery("delete from Book").executeUpdate();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
 
     @BeforeAll
     public static void setupEntityManagerFactory() {
@@ -107,7 +125,7 @@ public class AnalyticsRepositoryImplTest {
         // Then we create a customer
 
         String firstName = "Alfred";
-        String lastName = "Dorfer";
+        String lastName = "Dorfer444";
         String street = "Waltendorf";
         String zip = "8010";
         String streetNumber = "14";
@@ -115,7 +133,7 @@ public class AnalyticsRepositoryImplTest {
         String country = "Austria";
 
         customerRepository.save(firstName, lastName, street, streetNumber, zip, town, "Capital City", country);
-        Customer newCustomer = customerRepository.findByLastName("Dorfer").get(0);
+        Customer newCustomer = customerRepository.findByLastName("Dorfer444").get(0);
 
         // Then we loan a book
         circulationRepository.borrowBook(newCustomer, firstBook);
@@ -193,7 +211,7 @@ public class AnalyticsRepositoryImplTest {
         // Then we create a customer
 
         String firstName = "Alfred";
-        String lastName = "Dorfer";
+        String lastName = "Dorfer123";
         String street = "Waltendorf";
         String zip = "8010";
         String streetNumber = "14";
@@ -201,13 +219,13 @@ public class AnalyticsRepositoryImplTest {
         String country = "Austria";
 
         customerRepository.save(firstName, lastName, street, streetNumber, zip, town, "Capital City", country);
-        Customer newCustomer = customerRepository.findByLastName("Dorfer").get(0);
+        Customer newCustomer = customerRepository.findByLastName("Dorfer123").get(0);
 
         // Then we create an event
         Event newEventWithBooks = new Event();
         EventType newEventType = new EventType();
-        newEventType.setEventTypeName("Test 9: Event Type");
-        newEventWithBooks.setEventName("Test 9: Save new Event");
+        newEventType.setEventTypeName("Test 9: Event Type Test Bla");
+        newEventWithBooks.setEventName("Test 9: Save new Event Test Bla");
         newEventWithBooks.setEventType(newEventType);
         newEventWithBooks.setEventStartsAtTs(LocalDateTime.now());
         eventRepository.save(newEventWithBooks);

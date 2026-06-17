@@ -118,11 +118,11 @@ public class AnalyticsRepositoryImpl implements AnalyticsRepository {
                 """;
         TypedQuery<Long> avgTypedQuery = entityManager.createQuery(queryCalculateAverage, Long.class);
         List<Long> participantCounts = avgTypedQuery.getResultList();
-        double average = 0;
+        Long totalParticipants = 0L;
         for (Long count : participantCounts) {
-            average += count;
+            totalParticipants += count;
         }
-        average = average / participantCounts.size();
+        Long numberOfEvents = (long) participantCounts.size();
 
         String finalQuery = """
                 select
@@ -133,10 +133,11 @@ public class AnalyticsRepositoryImpl implements AnalyticsRepository {
                 left join CustomerEventMap customerEventMap
                     on customerEventMap.event = event
                 group by 1
-                having count(distinct customerEventMap.customer.customerId) > :average
+                having count(distinct customerEventMap.customer.customerId) * :numberOfEvents > :totalParticipants
                 """;
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(finalQuery, Object[].class);
-        typedQuery.setParameter("average", average);
+        typedQuery.setParameter("numberOfEvents", numberOfEvents);
+        typedQuery.setParameter("totalParticipants", totalParticipants);
 
         List<EventAnalyticsDto> eventAnalyticsDtoList = new ArrayList<>();
 
