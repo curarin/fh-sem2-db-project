@@ -3,6 +3,7 @@ package at.fhburgenland.view;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.Event;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class EventView {
@@ -17,6 +18,8 @@ public class EventView {
                 | (2) Add new Event                 |
                 | (3) Edit existing Event           |
                 | (4) Delete Event                  |
+                | (5) Add Customers to Event        |
+                | (6) Show Customers visiting Event |
                 -------------------------------------
                 | (0) Main Menu                     |
                 =====================================
@@ -43,6 +46,18 @@ public class EventView {
         System.out.println("""
                 -------------------------------------
                 |  Add books to current event?      |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        return scanner.nextLine().equals("1");
+    }
+
+    public boolean getUserChoiceForCustomerAddition() {
+        System.out.println("""
+                -------------------------------------
+                |  Add customers to current event?  |
                 -------------------------------------
                 | (1) Yes                           |
                 | (2) No                            |
@@ -128,6 +143,20 @@ public class EventView {
         }
     }
 
+    public int chooseEventToAddUser() {
+        System.out.println("""
+                -------------------------------------
+                |         Choose Event by ID        |
+                |     to add Customers to Event     |
+                -------------------------------------
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
     public int showExistingEventMenu() {
         System.out.println("""
                 -------------------------------------
@@ -161,9 +190,28 @@ public class EventView {
         System.out.println(bookPrint);
         int bookCounter = 1;
         for (Book book : event.getBooks()) {
-            System.out.printf("| Book (%d): %s (Genre: %s)\n", bookCounter, book.getBookTitle(), book.getBookGenre());
+            System.out.printf("| Book (%d): %s (Genre: %s)\n", bookCounter, book.getBookTitle(), book.getBookGenre().getBookGenreName());
             bookCounter++;
         }
         System.out.print("-------------------------------------\n");
     }
+
+    /**
+     * Prints a grid of all events in the system
+     * @param events List of all events
+     */
+    public void printEventGrid(List<Event> events) {
+        System.out.print("""
+                -------------------------------------
+                |      Overview of all Events:      |
+                -------------------------------------""");
+        
+        System.out.println("");
+        System.out.println("|        ID : Name");
+        for (Event event : events) {
+            System.out.printf("| Event  %d : %s\n", event.getEventId(), event.getEventName());
+        }
+        System.out.print("-------------------------------------\n");
+    }
+
 }

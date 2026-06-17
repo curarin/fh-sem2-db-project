@@ -3,6 +3,7 @@ package at.fhburgenland.controller;
 import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
 import at.fhburgenland.view.CustomerView;
+import at.fhburgenland.view.ViewUtil;
 
 import java.util.List;
 
@@ -17,12 +18,14 @@ public class CustomerController {
     }
 
     public static Customer selectCustomer(CustomerView customerView, CustomerRepository customerRepository) {
+
+
         Integer selectedCustomerId = switch (customerView.showExistingCustomerMenu()) {
             case 1 -> {
                 String firstName = customerView.getCustomerFirstNameByUser();
                 List<Customer> customers = customerRepository.findByFirstName(firstName);
                 if (customers.isEmpty()) {
-                    customerView.printMessage("No customers found.");
+                    ViewUtil.printMessage("No customers found.");
                     yield null;
                 }
                 for (Customer customer : customers) {
@@ -36,7 +39,7 @@ public class CustomerController {
                 String lastName = customerView.getCustomerLastNameByUser();
                 List<Customer> customers = customerRepository.findByLastName(lastName);
                 if (customers.isEmpty()) {
-                    customerView.printMessage("No customers found.");
+                    ViewUtil.printMessage("No customers found.");
                     yield null;
                 }
                 for (Customer customer : customers) {
@@ -54,7 +57,7 @@ public class CustomerController {
                     customerView.printCustomer(customer);
                     yield customer.getCustomerId();
                 } else {
-                    customerView.printMessage("Customer with ID " + id + " not found.");
+                    ViewUtil.printMessage("Customer with ID " + id + " not found.");
                     yield null;
                 }
             }
@@ -91,9 +94,9 @@ public class CustomerController {
                     boolean customerCreated = customerRepository.save(firstName, lastName, street, streetNumber, zip, town, city, country);
 
                     if (!customerCreated) {
-                        customerView.printMessage("Customer created successfully!");
+                        ViewUtil.printMessage("Customer created successfully!");
                     } else {
-                        customerView.printMessage("Customer already exists");
+                        ViewUtil.printMessage("Customer already exists");
                     }
                 }
                 case 3 -> {
@@ -156,7 +159,7 @@ public class CustomerController {
                             }
                         }
                     } else {
-                        customerView.printMessage("Customer with ID " + id + " not found.");
+                        ViewUtil.printMessage("Customer with ID " + id + " not found.");
                     }
                 }
                 case 4 -> {
@@ -164,13 +167,13 @@ public class CustomerController {
                     Customer customerToBeDeleted = customerRepository.findById(id);
                     if (customerToBeDeleted != null) {
                         customerRepository.remove(customerToBeDeleted);
-                        customerView.printMessage("Customer deleted successfully!");
+                        ViewUtil.printMessage("Customer deleted successfully!");
                     } else {
-                        customerView.printMessage("Customer with ID " + id + " not found.");
+                        ViewUtil.printMessage("Customer with ID " + id + " not found.");
                     }
                 }
                 case 0 -> running = false;
-                default -> customerView.printMessage("Invalid choice. Please try again.");
+                default -> ViewUtil.printMessage("Invalid choice. Please try again.");
             }
         }
     }

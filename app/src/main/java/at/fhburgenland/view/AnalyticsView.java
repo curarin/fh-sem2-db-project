@@ -13,10 +13,6 @@ import java.util.stream.Collectors;
 public class AnalyticsView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public int showMainMenu() {
         System.out.println("""
                 =====================================

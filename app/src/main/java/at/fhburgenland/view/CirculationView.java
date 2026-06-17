@@ -61,10 +61,6 @@ public class CirculationView {
         }
     }
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public void printBorrowedBooks(BookCirculationLog log) {
         System.out.println("ID: " + log.getBookCirculationLogId() + " | Book: " + log.getFkStockid().getBook().getBookTitle() + " | Loan Date: " + log.getLoanStartsAtDate());
     }

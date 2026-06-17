@@ -3,6 +3,8 @@ package at.fhburgenland.model.dao.interfaces;
 import at.fhburgenland.model.CustomerEventMap;
 import at.fhburgenland.model.CustomerEventMapId;
 
+import java.util.List;
+
 /**
  * Abstract class that provides CRUD operations for CustomerEventMap
  */
@@ -14,4 +16,6 @@ public interface CustomerEventMapDao {
     void update(CustomerEventMap model);
 
     void delete(CustomerEventMap model);
+
+    List<CustomerEventMap> findByEventId(int eventId);
 }

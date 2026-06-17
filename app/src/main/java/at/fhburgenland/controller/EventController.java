@@ -1,11 +1,16 @@
 package at.fhburgenland.controller;
 
+import at.fhburgenland.model.Customer;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.Event;
 import at.fhburgenland.model.EventType;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
+import at.fhburgenland.model.repository.interfaces.CustomerRepository;
+import at.fhburgenland.model.repository.interfaces.EventCustomerRepository;
 import at.fhburgenland.model.repository.interfaces.EventRepository;
 import at.fhburgenland.view.BookView;
+import at.fhburgenland.view.CustomerEventView;
+import at.fhburgenland.view.CustomerView;
 import at.fhburgenland.view.EventView;
 
 import java.time.LocalDateTime;
@@ -23,12 +28,18 @@ public class EventController {
     private final EventView eventView;
     private final BookRepository bookRepository;
     private final BookView bookView;
+    private final EventCustomerRepository eventCustomerRepository;
+    private final CustomerRepository customerRepository;
+    private final CustomerView customerView;
 
-    public EventController(EventRepository eventRepository, EventView eventView, BookRepository bookRepository, BookView bookView) {
+    public EventController(EventRepository eventRepository, EventView eventView, BookRepository bookRepository, BookView bookView, EventCustomerRepository eventCustomerRepository, CustomerRepository customerRepository, CustomerView customerView) {
         this.eventRepository = eventRepository;
         this.eventView = eventView;
         this.bookRepository = bookRepository;
         this.bookView = bookView;
+        this.eventCustomerRepository = eventCustomerRepository;
+        this.customerRepository = customerRepository;
+        this.customerView = customerView;
     }
 
     /**
@@ -168,6 +179,53 @@ public class EventController {
                         eventRepository.remove(eventIdInput);
                     }
 
+                }
+                // Add Customers to Event
+                case 5 -> {
+                    List<Event> foundEvents = eventRepository.findAll();
+
+                    if (!foundEvents.isEmpty()) {
+                        // print all events
+                        eventView.printEventGrid(eventRepository.findAll().stream().toList());
+                        // choose event to add customer to
+                        Event selectedEvent = eventRepository.findById(eventView.chooseEventToAddUser());
+                        if (selectedEvent != null) {
+                            CustomerEventView.printPrologCustomerAddition();
+                                do {
+                                    Customer customer = CustomerController.selectCustomer(customerView, customerRepository);
+                                    if (customer != null) {
+                                        eventCustomerRepository.addCustomerToEvent(customer, selectedEvent);
+                                        System.out.println("Customer added to event.");
+                                    } else {
+                                        System.out.println("Customer not found.");
+                                    }
+                                } while (eventView.getUserChoiceForCustomerAddition());
+
+
+
+                        } else {
+                            System.out.println("Event not found.");
+                        }
+                    } else {
+                        System.out.println("No events found");
+                    }
+                }
+                // Show Customers visiting Event
+                case 6 -> {
+                    List<Event> foundEvents = eventRepository.findAll();
+                    if (foundEvents.isEmpty()) {
+                        System.out.println("No events found");
+                    } else {
+                        eventView.printEventGrid(eventRepository.findAll().stream().toList());
+                        Integer eventIdInput = eventView.getEventIdByUser();
+                        List<Customer> customers = eventCustomerRepository.getCustomersByEvent(eventIdInput);
+                        if (customers.isEmpty()) {
+                            System.out.println("No customers found for this event.");
+                        } else {
+                            System.out.println("Customers visiting this event:");
+                            customers.forEach(customerView::printCustomer);
+                        }
+                    }
                 }
                 case 0 -> running = false;
                 default -> {

@@ -5,6 +5,8 @@ import at.fhburgenland.model.CustomerEventMapId;
 import at.fhburgenland.model.dao.interfaces.CustomerEventMapDao;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 /**
  * Concrete implementation of CustomerEventMap DAO - offers CRUD operations as well as additional
  */
@@ -33,5 +35,12 @@ public class CustomerEventMapDaoImpl implements CustomerEventMapDao {
     @Override
     public void delete(CustomerEventMap model) {
         entityManager.remove(model);
+    }
+
+    @Override
+    public List<CustomerEventMap> findByEventId(int eventId) {
+        return entityManager.createQuery("SELECT c FROM CustomerEventMap c WHERE c.id.eventId = :eventId", CustomerEventMap.class)
+                .setParameter("eventId", eventId)
+                .getResultList();
     }
 }

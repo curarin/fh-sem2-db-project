@@ -9,10 +9,6 @@ public class CustomerView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public int showMainMenu() {
         System.out.println("""
                 =====================================
@@ -75,6 +71,19 @@ public class CustomerView {
         System.out.println("""
                 -------------------------------------
                 |  Enter Customer ID:               |
+                -------------------------------------
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public int getCustomerIdByUserForEventAddition() {
+        System.out.println("""
+                -------------------------------------
+                | Enter Customer ID to add event to:|
                 -------------------------------------
                 """);
         try {

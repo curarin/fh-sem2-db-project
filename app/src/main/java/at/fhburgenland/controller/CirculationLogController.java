@@ -8,6 +8,7 @@ import at.fhburgenland.model.repository.interfaces.CirculationRepository;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
 import at.fhburgenland.view.CirculationView;
 import at.fhburgenland.view.CustomerView;
+import at.fhburgenland.view.ViewUtil;
 
 import java.util.List;
 
@@ -38,18 +39,18 @@ public class CirculationLogController {
                     Customer customer = CustomerController.selectCustomer(customerView, customerRepository);
 
                     if (customer == null) {
-                        circulationView.printMessage("Customer not found.");
+                        ViewUtil.printMessage("Customer not found.");
                     } else {
                         String isbn = circulationView.getIsbnByUser();
                         Book book = bookRepository.findByIsbn(isbn);
                         if (book == null) {
-                            circulationView.printMessage("Book not found.");
+                            ViewUtil.printMessage("Book not found.");
                         } else {
                             try {
                                 circulationRepository.borrowBook(customer, book);
-                                circulationView.printMessage("Book borrowed successfully.");
+                                ViewUtil.printMessage("Book borrowed successfully.");
                             } catch (Exception e) {
-                                circulationView.printMessage("Error: " + e.getMessage());
+                                ViewUtil.printMessage("Error: " + e.getMessage());
                             }
                         }
                     }
@@ -78,13 +79,13 @@ public class CirculationLogController {
 
                     try {
                         circulationRepository.returnBook(logId);
-                        circulationView.printMessage("Book returned successfully.");
+                        ViewUtil.printMessage("Book returned successfully.");
                     } catch (Exception e) {
-                        circulationView.printMessage("Error: " + e.getMessage());
+                        ViewUtil.printMessage("Error: " + e.getMessage());
                     }
                 }
                 case 0 -> running = false;
-                default -> circulationView.printMessage("Invalid choice.");
+                default -> ViewUtil.printMessage("Invalid choice.");
             }
         }
     }

@@ -18,10 +18,6 @@ public class BookView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public String getIsbnByUser() {
         System.out.println("""
                 -------------------------------------
@@ -114,7 +110,7 @@ public class BookView {
                 return false;
             }
             default -> {
-                printMessage("Please enter a valid choice");
+                ViewUtil.printMessage("Please enter a valid choice");
                 return false;
             }
         }
@@ -158,7 +154,7 @@ public class BookView {
                 return false;
             }
             default -> {
-                printMessage("Please enter a valid choice");
+                ViewUtil.printMessage("Please enter a valid choice");
                 return false;
             }
         }
