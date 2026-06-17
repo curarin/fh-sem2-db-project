@@ -1,9 +1,6 @@
 package at.fhburgenland.controller;
 
-import at.fhburgenland.model.Customer;
-import at.fhburgenland.model.Book;
-import at.fhburgenland.model.Event;
-import at.fhburgenland.model.EventType;
+import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
 import at.fhburgenland.model.repository.interfaces.EventCustomerRepository;
@@ -191,20 +188,23 @@ public class EventController {
                         Event selectedEvent = eventRepository.findById(eventView.chooseEventToAddUser());
                         if (selectedEvent != null) {
                             CustomerEventView.printPrologCustomerAddition();
-                                do {
-                                    Customer customer = CustomerController.selectCustomer(customerView, customerRepository);
+                            do {
+                                Customer customer = CustomerController.selectCustomer(customerView, customerRepository);
 
-                                    eventCustomerRepository.
+                                CustomerEventMap byId = eventCustomerRepository.findById(customer, selectedEvent);
 
+                                if (byId != null) {
+                                    System.out.println("Customer already added to this event.");
+                                    break;
+                                }
 
-                                    if (customer != null) {
-                                        eventCustomerRepository.addCustomerToEvent(customer, selectedEvent);
-                                        System.out.println("Customer added to event.");
-                                    } else {
-                                        System.out.println("Customer not found.");
-                                    }
-                                } while (eventView.getUserChoiceForCustomerAddition());
-
+                                if (customer != null) {
+                                    eventCustomerRepository.addCustomerToEvent(customer, selectedEvent);
+                                    System.out.println("Customer added to event.");
+                                } else {
+                                    System.out.println("Customer not found.");
+                                }
+                            } while (eventView.getUserChoiceForCustomerAddition());
 
 
                         } else {

@@ -39,11 +39,18 @@ public class EventCustomerRepositoryImpl implements EventCustomerRepository {
             id.setCustomerId(customer.getCustomerId());
             id.setEventId(event.getEventId());
 
-            
+            CustomerEventMapDao dao = new CustomerEventMapDaoImpl(entityManager);
+            CustomerEventMap customerEventMap = dao.readById(id);
 
+            transaction.commit();
+            return customerEventMap;
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            entityManager.close();
         }
-
-
     }
 
     @Override
