@@ -193,6 +193,10 @@ public class EventController {
                             CustomerEventView.printPrologCustomerAddition();
                                 do {
                                     Customer customer = CustomerController.selectCustomer(customerView, customerRepository);
+
+                                    eventCustomerRepository.
+
+
                                     if (customer != null) {
                                         eventCustomerRepository.addCustomerToEvent(customer, selectedEvent);
                                         System.out.println("Customer added to event.");
@@ -223,10 +227,41 @@ public class EventController {
                             System.out.println("No customers found for this event.");
                         } else {
                             System.out.println("Customers visiting this event:");
-                            customers.forEach(customerView::printCustomer);
+                            eventView.printCustomerVisitingEventGrid(customers,
+                                    eventRepository.findById(eventIdInput).getEventName());
                         }
                     }
                 }
+                // remove Customers visiting Event
+
+                case 7 -> {
+                    List<Event> foundEvents = eventRepository.findAll();
+
+                    if (!foundEvents.isEmpty()) {
+                        // print all events
+                        eventView.printEventGrid(eventRepository.findAll().stream().toList());
+                        // choose event to remove customer
+                        Event selectedEvent = eventRepository.findById(eventView.chooseEventToRemoveUser());
+                        if (selectedEvent != null) {
+                            CustomerEventView.printPrologCustomerRemoval();
+                            do {
+                                Customer customer = CustomerController.selectCustomer(customerView, customerRepository);
+                                if (customer != null) {
+                                    eventCustomerRepository.removeCustomerFromEvent(customer, selectedEvent);
+                                    System.out.println("Customer removed from event.");
+                                } else {
+                                    System.out.println("Customer not found.");
+                                }
+                            } while (eventView.getUserChoiceForCustomerRemoval());
+                        } else {
+                            System.out.println("Event not found.");
+                        }
+                    } else {
+                        System.out.println("No events found");
+                    }
+                }
+
+
                 case 0 -> running = false;
                 default -> {
                     System.out.println("Invalid choice");

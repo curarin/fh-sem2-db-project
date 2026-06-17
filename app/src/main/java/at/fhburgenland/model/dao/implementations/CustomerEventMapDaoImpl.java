@@ -39,7 +39,7 @@ public class CustomerEventMapDaoImpl implements CustomerEventMapDao {
 
     @Override
     public List<CustomerEventMap> findByEventId(int eventId) {
-        return entityManager.createQuery("SELECT c FROM CustomerEventMap c WHERE c.id.eventId = :eventId", CustomerEventMap.class)
+        return entityManager.createQuery("SELECT c FROM CustomerEventMap c JOIN FETCH c.customer WHERE c.id.eventId = :eventId", CustomerEventMap.class)
                 .setParameter("eventId", eventId)
                 .getResultList();
     }

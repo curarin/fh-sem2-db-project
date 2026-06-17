@@ -71,11 +71,38 @@ public class EventCustomerRepositoryImplTest {
         assertFalse(customers.isEmpty());
         boolean found = false;
         for (Customer c : customers) {
+            assertNotNull(c.getFirstName());
             if (c.getCustomerId().equals(customer.getCustomerId())) {
                 found = true;
                 break;
             }
         }
         assertTrue(found, "Customer should be found in the event guest list");
+    }
+
+    @Test
+    public void testRemoveCustomerFromEvent() {
+        // Create Customer
+        customerRepository.save("Remove", "Customer", "Street", "1", "1234", "Town", "City", "Country");
+        Customer customer = customerRepository.findByFirstName("Remove").get(0);
+
+        // Create Event
+        Event event = new Event();
+        event.setEventName("Remove Event");
+        event.setEventStartsAtTs(LocalDateTime.now().withNano(0));
+        EventType type = new EventType();
+        type.setEventTypeName("Remove Type");
+        event.setEventType(type);
+        eventRepository.save(event);
+        Event savedEvent = eventRepository.findByName("Remove Event").get(0);
+
+        // Add then Remove
+        eventCustomerRepository.addCustomerToEvent(customer, savedEvent);
+        List<Customer> customersBefore = eventCustomerRepository.getCustomersByEvent(savedEvent.getEventId());
+        assertEquals(1, customersBefore.size());
+
+        eventCustomerRepository.removeCustomerFromEvent(customer, savedEvent);
+        List<Customer> customersAfter = eventCustomerRepository.getCustomersByEvent(savedEvent.getEventId());
+        assertTrue(customersAfter.isEmpty());
     }
 }

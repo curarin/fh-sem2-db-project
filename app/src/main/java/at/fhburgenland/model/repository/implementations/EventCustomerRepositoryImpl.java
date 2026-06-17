@@ -21,6 +21,31 @@ public class EventCustomerRepositoryImpl implements EventCustomerRepository {
         this.entityManagerFactory = entityManagerFactory;
     }
 
+    /**
+     * Finds a customer event map by customer and event
+     * @param customer customer
+     * @param event event
+     */
+    @Override
+    public CustomerEventMap findById(Customer customer, Event event) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            CustomerEventMapId id = new CustomerEventMapId();
+            id.setCustomerId(customer.getCustomerId());
+            id.setEventId(event.getEventId());
+
+            
+
+        }
+
+
+    }
+
     @Override
     public void addCustomerToEvent(Customer customer, Event event) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -41,6 +66,37 @@ public class EventCustomerRepositoryImpl implements EventCustomerRepository {
             CustomerEventMapDao dao = new CustomerEventMapDaoImpl(entityManager);
             dao.create(map);
 
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    /**
+     * Removes a customer from an event
+     * @param customer Customer to remove
+     * @param event Event to remove customer from
+     */
+    @Override
+    public void removeCustomerFromEvent(Customer customer, Event event) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            CustomerEventMapId id = new CustomerEventMapId();
+            id.setCustomerId(customer.getCustomerId());
+            id.setEventId(event.getEventId());
+
+            CustomerEventMapDao dao = new CustomerEventMapDaoImpl(entityManager);
+            CustomerEventMap customerEventMap = dao.readById(id);
+            if (customerEventMap != null) {
+                dao.delete(customerEventMap);
+            }
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();

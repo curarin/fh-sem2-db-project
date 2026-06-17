@@ -1,6 +1,7 @@
 package at.fhburgenland.view;
 
 import at.fhburgenland.model.Book;
+import at.fhburgenland.model.Customer;
 import at.fhburgenland.model.Event;
 
 import java.util.List;
@@ -18,8 +19,10 @@ public class EventView {
                 | (2) Add new Event                 |
                 | (3) Edit existing Event           |
                 | (4) Delete Event                  |
+                |--- Customer Event Management -----|
                 | (5) Add Customers to Event        |
                 | (6) Show Customers visiting Event |
+                | (7) Remove Customers from Event   |
                 -------------------------------------
                 | (0) Main Menu                     |
                 =====================================
@@ -57,7 +60,8 @@ public class EventView {
     public boolean getUserChoiceForCustomerAddition() {
         System.out.println("""
                 -------------------------------------
-                |  Add customers to current event?  |
+                |  Add another customers            |
+                        to current event?           |
                 -------------------------------------
                 | (1) Yes                           |
                 | (2) No                            |
@@ -157,6 +161,33 @@ public class EventView {
         }
     }
 
+    public int chooseEventToRemoveUser() {
+        System.out.println("""
+                -------------------------------------
+                |         Choose Event by ID        |
+                |   to remove Customers from Event  |
+                -------------------------------------
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public boolean getUserChoiceForCustomerRemoval() {
+        System.out.println("""
+                -------------------------------------
+                | Remove another customers          |
+                |       from current event?         |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        return scanner.nextLine().equals("1");
+    }
+
     public int showExistingEventMenu() {
         System.out.println("""
                 -------------------------------------
@@ -213,5 +244,28 @@ public class EventView {
         }
         System.out.print("-------------------------------------\n");
     }
+
+    /**
+     * Prints a grid of all events in the system
+     * @param customers List of all customers
+     */
+    public void printCustomerVisitingEventGrid(List<Customer> customers, String eventName) {
+        System.out.printf("""
+                -------------------------------------
+                |      Overview of all Customer     |
+                |                visiting:          |
+                | %s
+                -------------------------------------""", eventName);
+
+        System.out.println("");
+        System.out.println("| ID : Name");
+        for (Customer customer: customers) {
+            System.out.printf("| %d : %s %s\n", customer.getCustomerId(),
+                    customer.getFirstName(), customer.getLastName());
+        }
+        System.out.print("-------------------------------------\n");
+    }
+
+
 
 }
