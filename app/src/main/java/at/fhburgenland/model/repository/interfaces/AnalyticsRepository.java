@@ -2,7 +2,6 @@ package at.fhburgenland.model.repository.interfaces;
 
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookStockLog;
-import at.fhburgenland.model.Event;
 import at.fhburgenland.model.dto.CustomerAnalyticsDto;
 import at.fhburgenland.model.dto.EventAnalyticsDto;
 

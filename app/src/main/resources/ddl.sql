@@ -95,7 +95,7 @@ CREATE TABLE zip
 
 CREATE TABLE book
 (
-    isbn              VARCHAR(13) NOT NULL,
+    isbn              VARCHAR(13)  NOT NULL,
     book_title        VARCHAR(255) NOT NULL,
     book_genre_id     INTEGER      NOT NULL,
     book_publisher_id INTEGER      NOT NULL,
@@ -165,7 +165,7 @@ ALTER TABLE event
 
 CREATE TABLE author_book_map
 (
-    book_author_id INTEGER      NOT NULL,
+    book_author_id INTEGER     NOT NULL,
     isbn           VARCHAR(13) NOT NULL,
     CONSTRAINT pk_author_book_map PRIMARY KEY (book_author_id, isbn)
 );
@@ -178,10 +178,10 @@ ALTER TABLE author_book_map
 
 CREATE TABLE book_stock_log
 (
-    book_stock_log_id INTEGER      NOT NULL,
-    book_is_in_stock  BOOLEAN      NOT NULL,
+    book_stock_log_id INTEGER     NOT NULL,
+    book_is_in_stock  BOOLEAN     NOT NULL,
     isbn              VARCHAR(13) NOT NULL,
-    book_location_id  INTEGER      NOT NULL,
+    book_location_id  INTEGER     NOT NULL,
     CONSTRAINT pk_book_stock_log PRIMARY KEY (book_stock_log_id)
 );
 
@@ -219,7 +219,7 @@ ALTER TABLE customer_event_map
 
 CREATE TABLE book_event_map
 (
-    book_event_id INTEGER      NOT NULL,
+    book_event_id INTEGER     NOT NULL,
     isbn          VARCHAR(13) NOT NULL,
     CONSTRAINT pk_book_event_map PRIMARY KEY (book_event_id, isbn)
 );

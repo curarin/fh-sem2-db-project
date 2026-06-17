@@ -23,8 +23,9 @@ public class EventCustomerRepositoryImpl implements EventCustomerRepository {
 
     /**
      * Finds a customer event map by customer and event
+     *
      * @param customer customer
-     * @param event event
+     * @param event    event
      */
     @Override
     public CustomerEventMap findById(Customer customer, Event event) {
@@ -84,8 +85,9 @@ public class EventCustomerRepositoryImpl implements EventCustomerRepository {
 
     /**
      * Removes a customer from an event
+     *
      * @param customer Customer to remove
-     * @param event Event to remove customer from
+     * @param event    Event to remove customer from
      */
     @Override
     public void removeCustomerFromEvent(Customer customer, Event event) {

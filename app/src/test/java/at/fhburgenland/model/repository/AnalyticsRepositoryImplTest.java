@@ -32,6 +32,22 @@ public class AnalyticsRepositoryImplTest {
     private static EntityManagerFactory entityManagerFactory;
     private static EventCustomerRepository eventCustomerRepository;
 
+    @BeforeAll
+    public static void setupEntityManagerFactory() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
+        analyticsRepository = new AnalyticsRepositoryImpl(entityManagerFactory);
+        circulationRepository = new CirculationRepositoryImpl(entityManagerFactory);
+        bookRepository = new BookRepositoryImpl(entityManagerFactory);
+        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
+        eventRepository = new EventRepositoryImpl(entityManagerFactory);
+        eventCustomerRepository = new EventCustomerRepositoryImpl(entityManagerFactory);
+    }
+
+    @AfterAll
+    public static void tearDownEntityManagerFactory() {
+        entityManagerFactory.close();
+    }
+
     @BeforeEach
     public void cleanDatabase() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -52,22 +68,6 @@ public class AnalyticsRepositoryImplTest {
 
         entityManager.getTransaction().commit();
         entityManager.close();
-    }
-
-    @BeforeAll
-    public static void setupEntityManagerFactory() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
-        analyticsRepository = new AnalyticsRepositoryImpl(entityManagerFactory);
-        circulationRepository = new CirculationRepositoryImpl(entityManagerFactory);
-        bookRepository = new BookRepositoryImpl(entityManagerFactory);
-        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
-        eventRepository = new EventRepositoryImpl(entityManagerFactory);
-        eventCustomerRepository = new EventCustomerRepositoryImpl(entityManagerFactory);
-    }
-
-    @AfterAll
-    public static void tearDownEntityManagerFactory() {
-        entityManagerFactory.close();
     }
 
     private Book createStandardBook(String isbn) {

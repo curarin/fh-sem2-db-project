@@ -21,6 +21,17 @@ public class BookRepositoryImplTest {
     private static EntityManagerFactory entityManagerFactory;
     private static BookRepository bookRepository;
 
+    @BeforeAll
+    public static void setupEntityManagerFactory() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
+        bookRepository = new BookRepositoryImpl(entityManagerFactory);
+    }
+
+    @AfterAll
+    public static void tearDownEntityManagerFactory() {
+        entityManagerFactory.close();
+    }
+
     @BeforeEach
     public void cleanDatabase() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -41,17 +52,6 @@ public class BookRepositoryImplTest {
 
         entityManager.getTransaction().commit();
         entityManager.close();
-    }
-
-    @BeforeAll
-    public static void setupEntityManagerFactory() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
-        bookRepository = new BookRepositoryImpl(entityManagerFactory);
-    }
-
-    @AfterAll
-    public static void tearDownEntityManagerFactory() {
-        entityManagerFactory.close();
     }
 
     private Book createStandardBook(String isbn) {

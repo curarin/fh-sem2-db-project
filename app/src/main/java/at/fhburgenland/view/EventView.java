@@ -229,6 +229,7 @@ public class EventView {
 
     /**
      * Prints a grid of all events in the system
+     *
      * @param events List of all events
      */
     public void printEventGrid(List<Event> events) {
@@ -236,7 +237,7 @@ public class EventView {
                 -------------------------------------
                 |      Overview of all Events:      |
                 -------------------------------------""");
-        
+
         System.out.println("");
         System.out.println("|        ID : Name");
         for (Event event : events) {
@@ -247,6 +248,7 @@ public class EventView {
 
     /**
      * Prints a grid of all events in the system
+     *
      * @param customers List of all customers
      */
     public void printCustomerVisitingEventGrid(List<Customer> customers, String eventName) {
@@ -259,13 +261,12 @@ public class EventView {
 
         System.out.println("");
         System.out.println("| ID : Name");
-        for (Customer customer: customers) {
+        for (Customer customer : customers) {
             System.out.printf("| %d : %s %s\n", customer.getCustomerId(),
                     customer.getFirstName(), customer.getLastName());
         }
         System.out.print("-------------------------------------\n");
     }
-
 
 
 }

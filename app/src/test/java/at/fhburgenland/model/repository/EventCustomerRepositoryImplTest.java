@@ -28,6 +28,21 @@ public class EventCustomerRepositoryImplTest {
     private static CustomerRepository customerRepository;
     private static EventRepository eventRepository;
 
+    @BeforeAll
+    public static void setupEntityManagerFactory() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
+        eventCustomerRepository = new EventCustomerRepositoryImpl(entityManagerFactory);
+        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
+        eventRepository = new EventRepositoryImpl(entityManagerFactory);
+    }
+
+    @AfterAll
+    public static void tearDownEntityManagerFactory() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
+    }
+
     @BeforeEach
     public void cleanDatabase() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -48,21 +63,6 @@ public class EventCustomerRepositoryImplTest {
 
         entityManager.getTransaction().commit();
         entityManager.close();
-    }
-
-    @BeforeAll
-    public static void setupEntityManagerFactory() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
-        eventCustomerRepository = new EventCustomerRepositoryImpl(entityManagerFactory);
-        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
-        eventRepository = new EventRepositoryImpl(entityManagerFactory);
-    }
-
-    @AfterAll
-    public static void tearDownEntityManagerFactory() {
-        if (entityManagerFactory != null) {
-            entityManagerFactory.close();
-        }
     }
 
     @Test

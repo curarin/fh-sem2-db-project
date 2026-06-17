@@ -19,6 +19,17 @@ public class CustomerRepositoryImplTest {
     private static EntityManagerFactory entityManagerFactory;
     private static CustomerRepository customerRepository;
 
+    @BeforeAll
+    public static void setupEntityManagerFactory() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
+        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
+    }
+
+    @AfterAll
+    public static void tearDownEntityManagerFactory() {
+        entityManagerFactory.close();
+    }
+
     @BeforeEach
     public void cleanDatabase() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -39,17 +50,6 @@ public class CustomerRepositoryImplTest {
 
         entityManager.getTransaction().commit();
         entityManager.close();
-    }
-
-    @BeforeAll
-    public static void setupEntityManagerFactory() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
-        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
-    }
-
-    @AfterAll
-    public static void tearDownEntityManagerFactory() {
-        entityManagerFactory.close();
     }
 
     @Test

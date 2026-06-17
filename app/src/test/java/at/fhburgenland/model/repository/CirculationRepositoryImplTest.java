@@ -25,6 +25,19 @@ public class CirculationRepositoryImplTest {
     private static BookRepository bookRepository;
     private static CustomerRepository customerRepository;
 
+    @BeforeAll
+    public static void setup() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
+        circulationRepository = new CirculationRepositoryImpl(entityManagerFactory);
+        bookRepository = new BookRepositoryImpl(entityManagerFactory);
+        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        entityManagerFactory.close();
+    }
+
     @BeforeEach
     public void cleanDatabase() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -45,19 +58,6 @@ public class CirculationRepositoryImplTest {
 
         entityManager.getTransaction().commit();
         entityManager.close();
-    }
-
-    @BeforeAll
-    public static void setup() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("book-unit-test");
-        circulationRepository = new CirculationRepositoryImpl(entityManagerFactory);
-        bookRepository = new BookRepositoryImpl(entityManagerFactory);
-        customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
-    }
-
-    @AfterAll
-    public static void tearDown() {
-        entityManagerFactory.close();
     }
 
     private Customer createAndSaveCustomer() {
