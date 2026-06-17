@@ -28,6 +28,7 @@ public class AnalyticsRepositoryImplTest {
     private static CirculationRepository circulationRepository;
     private static EventRepository eventRepository;
     private static EntityManagerFactory entityManagerFactory;
+    private static EventCustomerRepository eventCustomerRepository;
 
     @BeforeAll
     public static void setupEntityManagerFactory() {
@@ -37,6 +38,7 @@ public class AnalyticsRepositoryImplTest {
         bookRepository = new BookRepositoryImpl(entityManagerFactory);
         customerRepository = new CustomerRepositoryImpl(entityManagerFactory);
         eventRepository = new EventRepositoryImpl(entityManagerFactory);
+        eventCustomerRepository = new EventCustomerRepositoryImpl(entityManagerFactory);
     }
 
     @AfterAll
@@ -208,12 +210,21 @@ public class AnalyticsRepositoryImplTest {
         newEventWithBooks.setEventName("Test 9: Save new Event");
         newEventWithBooks.setEventType(newEventType);
         newEventWithBooks.setEventStartsAtTs(LocalDateTime.now());
+        eventRepository.save(newEventWithBooks);
 
         // Then the Customer visits events
-        // TODO
+        eventCustomerRepository.addCustomerToEvent(newCustomer, newEventWithBooks);
+
+        // The customer also borrows books
+        circulationRepository.borrowBook(newCustomer, secondBook);
 
         List<CustomerAnalyticsDto> dto = analyticsRepository.getActivityCountsPerCustomerByThreshold(0);
         assertNotNull(dto);
+        assertEquals(1, dto.getFirst().countVisitedEvents());
+        assertEquals(1, dto.getFirst().countBooksAtLoan());
+        assertEquals(2, dto.getFirst().countTotalActivities());
+
+
 
     }
 
