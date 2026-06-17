@@ -19,5 +19,9 @@
 # UML Use case diagram
 ![Use-Case-Diagram](./requirements/uml/uml.jpg)
 
-#SWM Abschlussprojekt
+# Links
+## SWM Abschlussdokument
 https://fhburgenlandat-my.sharepoint.com/:w:/g/personal/2510859005_hochschule-burgenland_at/IQBJ1zVlQa3XRJ_IceJThPx4ATYi5uzjD6MQwBtwtbDFbXs?e=3yjIhq
+
+## FOGL Präsentation
+https://fhburgenlandat-my.sharepoint.com/:p:/g/personal/2510859015_hochschule-burgenland_at/IQBdVMP-qJuyQrCLLddvHVNnAf4uVqRGll8oulxMwSCDJlo?e=lK9Wa7
