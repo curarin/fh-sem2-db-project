@@ -2,6 +2,7 @@ package at.fhburgenland.view;
 
 import at.fhburgenland.model.*;
 import at.fhburgenland.model.dto.CustomerAnalyticsDto;
+import at.fhburgenland.model.dto.EventAnalyticsDto;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -126,6 +127,23 @@ public class AnalyticsView {
                     -------------------------------------
                     """, customerAnalyticsDto.customer().getFirstName(), customerAnalyticsDto.customer().getLastName(), customerAnalyticsDto.countBooksAtLoan(), customerAnalyticsDto.countVisitedEvents(), customerAnalyticsDto.countTotalActivities());
             System.out.println(dtoPrint);
+        }
+    }
+
+    public void printAllEventActivities(List<EventAnalyticsDto> dtos) {
+        for (EventAnalyticsDto dto : dtos) {
+            String bookPrint = String.format("""
+                    -------------------------------------
+                    |       Event found in system        |
+                    -------------------------------------
+                    | Event Title: %s
+                    | Event Type: %s
+                    | Event Starts at: %s
+                    | Event ID: %s
+                    | Participant Count: %d
+                    -------------------------------------
+                    """, dto.event().getEventName(), dto.event().getEventType().getEventTypeName(), dto.event().getEventStartsAtTs(), dto.event().getEventId(), dto.participantCount());
+            System.out.println(bookPrint);
         }
     }
 

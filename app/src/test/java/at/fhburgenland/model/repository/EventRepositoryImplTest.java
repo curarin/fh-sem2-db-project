@@ -3,10 +3,12 @@ package at.fhburgenland.model.repository;
 import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.implementations.EventRepositoryImpl;
 import at.fhburgenland.model.repository.interfaces.EventRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -29,6 +31,28 @@ public class EventRepositoryImplTest {
     @AfterAll
     public static void tearDownEntityManagerFactory() {
         entityManagerFactory.close();
+    }
+
+    @BeforeEach
+    public void cleanDatabase() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        entityManager.createQuery("delete from CustomerEventMap").executeUpdate();
+        entityManager.createQuery("delete from BookCirculationLog").executeUpdate();
+        entityManager.createQuery("delete from Event").executeUpdate();
+        entityManager.createQuery("delete from Customer").executeUpdate();
+        entityManager.createQuery("delete from BookStockLog").executeUpdate();
+        entityManager.createQuery("delete from Book").executeUpdate();
+        entityManager.createQuery("delete from BookLocation ").executeUpdate();
+        entityManager.createQuery("delete from BookLocationFloor").executeUpdate();
+        entityManager.createQuery("delete from BookLocationShelf ").executeUpdate();
+        entityManager.createQuery("delete from BookPublisher").executeUpdate();
+        entityManager.createQuery("delete from BookGenre").executeUpdate();
+        entityManager.createQuery("delete from BookAuthor").executeUpdate();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Test

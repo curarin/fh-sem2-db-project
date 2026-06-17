@@ -8,8 +8,11 @@ import java.util.List;
 
 public interface EventCustomerRepository {
     CustomerEventMap findById(Customer customer, Event event);
+
     void addCustomerToEvent(Customer customer, Event event);
+
     void removeCustomerFromEvent(Customer customer, Event event);
+
     List<Customer> getCustomersByEvent(int eventId);
 
 }
