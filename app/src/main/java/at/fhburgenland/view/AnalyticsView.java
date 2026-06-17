@@ -1,6 +1,7 @@
 package at.fhburgenland.view;
 
 import at.fhburgenland.model.*;
+import at.fhburgenland.model.dto.CustomerAnalyticsDto;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -82,6 +83,20 @@ public class AnalyticsView {
         return scanner.nextLine();
     }
 
+    public int getTotalActivityThresholdByUser() {
+        System.out.println("""
+                -------------------------------------
+                |       Please enter total          |
+                |       activity threshold          |
+                -------------------------------------
+                """);
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
     public void printBooksAtLoanByCustomer(Customer selectedCustomer, List<Book> selectedBooks, LocalDate startDate, LocalDate endDate) {
         String bookPrint = String.format("""
                 -------------------------------------
@@ -100,6 +115,21 @@ public class AnalyticsView {
                     | Book Isbn: %s
                     """, book.getBookTitle(), authors, book.getIsbn());
             System.out.println(specificPrint);
+        }
+    }
+
+    public void printTotalActivitiesByCustomer(List<CustomerAnalyticsDto> totalCustomerActivities) {
+        for (CustomerAnalyticsDto customerAnalyticsDto : totalCustomerActivities) {
+            String dtoPrint = String.format("""
+                    -------------------------------------
+                    |       Customer: %s %s
+                    -------------------------------------
+                    |   Total books at loan: %d
+                    |   Total Events visited: %d
+                    |   Total Activities: %d
+                    -------------------------------------
+                    """, customerAnalyticsDto.customer().getFirstName(), customerAnalyticsDto.customer().getLastName(), customerAnalyticsDto.countBooksAtLoan(), customerAnalyticsDto.countVisitedEvents(), customerAnalyticsDto.countTotalActivities());
+            System.out.println(dtoPrint);
         }
     }
 

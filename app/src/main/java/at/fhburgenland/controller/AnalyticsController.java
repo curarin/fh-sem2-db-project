@@ -3,6 +3,7 @@ package at.fhburgenland.controller;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.Customer;
+import at.fhburgenland.model.dto.CustomerAnalyticsDto;
 import at.fhburgenland.model.repository.interfaces.AnalyticsRepository;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
@@ -62,8 +63,13 @@ public class AnalyticsController {
                 // Veranstaltungen und deren Gesamtaktivität (= Summe beider Werte). Geben Sie nur Kunden aus,
                 // deren Gesamtaktivität über einem vorgegebenen Wert liegen.
                 case 2 -> {
-                    System.out.println("This is to be...");
-                    // Get a specific total activity threshold
+                    int userThresholdInput = 0;
+
+                    while (userThresholdInput < 1) {
+                        userThresholdInput = analyticsView.getTotalActivityThresholdByUser();
+                    }
+                    List<CustomerAnalyticsDto> foundCustomerActivities = analyticsRepository.getActivityCountsPerCustomerByThreshold(userThresholdInput);
+                    analyticsView.printTotalActivitiesByCustomer(foundCustomerActivities);
 
                 }
                 // Geben Sie alle verfügbaren Exemplare eines bestimmten Buches
