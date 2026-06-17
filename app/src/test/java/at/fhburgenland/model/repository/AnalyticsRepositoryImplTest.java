@@ -223,9 +223,57 @@ public class AnalyticsRepositoryImplTest {
         assertEquals(1, dto.getFirst().countVisitedEvents());
         assertEquals(1, dto.getFirst().countBooksAtLoan());
         assertEquals(2, dto.getFirst().countTotalActivities());
+    }
+
+    /**
+     * Show the attendant count for each event and show only those
+     * which have above average attendant count
+     */
+    @Test
+    public void testFourthAnalyticsQuery() {
+        // Events
+        Event firstEvent = new Event();
+        EventType firstEventType = new EventType();
+        firstEventType.setEventTypeName("Lesung");
+        firstEvent.setEventType(firstEventType);
+        firstEvent.setEventName("Lesung Thriller");
+        firstEvent.setEventStartsAtTs(LocalDateTime.now());
+
+        Event secondEvent = new Event();
+        EventType secondEventType = new EventType();
+        secondEvent.setEventType(secondEventType);
+        secondEventType.setEventTypeName("Lesung 2");
+        secondEvent.setEventName("Lesung Thriller 2");
+        secondEvent.setEventStartsAtTs(LocalDateTime.now());
 
 
+        Event thirdEvent = new Event();
+        EventType thirdEventType = new EventType();
+        thirdEventType.setEventTypeName("Lesung 3");
+        thirdEvent.setEventType(thirdEventType);
+        thirdEvent.setEventName("Lesung 3");
+        thirdEvent.setEventStartsAtTs(LocalDateTime.now());
 
+        eventRepository.save(firstEvent);
+        eventRepository.save(secondEvent);
+        eventRepository.save(thirdEvent);
+
+        // Create Customer
+        customerRepository.save("1", "1", "1", "1", "1", "1", "1", "1");
+        customerRepository.save("2", "2", "2", "2", "2", "2", "2", "2");
+        customerRepository.save("3", "3", "3", "3", "3", "3", "3", "3");
+        customerRepository.save("4", "4", "4", "4", "4", "4", "4", "4");
+        customerRepository.save("5", "5", "5", "5", "5", "5", "5", "5");
+        customerRepository.save("6", "6", "6", "6", "6", "6", "6", "6");
+
+        eventCustomerRepository.addCustomerToEvent(customerRepository.findByFirstName("1").get(0), firstEvent);
+        eventCustomerRepository.addCustomerToEvent(customerRepository.findByFirstName("2").get(0), firstEvent);
+        eventCustomerRepository.addCustomerToEvent(customerRepository.findByFirstName("3").get(0), secondEvent);
+        eventCustomerRepository.addCustomerToEvent(customerRepository.findByFirstName("4").get(0), thirdEvent);
+        eventCustomerRepository.addCustomerToEvent(customerRepository.findByFirstName("5").get(0), thirdEvent);
+        eventCustomerRepository.addCustomerToEvent(customerRepository.findByFirstName("6").get(0), thirdEvent);
+
+        assertEquals(3, analyticsRepository.getEventsWithMoreThanAverageAttendantCount().getFirst().participantCount());
     }
 
 }

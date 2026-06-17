@@ -4,6 +4,7 @@ import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.Event;
 import at.fhburgenland.model.dto.CustomerAnalyticsDto;
+import at.fhburgenland.model.dto.EventAnalyticsDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,5 +25,5 @@ public interface AnalyticsRepository {
 
     // Ermitteln Sie für jede Veranstaltung die Anzahl der Teilnehmer und geben Sie nur Veranstaltungen aus,
     // die mehr Teilnehmer als der Durchschnitt aller Veranstaltungen haben.
-    public List<Event> getEventsWithMoreThanAverageAttendantCount();
+    public List<EventAnalyticsDto> getEventsWithMoreThanAverageAttendantCount();
 }

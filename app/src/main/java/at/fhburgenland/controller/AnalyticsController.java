@@ -3,7 +3,9 @@ package at.fhburgenland.controller;
 import at.fhburgenland.model.Book;
 import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.Customer;
+import at.fhburgenland.model.Event;
 import at.fhburgenland.model.dto.CustomerAnalyticsDto;
+import at.fhburgenland.model.dto.EventAnalyticsDto;
 import at.fhburgenland.model.repository.interfaces.AnalyticsRepository;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
 import at.fhburgenland.model.repository.interfaces.CustomerRepository;
@@ -142,8 +144,8 @@ public class AnalyticsController {
                 // Ermitteln Sie für jede Veranstaltung die Anzahl der Teilnehmer und geben Sie nur Veranstaltungen aus,
                 // die mehr Teilnehmer als der Durchschnitt aller Veranstaltungen haben.
                 case 4 -> {
-                    System.out.println("...soon!");
-
+                    List<EventAnalyticsDto> eventsWithMoreThanAverageParticipantCount = analyticsRepository.getEventsWithMoreThanAverageAttendantCount();
+                    analyticsView.printAllEventActivities(eventsWithMoreThanAverageParticipantCount);
                 }
                 case 0 -> running = false;
                 default -> System.out.println("Invalid option");

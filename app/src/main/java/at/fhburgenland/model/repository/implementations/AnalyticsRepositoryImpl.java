@@ -5,6 +5,7 @@ import at.fhburgenland.model.BookStockLog;
 import at.fhburgenland.model.Customer;
 import at.fhburgenland.model.Event;
 import at.fhburgenland.model.dto.CustomerAnalyticsDto;
+import at.fhburgenland.model.dto.EventAnalyticsDto;
 import at.fhburgenland.model.repository.interfaces.AnalyticsRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -104,7 +105,48 @@ public class AnalyticsRepositoryImpl implements AnalyticsRepository {
     }
 
     @Override
-    public List<Event> getEventsWithMoreThanAverageAttendantCount() {
-        return List.of();
+    public List<EventAnalyticsDto> getEventsWithMoreThanAverageAttendantCount() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        String queryCalculateAverage = """
+                select
+                    count(distinct customerEventMap.customer.customerId)
+                from
+                    Event event
+                left join CustomerEventMap customerEventMap
+                    on customerEventMap.event = event
+                group by event
+                """;
+        TypedQuery<Long> avgTypedQuery = entityManager.createQuery(queryCalculateAverage, Long.class);
+        List<Long> participantCounts = avgTypedQuery.getResultList();
+        double average = 0;
+        for (Long count : participantCounts) {
+            average += count;
+        }
+        average = average / participantCounts.size();
+
+        String finalQuery = """
+                select
+                    event,
+                    count(distinct customerEventMap.customer.customerId)
+                from
+                    Event event
+                left join CustomerEventMap customerEventMap
+                    on customerEventMap.event = event
+                group by 1
+                having count(distinct customerEventMap.customer.customerId) > :average
+                """;
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(finalQuery, Object[].class);
+        typedQuery.setParameter("average", average);
+
+        List<EventAnalyticsDto> eventAnalyticsDtoList = new ArrayList<>();
+
+        for (Object[] object : typedQuery.getResultList()) {
+            EventAnalyticsDto dto = new EventAnalyticsDto(
+                    (Event) object[0],
+                    ((Long) object[1]).intValue()
+            );
+            eventAnalyticsDtoList.add(dto);
+        }
+        return eventAnalyticsDtoList;
     }
 }
