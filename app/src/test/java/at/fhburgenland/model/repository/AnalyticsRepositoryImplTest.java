@@ -43,6 +43,12 @@ public class AnalyticsRepositoryImplTest {
         entityManager.createQuery("delete from Customer").executeUpdate();
         entityManager.createQuery("delete from BookStockLog").executeUpdate();
         entityManager.createQuery("delete from Book").executeUpdate();
+        entityManager.createQuery("delete from BookLocation ").executeUpdate();
+        entityManager.createQuery("delete from BookLocationFloor").executeUpdate();
+        entityManager.createQuery("delete from BookLocationShelf ").executeUpdate();
+        entityManager.createQuery("delete from BookPublisher").executeUpdate();
+        entityManager.createQuery("delete from BookGenre").executeUpdate();
+        entityManager.createQuery("delete from BookAuthor").executeUpdate();
 
         entityManager.getTransaction().commit();
         entityManager.close();
