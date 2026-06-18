@@ -1,14 +1,8 @@
 package at.fhburgenland.controller;
 
 import at.fhburgenland.model.*;
-import at.fhburgenland.model.repository.interfaces.BookRepository;
-import at.fhburgenland.model.repository.interfaces.CustomerRepository;
-import at.fhburgenland.model.repository.interfaces.EventCustomerRepository;
-import at.fhburgenland.model.repository.interfaces.EventRepository;
-import at.fhburgenland.view.BookView;
-import at.fhburgenland.view.CustomerEventView;
-import at.fhburgenland.view.CustomerView;
-import at.fhburgenland.view.EventView;
+import at.fhburgenland.model.repository.interfaces.*;
+import at.fhburgenland.view.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,8 +22,9 @@ public class EventController {
     private final EventCustomerRepository eventCustomerRepository;
     private final CustomerRepository customerRepository;
     private final CustomerView customerView;
+    private final EventBookRepository eventBookRepository;
 
-    public EventController(EventRepository eventRepository, EventView eventView, BookRepository bookRepository, BookView bookView, EventCustomerRepository eventCustomerRepository, CustomerRepository customerRepository, CustomerView customerView) {
+    public EventController(EventRepository eventRepository, EventView eventView, BookRepository bookRepository, BookView bookView, EventCustomerRepository eventCustomerRepository, CustomerRepository customerRepository, CustomerView customerView, EventBookRepository eventBookRepository) {
         this.eventRepository = eventRepository;
         this.eventView = eventView;
         this.bookRepository = bookRepository;
@@ -37,6 +32,7 @@ public class EventController {
         this.eventCustomerRepository = eventCustomerRepository;
         this.customerRepository = customerRepository;
         this.customerView = customerView;
+        this.eventBookRepository = eventBookRepository;
     }
 
     /**
@@ -227,8 +223,7 @@ public class EventController {
                             System.out.println("No customers found for this event.");
                         } else {
                             System.out.println("Customers visiting this event:");
-                            eventView.printCustomerVisitingEventGrid(customers,
-                                    eventRepository.findById(eventIdInput).getEventName());
+                            eventView.printCustomerVisitingEventGrid(customers, eventRepository.findById(eventIdInput).getEventName());
                         }
                     }
                 }
@@ -256,6 +251,82 @@ public class EventController {
                         } else {
                             System.out.println("Event not found.");
                         }
+                    } else {
+                        System.out.println("No events found");
+                    }
+                }
+                // Add Book to Event
+                case 8 -> {
+                    List<Event> foundEvents = eventRepository.findAll();
+
+                    if (!foundEvents.isEmpty()) {
+                        eventView.printEventGrid(eventRepository.findAll().stream().toList());
+                        Event selectedEvent = eventRepository.findById(eventView.chooseEventToAddUser());
+
+                        if (selectedEvent != null) {
+                            BookEventView.printPrologBookAddition();
+                            do {
+                                String isbnInput = bookView.getIsbnByUser();
+                                Book foundBook = bookRepository.findByIsbn(isbnInput);
+                                if (foundBook != null) {
+                                    eventBookRepository.addBookToEvent(foundBook, selectedEvent);
+                                } else {
+                                    System.out.println("Book not found.");
+                                }
+                            } while (eventView.getUserChoiceForBookAddition());
+                        } else {
+                            System.out.println("Event not found.");
+                        }
+                    } else {
+                        System.out.println("No events found");
+                    }
+                }
+
+                // Show Book for Event
+                case 9 -> {
+                    List<Event> foundEvents = eventRepository.findAll();
+
+                    if (!foundEvents.isEmpty()) {
+                        eventView.printEventGrid(eventRepository.findAll().stream().toList());
+                        Event selectedEvent = eventRepository.findById(eventView.getEventIdByUser());
+
+                        if (selectedEvent != null) {
+                            eventView.printEvent(selectedEvent);
+                        } else {
+                            System.out.println("Event not found.");
+                        }
+                    } else {
+                        System.out.println("No events found");
+                    }
+
+                }
+
+                // Delete Book from Event
+                case 10 -> {
+                    List<Event> foundEvents = eventRepository.findAll();
+
+                    if (!foundEvents.isEmpty()) {
+                        eventView.printEventGrid(eventRepository.findAll().stream().toList());
+                        Event selectedEvent = eventRepository.findById(eventView.getEventIdByUser());
+                        if (selectedEvent != null) {
+                            BookEventView.printPrologBookRemoval();
+                            do {
+                                String isbnInput = bookView.getIsbnByUser();
+                                Book bookToBeRemoved = bookRepository.findByIsbn(isbnInput);
+
+                                if (bookToBeRemoved != null) {
+                                    eventBookRepository.removeBookFromEvent(bookToBeRemoved, selectedEvent);
+                                    System.out.println("Book removed from event.");
+                                } else {
+                                    System.out.println("Book not found");
+                                }
+
+                            } while (eventView.getUserChoiceForBookRemoval());
+
+                        } else {
+                            System.out.println("Event not found.");
+                        }
+
                     } else {
                         System.out.println("No events found");
                     }
