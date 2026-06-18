@@ -54,55 +54,51 @@ VALUES (1, 'Austria'),
        (4, 'United Kingdom'),
        (5, 'United States');
 
-INSERT INTO city (city_id, city_name)
-VALUES (1, 'Wien'),
-       (2, 'Graz'),
-       (3, 'Eisenstadt'),
-       (4, 'Pinkafeld'),
-       (5, 'Oberwart'),
-       (6, 'Jennersdorf'),
-       (7, 'Jois');
+insert into city (city_id, city_name)
+values  (1, 'Wien'),
+        (2, 'Graz'),
+        (3, 'Eisenstadt'),
+        (4, 'Pinkafeld'),
+        (5, 'Oberwart'),
+        (6, 'Jennersdorf'),
+        (7, 'Jois');
 
-INSERT INTO town (id, town_name)
-VALUES (1, 'Pinkafeld'),
-       (2, 'Graz'),
-       (3, 'Oberwart'),
-       (4, 'Jois'),
-       (5, 'Wien');
+insert into town (id, town_name)
+values  (1, 'Pinkafeld'),
+        (2, 'Graz'),
+        (3, 'Oberwart'),
+        (4, 'Jois'),
+        (5, 'Wien');
 
-INSERT INTO street (id, street)
-VALUES (1, 'Kärntner Straße'),
-       (2, 'Unter den Linden'),
-       (3, 'Bahnhofstrasse'),
-       (4, 'Waltendorfer Hauptstrasse'),
-       (5, 'Ilz');
+insert into street (id, street)
+values  (3, 'Bahnhofstrasse'),
+        (5, 'Kirchenweg'),
+        (2, 'Mühlgasse'),
+        (4, 'Neubaugasse'),
+        (1, 'Turbagasse');
 
-INSERT INTO zip (id, zip_code)
-VALUES (1, '1010'),
-       (2, '8010'),
-       (3, '7000'),
-       (4, '7423'),
-       (5, '10001');
+insert into zip (id, zip_code)
+values  (2, '8010'),
+        (3, '7000'),
+        (4, '7423'),
+        (1, '7423'),
+        (5, '1010');
 
 -- ------------------------------------------------------------
 -- Customers
 -- ------------------------------------------------------------
 
-INSERT INTO customer (customer_id, first_name, last_name, country_id, city_id, zip_id, town_id, street_id, streetnumber)
-VALUES (1, 'Anna', 'Müller', 1, 1, 1, 1, 1, '12A'),
-       (2, 'Thomas', 'Schmidt', 2, 2, 2, 2, 2, '5'),
-       (3, 'Sophie', 'Weber', 1, 3, 3, 3, 3, '78'),
-       (4, 'Johann', 'Schweinzer', 1, 4, 4, 4, 4, '42'),
-       (5, 'Lisa', 'Dietz', 1, 5, 5, 5, 5, '100'),
-       (6, 'Markus', 'Bauer', 1, 1, 1, 1, 1, '3B'),
-       (7, 'Laura', 'Fischer', 1, 1, 1, 1, 2, '17'),
-       (8, 'David', 'Zollner', 1, 4, 4, 4, 4, '9C'),
-       (9, 'Julia', 'Hoffmann', 1, 2, 2, 2, 2, '22'),
-       (10, 'Michael', 'Braun', 1, 5, 5, 5, 5, '55');
-
--- ------------------------------------------------------------
--- Customer Cards  (one per customer)
--- ------------------------------------------------------------
+insert into customer (customer_id, first_name, last_name, country_id, city_id, zip_id, town_id, street_id, streetnumber)
+values  (1, 'Anna', 'Müller', 1, 1, 1, 1, 1, '12A'),
+        (3, 'Sophie', 'Weber', 1, 3, 3, 3, 3, '78'),
+        (4, 'Johann', 'Schweinzer', 1, 4, 4, 4, 4, '42'),
+        (5, 'Lisa', 'Dietz', 1, 5, 5, 5, 5, '100'),
+        (6, 'Markus', 'Bauer', 1, 1, 1, 1, 1, '3B'),
+        (7, 'Laura', 'Fischer', 1, 1, 1, 1, 2, '17'),
+        (8, 'David', 'Zollner', 1, 4, 4, 4, 4, '9C'),
+        (9, 'Julia', 'Hoffmann', 1, 2, 2, 2, 2, '22'),
+        (10, 'Michael', 'Braun', 1, 5, 5, 5, 5, '55'),
+        (2, 'Thomas', 'Schmidt', 1, 2, 2, 2, 2, '5');----------------------------------------------------------
 
 INSERT INTO CustomerCard (customer_card_id, customer_id)
 VALUES (10, 1),
