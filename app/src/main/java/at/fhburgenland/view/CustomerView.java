@@ -37,7 +37,7 @@ public class CustomerView {
                 -------------------------------------
                 | (1) Search by First Name          |
                 | (2) Search by Last Name           |
-                | (3) Search by ID                  |
+                | (3) Select by ID                  |
                 -------------------------------------
                 | (0) Back                          |
                 -------------------------------------

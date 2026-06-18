@@ -100,17 +100,17 @@ values  (1, 'Anna', 'Müller', 1, 1, 1, 1, 1, '12A'),
         (10, 'Michael', 'Braun', 1, 5, 5, 5, 5, '55'),
         (2, 'Thomas', 'Schmidt', 1, 2, 2, 2, 2, '5');----------------------------------------------------------
 
-INSERT INTO CustomerCard (customer_card_id, customer_id)
-VALUES (10, 1),
-       (9, 2),
-       (8, 3),
-       (7, 4),
-       (6, 5),
-       (5, 6),
-       (4, 7),
-       (3, 8),
-       (2, 9),
-       (1, 10);
+INSERT INTO CustomerCard (customer_id)
+VALUES (1),
+       (2),
+       (3),
+       (4),
+       (5),
+       (6),
+       (7),
+       (8),
+       (9),
+       (10);
 
 -- ------------------------------------------------------------
 -- Books
@@ -258,20 +258,32 @@ VALUES (1, '9780451524935'),
 -- ------------------------------------------------------------
 
 INSERT INTO book_circulation_log
-(book_circulation_log_id, loan_starts_at_date, loan_ends_at_date, book_returned_at_date, customer_id, fk_stockid)
+(loan_starts_at_date, loan_ends_at_date, book_returned_at_date, customer_id, fk_stockid)
 VALUES
     -- Active loans (not yet returned)
-    (1, '2026-06-01', '2026-06-15', NULL, 2, 2),         -- Customer 2 has copy of 1984, overdue
-    (2, '2026-06-10', '2026-06-24', NULL, 5, 5),         -- Customer 5 has Orient Express, due soon
-    (3, '2026-06-12', '2026-06-26', NULL, 7, 9),         -- Customer 7 has Foundation+Empire
+    ('2026-06-01', '2026-06-15', NULL, 2, 2),         -- Customer 2 has copy of 1984, overdue
+    ('2026-06-10', '2026-06-24', NULL, 5, 5),         -- Customer 5 has Orient Express, due soon
+    ('2026-06-12', '2026-06-26', NULL, 7, 9),         -- Customer 7 has Foundation+Empire
 
     -- Returned loans
-    (4, '2026-05-01', '2026-05-15', '2026-05-14', 1, 1), -- Returned on time
-    (5, '2026-05-10', '2026-05-24', '2026-05-24', 3, 3), -- Returned on due date
-    (6, '2026-05-20', '2026-06-03', '2026-06-05', 4, 4), -- Returned 2 days late
-    (7, '2026-04-01', '2026-04-15', '2026-04-13', 6, 6), -- Returned early
-    (8, '2026-04-10', '2026-04-24', '2026-04-24', 8, 7),
-    (9, '2026-03-15', '2026-03-29', '2026-03-28', 9, 8),
-    (10, '2026-03-01', '2026-03-15', '2026-03-16', 10, 10); -- 1 day late
+    ('2026-05-01', '2026-05-15', '2026-05-14', 1, 1), -- Returned on time
+    ('2026-05-10', '2026-05-24', '2026-05-24', 3, 3), -- Returned on due date
+    ('2026-05-20', '2026-06-03', '2026-06-05', 4, 4), -- Returned 2 days late
+    ('2026-04-01', '2026-04-15', '2026-04-13', 6, 6), -- Returned early
+    ('2026-04-10', '2026-04-24', '2026-04-24', 8, 7),
+    ('2026-03-15', '2026-03-29', '2026-03-28', 9, 8),
+    ('2026-03-01', '2026-03-15', '2026-03-16', 10, 10); -- 1 day late
+
+-- ------------------------------------------------------------
+-- Sync sequences for IDENTITY columns (PostgreSQL)
+-- ------------------------------------------------------------
+SELECT setval(pg_get_serial_sequence('city', 'city_id'), COALESCE(MAX(city_id), 1)) FROM city;
+SELECT setval(pg_get_serial_sequence('country', 'id'), COALESCE(MAX(id), 1)) FROM country;
+SELECT setval(pg_get_serial_sequence('street', 'id'), COALESCE(MAX(id), 1)) FROM street;
+SELECT setval(pg_get_serial_sequence('town', 'id'), COALESCE(MAX(id), 1)) FROM town;
+SELECT setval(pg_get_serial_sequence('zip', 'id'), COALESCE(MAX(id), 1)) FROM zip;
+SELECT setval(pg_get_serial_sequence('customer', 'customer_id'), COALESCE(MAX(customer_id), 1)) FROM customer;
+SELECT setval(pg_get_serial_sequence('customercard', 'customer_card_id'), COALESCE(MAX(customer_card_id), 1)) FROM customercard;
+SELECT setval(pg_get_serial_sequence('book_circulation_log', 'book_circulation_log_id'), COALESCE(MAX(book_circulation_log_id), 1)) FROM book_circulation_log;
 
 COMMIT;
