@@ -49,4 +49,12 @@ public class BookCirculationLogDaoImpl implements BookCirculationLogDao {
     public void delete(BookCirculationLog model) {
         entityManager.remove(model);
     }
+
+    @Override
+    public boolean isBookInCirculation(String isbn) {
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(b) FROM BookCirculationLog b WHERE b.fkStockid.book.isbn = :isbn", Long.class);
+        query.setParameter("isbn", isbn);
+        return query.getSingleResult() > 0;
+    }
 }

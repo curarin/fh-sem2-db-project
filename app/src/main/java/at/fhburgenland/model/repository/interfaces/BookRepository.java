@@ -42,4 +42,8 @@ public interface BookRepository {
     public void saveBookCopyCount(Book book, int bookCopyCount, BookLocation bookLocation);
 
     public void remove(String isbn);
+
+    public boolean isBookInCirculation(String isbn);
+
+    public void removeStock(String isbn);
 }

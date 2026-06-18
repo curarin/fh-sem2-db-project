@@ -46,4 +46,11 @@ public class BookStockLogDaoImpl implements BookStockLogDao {
         typedQuery.setParameter("isbn", isbn);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public void removeStock(String isbn) {
+        entityManager.createQuery("DELETE BookStockLog b where b.book.isbn in :isbn")
+                .setParameter("isbn", isbn)
+                .executeUpdate();
+    }
 }

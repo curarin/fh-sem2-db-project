@@ -17,4 +17,6 @@ public interface BookStockLogDao {
     List<BookStockLog> findByValue(boolean bookIsInStock);
 
     List<BookStockLog> findByIsbn(String isbn);
+    
+    void removeStock(String isbn);
 }

@@ -17,5 +17,6 @@ public interface BookCirculationLogDao {
     void update(BookCirculationLog model);
 
     void delete(BookCirculationLog model);
-
+    
+    boolean isBookInCirculation(String isbn);
 }

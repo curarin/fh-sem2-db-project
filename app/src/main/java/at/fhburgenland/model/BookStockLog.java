@@ -21,6 +21,14 @@ public class BookStockLog {
     @Column(name = "book_is_in_stock", nullable = false)
     private Boolean bookIsInStock;
 
+    public Integer getBookStockLogId() {
+        return this.bookStockLogId;
+    }
+
+    public void setBookStockLogId(Integer bookStockLogId) {
+        this.bookStockLogId = bookStockLogId;
+    }
+
     public Boolean getBookIsInStock() {
         return this.bookIsInStock;
     }

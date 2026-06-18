@@ -14,11 +14,11 @@ import java.util.Set;
  */
 public class BookController {
 
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
     private final BookView view;
 
     public BookController(BookRepository repository, BookView view) {
-        this.repository = repository;
+        this.bookRepository = repository;
         this.view = view;
     }
 
@@ -39,14 +39,14 @@ public class BookController {
                     switch (view.showExistingBookMenu()) {
                         case 1 -> {
                             String isbn = view.getIsbnByUser();
-                            Book foundBook = repository.findByIsbn(isbn);
+                            Book foundBook = bookRepository.findByIsbn(isbn);
                             if (foundBook != null) {
                                 view.printBook(foundBook);
-                                view.printStockStatistics(repository.findStockByIsbn(isbn));
+                                view.printStockStatistics(bookRepository.findStockByIsbn(isbn));
                             }
                         }
                         case 2 -> {
-                            List<Book> booksByTitle = repository.findByBookName(view.getBookTitleByUser());
+                            List<Book> booksByTitle = bookRepository.findByBookName(view.getBookTitleByUser());
                             for (Book book : booksByTitle) {
                                 if (book != null) {
                                     view.printBook(book);
@@ -55,7 +55,7 @@ public class BookController {
                             view.printSearchStatistics(booksByTitle);
                         }
                         case 3 -> {
-                            List<Book> booksByGenre = repository.findByGenre(view.getBookGenreByUser());
+                            List<Book> booksByGenre = bookRepository.findByGenre(view.getBookGenreByUser());
                             for (Book book : booksByGenre) {
                                 if (book != null) {
                                     view.printBook(book);
@@ -64,7 +64,7 @@ public class BookController {
                             view.printSearchStatistics(booksByGenre);
                         }
                         case 4 -> {
-                            List<Book> booksByPublisher = repository.findByPublisher(view.getBookPublisherByUser());
+                            List<Book> booksByPublisher = bookRepository.findByPublisher(view.getBookPublisherByUser());
                             for (Book book : booksByPublisher) {
                                 if (book != null) {
                                     view.printBook(book);
@@ -73,7 +73,7 @@ public class BookController {
                             view.printSearchStatistics(booksByPublisher);
                         }
                         case 5 -> {
-                            List<Book> booksByAuthor = repository.findByAuthor(view.getBookAuthorByUser());
+                            List<Book> booksByAuthor = bookRepository.findByAuthor(view.getBookAuthorByUser());
                             for (Book book : booksByAuthor) {
                                 if (book != null) {
                                     view.printBook(book);
@@ -83,7 +83,7 @@ public class BookController {
                         }
                         case 6 -> {
                             // Filter by Stock State true / false
-                            List<Book> booksByStockLockState = repository.findByStockState(view.getBookStockStateByUser());
+                            List<Book> booksByStockLockState = bookRepository.findByStockState(view.getBookStockStateByUser());
                             for (Book book : booksByStockLockState) {
                                 if (book != null) {
                                     view.printBook(book);
@@ -99,7 +99,7 @@ public class BookController {
                 case 2 -> {
                     // Add new book
                     String isbnInput = view.getIsbnByUser();
-                    if (repository.findByIsbn(isbnInput) != null) {
+                    if (bookRepository.findByIsbn(isbnInput) != null) {
                         System.out.println("Book already exists");
                         running = false;
                     } else {
@@ -149,28 +149,28 @@ public class BookController {
                         book.setBookPublisher(bookPublisher);
                         book.setBookAuthors(bookAuthorsInput);
 
-                        repository.save(book);
-                        repository.saveBookCopyCount(book, bookCounter, bookLocation);
+                        bookRepository.save(book);
+                        bookRepository.saveBookCopyCount(book, bookCounter, bookLocation);
                         view.printBook(book);
                     }
                 }
                 case 3 -> {
                     // Edit existing book
                     String isbnInput = view.getIsbnByUser();
-                    Book bookToBeEdited = repository.findByIsbn(isbnInput);
+                    Book bookToBeEdited = bookRepository.findByIsbn(isbnInput);
                     view.printBook(bookToBeEdited);
                     switch (view.showEditOptionsMenu()) {
                         case 1 -> {
                             String bookTitleInput = view.getBookTitleByUser();
                             bookToBeEdited.setBookTitle(bookTitleInput);
-                            repository.save(bookToBeEdited);
+                            bookRepository.save(bookToBeEdited);
                         }
                         case 2 -> {
                             // Genre
                             BookGenre updatedBookGenre = new BookGenre();
                             updatedBookGenre.setBookGenreName(view.getBookGenreByUser());
                             bookToBeEdited.setBookGenre(updatedBookGenre);
-                            repository.save(bookToBeEdited);
+                            bookRepository.save(bookToBeEdited);
                         }
                         case 3 -> {
                             // Author
@@ -183,14 +183,14 @@ public class BookController {
                                 anotherAuthorWanted = view.getBookAuthorChoiceByUser();
                             }
                             bookToBeEdited.setBookAuthors(bookAuthorsInput);
-                            repository.save(bookToBeEdited);
+                            bookRepository.save(bookToBeEdited);
                         }
                         case 4 -> {
                             // Publisher
                             BookPublisher updatedBookPublisher = new BookPublisher();
                             updatedBookPublisher.setBookPublisherName(view.getBookPublisherByUser());
                             bookToBeEdited.setBookPublisher(updatedBookPublisher);
-                            repository.save(bookToBeEdited);
+                            bookRepository.save(bookToBeEdited);
                         }
                         default -> System.out.println("Invalid choice.");
                     }
@@ -198,12 +198,32 @@ public class BookController {
                 case 4 -> {
                     // Delete book
                     String isbnInput = view.getIsbnByUser();
-                    Book bookToBeDeleted = repository.findByIsbn(isbnInput);
+                    Book bookToBeDeleted = bookRepository.findByIsbn(isbnInput);
                     if (bookToBeDeleted == null) {
                         System.out.println("Book does not exist");
-                        running = false;
                     } else {
-                        repository.remove(bookToBeDeleted.getIsbn());
+                        boolean inStock = bookRepository.findStockByIsbn(isbnInput).stream().anyMatch(BookStockLog::getBookIsInStock);
+                        boolean inEvent = !bookToBeDeleted.getBookEvents().isEmpty();
+                        boolean inCirculation = bookRepository.isBookInCirculation(isbnInput);
+
+                        if (inStock) {
+                            view.printRemovalError("Book is still in stock.");
+                            if (view.getRemoveStockChoiceByUser()) {
+                                bookRepository.removeStock(isbnInput);
+                                inStock = false;
+                            }
+                        }
+
+                        if (!inStock) {
+                            if (inEvent) {
+                                view.printRemovalError("Book is involved in an event.");
+                            } else if (inCirculation) {
+                                view.printRemovalError("Book is in circulation log.");
+                            } else {
+                                bookRepository.remove(bookToBeDeleted.getIsbn());
+                                System.out.println("Book removed successfully.");
+                            }
+                        }
                     }
                 }
                 case 0 -> {

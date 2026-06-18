@@ -267,10 +267,10 @@ public class BookView {
                 -------------------------------------
                 |       Book found in system        |
                 -------------------------------------
-                | Book Title: %s                    |
-                | Book Genre: %s                    |
-                | Book Publisher: %s                |
-                | Book ISBN: %s                     |
+                | Book Title: %s                    
+                | Book Genre: %s                    
+                | Book Publisher: %s                
+                | Book ISBN: %s                     
                 """, book.getBookTitle(), book.getBookGenre().getBookGenreName(), book.getBookPublisher().getBookPublisherName(), book.getIsbn());
         System.out.println(bookPrint);
         int authorCounter = 1;
@@ -279,5 +279,26 @@ public class BookView {
             authorCounter++;
         }
         System.out.print("-------------------------------------\n");
+    }
+
+    public void printRemovalError(String reason) {
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("|   Removal not possible!           |");
+        System.out.println("|   Reason:                         |");
+        System.out.printf("|   %s\n", reason);
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    public boolean getRemoveStockChoiceByUser() {
+        System.out.println("""
+                -------------------------------------
+                |  Do you want to remove the stock? |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        String choice = scanner.nextLine();
+        return "1".equals(choice);
     }
 }

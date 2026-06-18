@@ -2,7 +2,9 @@ package at.fhburgenland.model.repository;
 
 import at.fhburgenland.model.*;
 import at.fhburgenland.model.repository.implementations.BookRepositoryImpl;
+import at.fhburgenland.model.repository.implementations.CustomerRepositoryImpl;
 import at.fhburgenland.model.repository.interfaces.BookRepository;
+import at.fhburgenland.model.repository.interfaces.CustomerRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -210,5 +212,26 @@ public class BookRepositoryImplTest {
         bookRepository.saveBookCopyCount(bookRepository.findByIsbn(uniqueBook.getIsbn()), 30, mainLocationForUniqueBook);
 
         assertEquals(30, bookRepository.findStockByIsbn(uniqueBook.getIsbn()).size());
+    }
+
+    @Test
+    public void testRemoveStock() {
+        Book book = createStandardBook("STOCK-1");
+        bookRepository.save(book);
+
+        BookLocation location = new BookLocation();
+        BookLocationFloor floor = new BookLocationFloor();
+        floor.setBookLocationFloorNumber(1);
+        BookLocationShelf shelf = new BookLocationShelf();
+        shelf.setBookLocationShelfNumber(1);
+        location.setBookLocationFloor(floor);
+        location.setBookLocationShelf(shelf);
+        bookRepository.saveBookCopyCount(book, 2, location);
+
+        assertTrue(bookRepository.findStockByIsbn("STOCK-1").stream().anyMatch(BookStockLog::getBookIsInStock));
+
+        bookRepository.removeStock("STOCK-1");
+
+        assertFalse(bookRepository.findStockByIsbn("STOCK-1").stream().anyMatch(BookStockLog::getBookIsInStock));
     }
 }

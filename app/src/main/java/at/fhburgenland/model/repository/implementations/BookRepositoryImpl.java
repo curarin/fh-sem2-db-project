@@ -7,6 +7,7 @@ import at.fhburgenland.model.repository.interfaces.BookRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -241,6 +242,51 @@ public class BookRepositoryImpl implements BookRepository {
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    /**
+     * Checks if a book is in circulation.
+     *
+     * @param isbn The ISBN of the book to check.
+     * @return True if the book is in circulation, false otherwise.
+     */
+    @Override
+    public boolean isBookInCirculation(String isbn) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            BookCirculationLogDao bookCirculationLogDao = new BookCirculationLogDaoImpl(entityManager);
+            return bookCirculationLogDao.isBookInCirculation(isbn);
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    /**
+     * Removes stock from a book
+     * @param isbn ISBN of the book to remove stock from
+     */
+    @Override
+    public void removeStock(String isbn) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            BookStockLogDao bookStockLogDao = new BookStockLogDaoImpl(entityManager);
+
+            bookStockLogDao.removeStock(isbn);
+
+
+            entityTransaction.commit();
+        } catch (Exception exception) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            System.err.println(exception.getMessage());
         } finally {
             entityManager.close();
         }
