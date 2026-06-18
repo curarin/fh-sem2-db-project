@@ -16,9 +16,10 @@ public class Main {
         AnalyticsRepositoryImpl analyticsRepository = new AnalyticsRepositoryImpl(entityManagerFactory);
         CirculationRepositoryImpl circulationRepository = new CirculationRepositoryImpl(entityManagerFactory);
         EventCustomerRepositoryImpl eventCustomerRepository = new EventCustomerRepositoryImpl(entityManagerFactory);
+        EventBookRepositoryImpl eventBookRepository = new EventBookRepositoryImpl(entityManagerFactory);
 
         BookController bookController = new BookController(bookRepository, new BookView());
-        EventController eventController = new EventController(eventRepository, new EventView(), bookRepository, new BookView(), eventCustomerRepository, customerRepository, new CustomerView());
+        EventController eventController = new EventController(eventRepository, new EventView(), bookRepository, new BookView(), eventCustomerRepository, customerRepository, new CustomerView(), eventBookRepository);
         CustomerController customerController = new CustomerController(customerRepository, new CustomerView());
         CirculationLogController circulationLogController = new CirculationLogController(circulationRepository, bookRepository, customerRepository, new CirculationView(), new CustomerView());
         AnalyticsController analyticsController = new AnalyticsController(new AnalyticsView(), new BookView(), analyticsRepository, customerRepository, bookRepository);
