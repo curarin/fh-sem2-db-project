@@ -23,6 +23,10 @@ public class EventView {
                 | (5) Add Customers to Event        |
                 | (6) Show Customers visiting Event |
                 | (7) Remove Customers from Event   |
+                |---   Book Event Management   -----|
+                | (8) Add Books to Event            |
+                | (9) Show Books for Event          |
+                | (10) Remove Books from Event      |
                 -------------------------------------
                 | (0) Main Menu                     |
                 =====================================
@@ -43,6 +47,18 @@ public class EventView {
                 -------------------------------------
                 """);
         return scanner.nextLine();
+    }
+
+    public boolean getUserChoiceForBookRemoval() {
+        System.out.println("""
+                -------------------------------------
+                |  Remove books from current event? |
+                -------------------------------------
+                | (1) Yes                           |
+                | (2) No                            |
+                -------------------------------------
+                """);
+        return scanner.nextLine().equals("1");
     }
 
     public boolean getUserChoiceForBookAddition() {
