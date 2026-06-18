@@ -5,7 +5,6 @@ import at.fhburgenland.model.Event;
 import at.fhburgenland.model.repository.interfaces.EventBookRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
@@ -16,6 +15,7 @@ public class EventBookRepositoryImpl implements EventBookRepository {
     public EventBookRepositoryImpl(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
+
     @Override
     public void addBookToEvent(Book book, Event event) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -64,8 +64,7 @@ public class EventBookRepositoryImpl implements EventBookRepository {
                 transaction.rollback();
                 e.printStackTrace();
             }
-        }
-        finally {
+        } finally {
             entityManager.close();
         }
 
