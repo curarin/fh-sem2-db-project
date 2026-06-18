@@ -117,6 +117,8 @@ public class EventBookRepositoryImplTest {
         Event eventOne = createEvent();
         eventRepository.save(eventOne);
 
+        System.out.println(eventRepository.findById(eventOne.getEventId()).getEventId());
+
         assertEquals(Collections.EMPTY_LIST, eventBookRepository.getBooksFromEvent(eventOne));
         eventBookRepository.addBookToEvent(bookOne, eventOne);
 
