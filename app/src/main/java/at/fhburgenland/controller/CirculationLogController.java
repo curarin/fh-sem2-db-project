@@ -41,16 +41,21 @@ public class CirculationLogController {
                     if (customer == null) {
                         ViewUtil.printMessage("Customer not found.");
                     } else {
-                        String isbn = circulationView.getIsbnByUser();
-                        Book book = bookRepository.findByIsbn(isbn);
-                        if (book == null) {
-                            ViewUtil.printMessage("Book not found.");
+                        // Check if customer already has 5 books
+                        if (circulationRepository.findOpenBooksByCustomer(customer).size() >= 5) {
+                            ViewUtil.printMessage("Customer has already borrowed 5 books and cannot borrow any more.");
                         } else {
-                            try {
-                                circulationRepository.borrowBook(customer, book);
-                                ViewUtil.printMessage("Book borrowed successfully.");
-                            } catch (Exception e) {
-                                ViewUtil.printMessage("Error: " + e.getMessage());
+                            String isbn = circulationView.getIsbnByUser();
+                            Book book = bookRepository.findByIsbn(isbn);
+                            if (book == null) {
+                                ViewUtil.printMessage("Book not found.");
+                            } else {
+                                try {
+                                    circulationRepository.borrowBook(customer, book);
+                                    ViewUtil.printMessage("Book borrowed successfully.");
+                                } catch (Exception e) {
+                                    ViewUtil.printMessage("Error: " + e.getMessage());
+                                }
                             }
                         }
                     }
