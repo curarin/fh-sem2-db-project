@@ -1,0 +1,44 @@
+title Kunde leiht ein Buch aus
+
+actor Kunde
+participant Bibliothekssystem
+participant Buchbestand
+participant Kundendatenbank
+participant Ausleihverwaltung
+
+Kunde->Bibliothekssystem:Buch ausleihen
+
+Bibliothekssystem->Kundendatenbank:Kunde suchen
+
+alt Kunde existiert
+    Kundendatenbank-->Bibliothekssystem:Kunde gefunden
+else Kunde existiert nicht
+    Kundendatenbank-->Bibliothekssystem:Kein Kunde gefunden
+    Bibliothekssystem->Kundendatenbank:Kundendatensatz anlegen
+    Kundendatenbank-->Bibliothekssystem:Kunde angelegt
+end
+
+Bibliothekssystem->Buchbestand:Verfügbarkeit prüfen
+
+alt Buch verfügbar
+    Buchbestand-->Bibliothekssystem:Buch verfügbar
+
+    Bibliothekssystem->Ausleihverwaltung:Ausleihe anlegen
+    Ausleihverwaltung-->Bibliothekssystem:Ausleihe gespeichert
+
+    Bibliothekssystem->Buchbestand:Bestand aktualisieren
+    Buchbestand-->Bibliothekssystem:Bestand aktualisiert
+
+    Bibliothekssystem-->Kunde:Ausleihe bestätigt
+
+else Buch nicht verfügbar
+    Buchbestand-->Bibliothekssystem:Buch nicht verfügbar
+
+    Bibliothekssystem-->Kunde:Buch nicht verfügbar, Reservierung anbieten
+    Kunde->Bibliothekssystem:Reservierung bestätigen
+
+    Bibliothekssystem->Ausleihverwaltung:Reservierung anlegen
+    Ausleihverwaltung-->Bibliothekssystem:Reservierung gespeichert
+
+    Bibliothekssystem-->Kunde:Reservierung bestätigt
+end

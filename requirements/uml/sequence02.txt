@@ -1,0 +1,32 @@
+Bibliothekssystem->Ausleihverwaltung:Ausleihe suchen
+
+alt Ausleihe gefunden
+
+    Ausleihverwaltung-->Bibliothekssystem:Ausleihe gefunden
+
+    Bibliothekssystem->Ausleihverwaltung:Ausleihe beenden
+    Ausleihverwaltung-->Bibliothekssystem:Ausleihe geschlossen
+
+    Bibliothekssystem->Buchbestand:Bestand aktualisieren
+    Buchbestand-->Bibliothekssystem:Bestand erhöht
+
+    Bibliothekssystem->Ausleihverwaltung:Reservierungen prüfen
+
+    alt Reservierung vorhanden
+        Ausleihverwaltung-->Bibliothekssystem:Reservierung gefunden
+
+        Bibliothekssystem->Ausleihverwaltung:Reservierenden Kunden benachrichtigen
+        Ausleihverwaltung-->Bibliothekssystem:Benachrichtigung versendet
+
+    else Keine Reservierung vorhanden
+        Ausleihverwaltung-->Bibliothekssystem:Keine Reservierung
+    end
+
+    Bibliothekssystem-->Kunde:Rückgabe bestätigt
+
+else Ausleihe nicht gefunden
+
+    Ausleihverwaltung-->Bibliothekssystem:Keine Ausleihe gefunden
+    Bibliothekssystem-->Kunde:Buch ist nicht ausgeliehen
+
+end
