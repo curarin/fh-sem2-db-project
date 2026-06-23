@@ -25,3 +25,6 @@ https://fhburgenlandat-my.sharepoint.com/:w:/g/personal/2510859005_hochschule-bu
 
 ## FOGL Präsentation
 https://fhburgenlandat-my.sharepoint.com/:p:/g/personal/2510859015_hochschule-burgenland_at/IQBdVMP-qJuyQrCLLddvHVNnAf4uVqRGll8oulxMwSCDJlo?e=lK9Wa7
+
+## SWMT Präsentation
+https://fhburgenlandat-my.sharepoint.com/:p:/g/personal/2510859015_hochschule-burgenland_at/IQAwKE_lJY0LQrULVdcgYqunAfLXkYfOPr54kubTUU0Qqns?e=MTs5Ch
