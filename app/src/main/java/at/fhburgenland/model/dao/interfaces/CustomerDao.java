@@ -5,7 +5,7 @@ import at.fhburgenland.model.*;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for Customer
+ * Interface that provides CRUD operations for Customer
  */
 public interface CustomerDao {
     void create(Customer model);

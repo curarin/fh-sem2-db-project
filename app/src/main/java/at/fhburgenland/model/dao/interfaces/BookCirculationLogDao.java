@@ -5,7 +5,7 @@ import at.fhburgenland.model.BookCirculationLog;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for BookAuthor domain
+ * Interface that provides CRUD operations for BookAuthor domain
  */
 public interface BookCirculationLogDao {
     void create(BookCirculationLog bookCirculationLog);

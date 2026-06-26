@@ -3,7 +3,7 @@ package at.fhburgenland.model.dao.interfaces;
 import at.fhburgenland.model.Country;
 
 /**
- * Abstract class that provides CRUD operations for Country
+ * Interface that provides CRUD operations for Country
  */
 public interface CountryDao {
     void create(Country model);

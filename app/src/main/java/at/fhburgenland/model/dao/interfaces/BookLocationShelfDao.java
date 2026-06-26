@@ -3,7 +3,7 @@ package at.fhburgenland.model.dao.interfaces;
 import at.fhburgenland.model.BookLocationShelf;
 
 /**
- * Abstract class that provides CRUD operations for Book Location Shelf domain
+ * Interface that provides CRUD operations for Book Location Shelf domain
  */
 public interface BookLocationShelfDao {
     void create(BookLocationShelf bookLocationShelf);

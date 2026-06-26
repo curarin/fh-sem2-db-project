@@ -6,7 +6,7 @@ import at.fhburgenland.model.CustomerEventMapId;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for CustomerEventMap
+ * Interface that provides CRUD operations for CustomerEventMap
  */
 public interface CustomerEventMapDao {
     void create(CustomerEventMap model);

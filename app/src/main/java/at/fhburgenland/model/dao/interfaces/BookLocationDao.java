@@ -5,7 +5,7 @@ import at.fhburgenland.model.BookLocationFloor;
 import at.fhburgenland.model.BookLocationShelf;
 
 /**
- * Abstract class that provides CRUD operations for Book Location domain
+ * Interface that provides CRUD operations for Book Location domain
  */
 public interface BookLocationDao {
     void create(BookLocation bookLocation);

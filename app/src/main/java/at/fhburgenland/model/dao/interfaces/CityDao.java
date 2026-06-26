@@ -5,7 +5,7 @@ import at.fhburgenland.model.City;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for City
+ * Interface that provides CRUD operations for City
  */
 public interface CityDao {
     void create(City model);

@@ -3,7 +3,7 @@ package at.fhburgenland.model.dao.interfaces;
 import at.fhburgenland.model.CustomerCard;
 
 /**
- * Abstract class that provides CRUD operations for CustomerCard
+ * Interface that provides CRUD operations for CustomerCard
  */
 public interface CustomerCardDao {
     void create(CustomerCard model);

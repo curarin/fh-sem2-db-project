@@ -5,7 +5,7 @@ import at.fhburgenland.model.EventType;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for Event domain
+ * Interface that provides CRUD operations for Event domain
  */
 public interface EventTypeDao {
     void create(EventType eventType);

@@ -5,7 +5,7 @@ import at.fhburgenland.model.BookStockLog;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for BookPublisher domain
+ * Interface that provides CRUD operations for BookPublisher domain
  */
 public interface BookStockLogDao {
     void create(BookStockLog bookStockLog);

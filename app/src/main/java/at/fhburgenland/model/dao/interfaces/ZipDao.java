@@ -3,7 +3,7 @@ package at.fhburgenland.model.dao.interfaces;
 import at.fhburgenland.model.Zip;
 
 /**
- * Abstract class that provides CRUD operations for Zip
+ * Interface that provides CRUD operations for Zip
  */
 public interface ZipDao {
     void create(Zip model);

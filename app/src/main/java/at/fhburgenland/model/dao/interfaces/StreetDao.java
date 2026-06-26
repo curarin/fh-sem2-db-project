@@ -3,7 +3,7 @@ package at.fhburgenland.model.dao.interfaces;
 import at.fhburgenland.model.Street;
 
 /**
- * Abstract class that provides CRUD operations for Street
+ * Interface that provides CRUD operations for Street
  */
 public interface StreetDao {
     void create(Street model);

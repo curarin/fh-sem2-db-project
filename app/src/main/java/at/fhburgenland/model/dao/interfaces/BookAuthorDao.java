@@ -5,7 +5,7 @@ import at.fhburgenland.model.BookAuthor;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for BookAuthor domain
+ * Interface that provides CRUD operations for BookAuthor domain
  */
 public interface BookAuthorDao {
     void create(BookAuthor bookAuthor);

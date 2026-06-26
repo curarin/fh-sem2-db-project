@@ -5,7 +5,7 @@ import at.fhburgenland.model.BookGenre;
 import java.util.List;
 
 /**
- * Abstract class that provides CRUD operations for BookGenre domain
+ * Interface that provides CRUD operations for BookGenre domain
  */
 public interface BookGenreDao {
     void create(BookGenre bookGenre);
